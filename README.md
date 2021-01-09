@@ -57,7 +57,7 @@ The preferred way of installing BottomSheet is via the [Swift Package Manager](h
 ## Basic Usage
 
 **WARNING:**
-This is Sample Code for visualisation where and how to use, without a working initializer. Please see [Example](#example) for working code
+This is Sample Code for visualisation where and how to use, without a working initializer. Please see [Examples](#examples) for working code
 
 Same way you use Sheet in SwiftUI
 
@@ -87,7 +87,7 @@ If you don't want to be able to change the state, you can use `.constant(.hidden
 ### Title as Header Content
 
 **WARNING:**
-This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Example](#example) for working code
+This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Examples](#examples) for working code
 
 ````swift
 .bottomSheet(
@@ -133,7 +133,7 @@ This is Sample Code for visualisation of the parameters and their default values
 ### Custom Header Content
 
 **WARNING:**
-This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Example](#example) for working code
+This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Examples](#examples) for working code
 
 ````swift
 .bottomSheet(
