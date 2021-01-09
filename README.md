@@ -32,7 +32,7 @@ Unfortunately, my implementation currently only supports 1 state (height cannot 
 - https://github.com/weitieda/bottom-sheet
 - https://github.com/fernandodelafuente/BottomSheetModal
 
-#### Here you can see the states mentioned above
+#### Here you can see the states mentioned above:
 ![Apple Maps BottomSheet](Asset/apple-maps.png)
 
 # Requirements 
@@ -49,16 +49,15 @@ The preferred way of installing BottomSheet is via the [Swift Package Manager](h
 
 1. In Xcode, open your project and navigate to **File** → **Swift Packages** → **Add Package Dependency...**
 2. Paste the repository URL (`https://github.com/LucasMucGH/BottomSheet`) and click **Next**.
-3. For **Rules**, select **Branch** (with branch set to `master`).
+3. For **Rules**, select **Branch** (with branch set to `main`).
 4. Click **Finish**.
-5. Open the Project settings, add **SwiftUI.framework** to the **Linked Frameworks and Libraries**, set **Status** to **Optional**.
 
 # Usage
 
 ## Basic Usage
 
 **WARNING:**
-This is Sample Code for visualisation, without a working initializer. Please see [Parameters](#parameters) for working code
+This is Sample Code for visualisation where and how to use, without a working initializer. Please see [Example](#example) for working code
 
 Same way you use Sheet in SwiftUI
 
@@ -86,6 +85,9 @@ If you don't want to be able to change the state, you can use `.constant(.hidden
 ## Parameters
 
 ### Title as Header Content
+
+**WARNING:**
+This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Example](#example) for working code
 
 ````swift
 .bottomSheet(
@@ -130,6 +132,9 @@ If you don't want to be able to change the state, you can use `.constant(.hidden
 
 ### Custom Header Content
 
+**WARNING:**
+This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Example](#example) for working code
+
 ````swift
 .bottomSheet(
     bottomSheetPosition: Binding<BottomSheetPosition>,
@@ -171,6 +176,154 @@ If you don't want to be able to change the state, you can use `.constant(.hidden
    self.bottomSheetPosition = .hidden
   }
 ````
+
+## Examples
+
+### The simplest Version of a BottomSheet
+````swift
+import SwiftUI
+import BottomSheet
+
+struct BottomSheetTest1: View {
+    
+    @State private var bottomSheetPosition: BottomSheetPosition = .middle
+    
+    var body: some View {
+        ZStack {
+            //A simple Black background
+            Color.black
+                .edgesIgnoringSafeArea(.all)
+                
+                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, content: {
+                    //The Numbers from 0 to 99 as Main Content in a Scroll View
+                    ScrollView {
+                        ForEach(0..<100) { index in
+                            Text(String(index))
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .padding(.top)
+                })
+        }
+    }
+}
+````
+#### A not draggable, but dismissable Bottom Sheet to show aditional Information
+````swift
+import SwiftUI
+import BottomSheet
+
+struct BottomSheetTest2: View {
+    
+    @State private var bottomSheetPosition: BottomSheetPosition = .middle
+    
+    var body: some View {
+        ZStack {
+            //A simple Black background
+            Color.black
+                .edgesIgnoringSafeArea(.all)
+                
+                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, resizeable: false, showCancelButton: true, title: "Hello World", content: {
+                    //A Tag, with some sample Text and a Read More and Bookmark Button
+                    VStack(alignment: .leading, spacing: nil) {
+                        
+                        Text("BottomSheet")
+                            .foregroundColor(.white)
+                            .bold()
+                            .padding(8)
+                            .background(Color.red)
+                            .cornerRadius(10)
+                            .padding(.horizontal)
+                        
+                        Divider().padding(10)
+                        
+                        Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.horizontal)
+                        
+                        Divider().padding(10)
+                        
+                        HStack {
+                            Button(action: {}, label: {
+                                Text("Read More")
+                                    .foregroundColor(.white)
+                            })
+                            .padding(.vertical)
+                            .padding(.horizontal, 50)
+                            .background(Color.black)
+                            .cornerRadius(20)
+                            
+                            Button(action: {}, label: {
+                                Image(systemName: "bookmark")
+                                        .foregroundColor(.white)
+                            })
+                            .padding()
+                            .background(Circle())
+                            Spacer()
+                        }
+                        .padding([.horizontal, .bottom])
+                        
+                        Spacer()
+                    }
+                    .padding(.top)
+                }, closeAction: {
+                    //The Close (X) moves the Bottom Sheet to the bottom
+                    withAnimation(.linear) {
+                        self.bottomSheetPosition = .hidden
+                    }
+                })
+        }
+    }
+}
+````
+
+#### A simple BottomSheet with a Search bar as Header Content
+````swift
+import SwiftUI
+import BottomSheet
+
+struct BottomSheetTest3: View {
+    
+    @State private var bottomSheetPosition: BottomSheetPosition = .middle
+    @State private var searchText: String = ""
+    
+    var body: some View {
+        //A simple Black background
+        Color.black
+            .edgesIgnoringSafeArea(.all)
+            
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, resizeable: true, showCancelButton: true, headerContent: {
+                //A Search Bar as Header Content
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                    TextField("Search", text: self.$searchText)
+                }
+                .foregroundColor(.secondaryLabel)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 5)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.quaternaryLabel)
+                )
+            }, mainContent: {
+                //The Numbers from 0 to 99 as Main Content in a Scroll View
+                ScrollView {
+                    ForEach(0..<100) { index in
+                        Text(String(index))
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .padding(.top)
+            }, closeAction: {
+                //The Close (X) moves the Bottom Sheet to the bottom
+                withAnimation(.linear) {
+                    self.bottomSheetPosition = .bottom
+                }
+            })
+    }
+}
+````
+
 
 # Contributing
 
