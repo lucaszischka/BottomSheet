@@ -70,28 +70,27 @@ struct BottomSheetView<hContent: View, mContent: View>: View {
                         DragGesture()
                             .onChanged { value in
                                 if resizeable {
-                                    self.translation += value.translation.height
+                                    self.translation = value.translation.height
                                 }
                             }
                             .onEnded { value in
-                                withAnimation(.interactiveSpring()) {
-                                    if resizeable {
-                                        if abs(self.translation) > geometry.size.height * 0.1 {
-                                            if value.translation.height < 0 {
-                                                self.switchPositionUp()
-                                            } else if value.translation.height > 0 {
-                                                self.switchPositionDown()
-                                            }
+                                if resizeable {
+                                    if abs(self.translation) > geometry.size.height * 0.1 {
+                                        if value.translation.height < 0 {
+                                            self.switchPositionUp()
+                                        } else if value.translation.height > 0 {
+                                            self.switchPositionDown()
                                         }
-                                        
-                                        self.translation = 0
                                     }
+                                    
+                                    self.translation = 0
                                 }
                             }
                     )
             )
             .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
             .offset(y: self.bottomSheetPosition == .hidden ? geometry.size.height + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
+            .animation(.linear)
         }
     }
     
