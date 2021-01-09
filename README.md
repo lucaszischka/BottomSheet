@@ -11,7 +11,8 @@ A sliding Sheet from the bottom of the Screen with 3 States build with SwiftUI
 - [Requirements](#requirements) 
 - [Installation](#installation)
 - [Usage](#usage) 
-- [Parameters](#parameters) 
+- [Parameters](#parameters)
+- [Examples](#examples)
 - [Contributing](#contributing)
 - [License](#license)
 - [Credits](#credits)
@@ -82,9 +83,9 @@ If you don't want to be able to change the state, you can use `.constant(.hidden
 
 `//3` This is how you add the BottomSheet - easy right?
 
-## Parameters
+# Parameters
 
-### Title as Header Content
+## Title as Header Content
 
 **WARNING:**
 This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Examples](#examples) for working code
@@ -130,7 +131,7 @@ This is Sample Code for visualisation of the parameters and their default values
   }
 ````
 
-### Custom Header Content
+## Custom Header Content
 
 **WARNING:**
 This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Examples](#examples) for working code
@@ -177,9 +178,9 @@ This is Sample Code for visualisation of the parameters and their default values
   }
 ````
 
-## Examples
+# Examples
 
-### The simplest Version of a BottomSheet
+## The simplest Version of a BottomSheet
 ````swift
 import SwiftUI
 import BottomSheet
@@ -208,7 +209,7 @@ struct BottomSheetTest1: View {
     }
 }
 ````
-#### A not draggable, but dismissable Bottom Sheet to show aditional Information
+## A not draggable, but dismissable Bottom Sheet to show aditional Information
 ````swift
 import SwiftUI
 import BottomSheet
@@ -277,7 +278,7 @@ struct BottomSheetTest2: View {
 }
 ````
 
-#### A simple BottomSheet with a Search bar as Header Content
+## A simple BottomSheet with a Search bar as Header Content
 ````swift
 import SwiftUI
 import BottomSheet
