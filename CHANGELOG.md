@@ -6,4 +6,4 @@ BottomSheet Changelog
 - Readme Updates
 
 #### v1.0.0
--Initial Release
+- Initial Release
