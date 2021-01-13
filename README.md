@@ -181,6 +181,7 @@ This is Sample Code for visualisation of the parameters and their default values
 # Examples
 
 ## The simplest Version of a BottomSheet
+
 ````swift
 import SwiftUI
 import BottomSheet
@@ -209,7 +210,9 @@ struct BottomSheetTest1: View {
     }
 }
 ````
+
 ## A not draggable, but dismissable Bottom Sheet to show aditional Information
+
 ````swift
 import SwiftUI
 import BottomSheet
@@ -279,6 +282,7 @@ struct BottomSheetTest2: View {
 ````
 
 ## A simple BottomSheet with a Search bar as Header Content
+
 ````swift
 import SwiftUI
 import BottomSheet
@@ -324,7 +328,6 @@ struct BottomSheetTest3: View {
     }
 }
 ````
-
 
 # Contributing
 
