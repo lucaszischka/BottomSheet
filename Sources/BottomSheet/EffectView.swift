@@ -7,17 +7,18 @@
 
 import SwiftUI
 
-struct EffectView: UIViewRepresentable {
+internal struct EffectView: UIViewRepresentable {
 
-    var effect: UIVisualEffect
+    internal var effect: UIVisualEffect
     
-    func makeUIView(context: Context) -> UIVisualEffectView {
+    
+    internal func makeUIView(context: Context) -> UIVisualEffectView {
         let effectView = UIVisualEffectView(effect: self.effect)
         
         return effectView
     }
     
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+    internal func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
         //
     }
 }

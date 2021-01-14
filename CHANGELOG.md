@@ -1,6 +1,9 @@
 BottomSheet Changelog
 ==================
 
+#### v1.0.2
+- Added Access control levels
+
 #### v1.0.1
 - Fix Animation
 - Readme Updates

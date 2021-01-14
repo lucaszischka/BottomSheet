@@ -7,24 +7,18 @@
 
 import SwiftUI
 
-struct BottomSheetView<hContent: View, mContent: View>: View {
+fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
     
-    
-    @Binding public var bottomSheetPosition: BottomSheetPosition
-    
+    @State private var translation: CGFloat = 0
+    @Binding private var bottomSheetPosition: BottomSheetPosition
     
     private let resizeable: Bool
     private let showCancelButton: Bool
-    
     private let headerContent: hContent?
     private let mainContent: mContent
-    
     private let closeAction: () -> ()
     
-    @State private var translation: CGFloat = 0
-    
-    
-    var body: some View {
+    fileprivate var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 if self.resizeable {
@@ -94,6 +88,7 @@ struct BottomSheetView<hContent: View, mContent: View>: View {
         }
     }
     
+    
     private func switchPositionUp() {
         switch self.bottomSheetPosition {
         case .top:
@@ -133,7 +128,8 @@ struct BottomSheetView<hContent: View, mContent: View>: View {
         }
     }
     
-    init(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) {
+    
+    fileprivate init(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) {
         self._bottomSheetPosition = bottomSheetPosition
         self.resizeable = resizeable
         self.showCancelButton = showCancelButton
@@ -143,7 +139,7 @@ struct BottomSheetView<hContent: View, mContent: View>: View {
     }
 }
 
-extension BottomSheetView where hContent == ModifiedContent<Text, _EnvironmentKeyWritingModifier<Optional<Int>>> {
+fileprivate extension BottomSheetView where hContent == ModifiedContent<Text, _EnvironmentKeyWritingModifier<Optional<Int>>> {
     init(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) {
         if title == nil {
             self.init(bottomSheetPosition: bottomSheetPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: { return nil }, mainContent: content, closeAction: closeAction)
@@ -154,13 +150,27 @@ extension BottomSheetView where hContent == ModifiedContent<Text, _EnvironmentKe
     }
 }
 
+public extension View {
+    func bottomSheet<hContent: View, mContent: View>(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) -> some View {
+        ZStack {
+            self
+            BottomSheetView(bottomSheetPosition: bottomSheetPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: headerContent, mainContent: mainContent, closeAction: closeAction)
+        }
+    }
+    
+    func bottomSheet<mContent: View>(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) -> some View {
+        ZStack {
+            self
+            BottomSheetView(bottomSheetPosition: bottomSheetPosition, resizeable: resizeable, showCancelButton: showCancelButton, title: title, content: content, closeAction: closeAction)
+        }
+    }
+}
+
 struct BottomSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        ZStack {
-            Color.black
-                .edgesIgnoringSafeArea(.all)
-            
-            BottomSheetView(bottomSheetPosition: .constant(.middle), resizeable: true, showCancelButton: true, title: "nil", content: {
+        Color.black
+            .edgesIgnoringSafeArea(.all)
+            .bottomSheet(bottomSheetPosition: .constant(.middle), resizeable: true, showCancelButton: true, title: "nil", content: {
                 ScrollView {
                     ForEach(0..<150) { index in
                         Text(String(index))
@@ -168,6 +178,5 @@ struct BottomSheetView_Previews: PreviewProvider {
                     .frame(maxWidth: .infinity)
                 }
             })
-        }
     }
 }
