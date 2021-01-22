@@ -55,6 +55,8 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                 }
                 
                 self.mainContent
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.top, self.bottomSheetPosition == .bottom ? geometry.safeAreaInsets.bottom : 0)
             }
             .background(
                 EffectView(effect: UIBlurEffect(style: .systemMaterial))
