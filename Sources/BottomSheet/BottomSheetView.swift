@@ -84,7 +84,7 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
             )
             .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
             .offset(y: self.bottomSheetPosition == .hidden ? geometry.size.height + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
-            .animation(.linear)
+            .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
         }
     }
     
