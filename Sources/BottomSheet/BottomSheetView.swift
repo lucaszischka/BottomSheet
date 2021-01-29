@@ -55,9 +55,13 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                 }
                 
                 self.mainContent
+                    .transition(.move(edge: .bottom))
+                    .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding(.top, self.bottomSheetPosition == .bottom ? geometry.safeAreaInsets.bottom : 0)
+                    .padding(.bottom, geometry.safeAreaInsets.bottom)
             }
+            .edgesIgnoringSafeArea(.bottom)
             .background(
                 EffectView(effect: UIBlurEffect(style: .systemMaterial))
                     .cornerRadius(10, corners: [.topRight, .topLeft])
@@ -86,6 +90,7 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
             )
             .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
             .offset(y: self.bottomSheetPosition == .hidden ? geometry.size.height + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
+            .transition(.move(edge: .bottom))
             .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
         }
     }
