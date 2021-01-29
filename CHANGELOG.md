@@ -1,6 +1,10 @@
 BottomSheet Changelog
 ==================
 
+#### v1.0.4
+- Updated Transitions
+- Design updates
+
 #### v1.0.3
 - New Animation
 
