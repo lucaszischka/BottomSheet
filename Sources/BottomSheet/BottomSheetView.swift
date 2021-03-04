@@ -42,6 +42,8 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                                             if resizeable {
                                                 self.translation = value.translation.height
                                             }
+                                                    
+                                            UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
                                         }
                                         .onEnded { value in
                                             if resizeable {
@@ -93,6 +95,8 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                                 if resizeable {
                                     self.translation = value.translation.height
                                 }
+                                        
+                                UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
                             }
                             .onEnded { value in
                                 if resizeable {
