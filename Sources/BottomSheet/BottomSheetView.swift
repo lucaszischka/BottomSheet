@@ -33,7 +33,7 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                     .contentShape(Capsule())
                 }
                 if self.headerContent != nil || self.showCancelButton {
-                    HStack(spacing: 0) {
+                    HStack(alignment: .top, spacing: 0) {
                         if self.headerContent != nil {
                             self.headerContent!
                         }
@@ -171,13 +171,13 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
     }
 }
 
-fileprivate extension BottomSheetView where hContent == ModifiedContent<Text, _EnvironmentKeyWritingModifier<Optional<Int>>> {
+fileprivate extension BottomSheetView where hContent == ModifiedContent<ModifiedContent<Text, _EnvironmentKeyWritingModifier<Optional<Int>>>, _PaddingLayout> {
     init(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) {
         if title == nil {
             self.init(bottomSheetPosition: bottomSheetPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: { return nil }, mainContent: content, closeAction: closeAction)
         } else {
             self.init(bottomSheetPosition: bottomSheetPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: { return Text(title!)
-                        .font(.title).bold().lineLimit(1) as? hContent }, mainContent: content, closeAction: closeAction)
+                        .font(.title).bold().lineLimit(1).padding(.bottom) as? hContent }, mainContent: content, closeAction: closeAction)
         }
     }
 }
