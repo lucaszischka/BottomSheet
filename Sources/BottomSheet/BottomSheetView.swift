@@ -36,29 +36,6 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                     HStack(spacing: 0) {
                         if self.headerContent != nil {
                             self.headerContent!
-                                .gesture(
-                                    DragGesture()
-                                        .onChanged { value in
-                                            if resizeable {
-                                                self.translation = value.translation.height
-                                            }
-                                                    
-                                            UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
-                                        }
-                                        .onEnded { value in
-                                            if resizeable {
-                                                if abs(self.translation) > geometry.size.height * 0.1 {
-                                                    if value.translation.height < 0 {
-                                                        self.switchPositionUp()
-                                                    } else if value.translation.height > 0 {
-                                                        self.switchPositionDown()
-                                                    }
-                                                }
-
-                                                self.translation = 0
-                                            }
-                                        }
-                                )
                         }
                         
                         Spacer()
@@ -73,15 +50,38 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                             .font(.title)
                         }
                     }
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                if resizeable {
+                                    self.translation = value.translation.height
+                                }
+                                        
+                                UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
+                            }
+                            .onEnded { value in
+                                if resizeable {
+                                    if abs(self.translation) > geometry.size.height * 0.1 {
+                                        if value.translation.height < 0 {
+                                            self.switchPositionUp()
+                                        } else if value.translation.height > 0 {
+                                            self.switchPositionDown()
+                                        }
+                                    }
+
+                                    self.translation = 0
+                                }
+                            }
+                    )
                     .padding(.horizontal)
                     .padding(.top, self.resizeable ? 10 : 20)
+                    .padding(.bottom, self.bottomSheetPosition == .bottom ? geometry.safeAreaInsets.bottom + 25 : 0)
                 }
                 
                 self.mainContent
                     .transition(.move(edge: .bottom))
                     .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(.top, self.bottomSheetPosition == .bottom ? geometry.safeAreaInsets.bottom : 0)
                     .padding(.bottom, geometry.safeAreaInsets.bottom)
             }
             .edgesIgnoringSafeArea(.bottom)
@@ -114,7 +114,7 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                     )
             )
             .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
-            .offset(y: self.bottomSheetPosition == .hidden ? geometry.size.height + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
+            .offset(y: self.bottomSheetPosition == .hidden ? geometry.size.height + geometry.safeAreaInsets.bottom : self.bottomSheetPosition == .bottom ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
             .transition(.move(edge: .bottom))
             .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
         }
