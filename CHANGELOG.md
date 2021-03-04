@@ -1,9 +1,12 @@
 BottomSheet Changelog
 ==================
 
+#### v1.0.6
+- Updated .bottom BottomSheetPosition to mimic Apple Maps
+
 #### v1.0.5
 - Made the BottomSheet easier to drag
-- Updated .top and .bottom BottomSheetPosition to mimic Apple Maps
+- Updated .top BottomSheetPosition to mimic Apple Maps
 - Search Bar enhancements
 - Fixed .bottom BottomSheetPosition (Issue #1)
 - Added Bottom Padding to the Title
