@@ -36,6 +36,27 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                     HStack(spacing: 0) {
                         if self.headerContent != nil {
                             self.headerContent!
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            if resizeable {
+                                                self.translation = value.translation.height
+                                            }
+                                        }
+                                        .onEnded { value in
+                                            if resizeable {
+                                                if abs(self.translation) > geometry.size.height * 0.1 {
+                                                    if value.translation.height < 0 {
+                                                        self.switchPositionUp()
+                                                    } else if value.translation.height > 0 {
+                                                        self.switchPositionDown()
+                                                    }
+                                                }
+
+                                                self.translation = 0
+                                            }
+                                        }
+                                )
                         }
                         
                         Spacer()
