@@ -215,15 +215,24 @@ public extension View {
 
 struct BottomSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        Color.black
-            .edgesIgnoringSafeArea(.all)
-            .bottomSheet(bottomSheetPosition: .constant(.middle), resizeable: true, showCancelButton: true, title: "nil", content: {
-                ScrollView {
-                    ForEach(0..<150) { index in
-                        Text(String(index))
+        PreviewView()
+    }
+    
+    struct PreviewView: View {
+
+        @State var bottomSheetPosition: BottomSheetPosition = .middle
+        
+        var body: some View {
+            Color.black
+                .edgesIgnoringSafeArea(.all)
+                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, resizeable: true, showCancelButton: true, title: "nil", content: {
+                    ScrollView {
+                        ForEach(0..<150) { index in
+                            Text(String(index))
+                        }
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
-                }
-            })
+                })
+        }
     }
 }
