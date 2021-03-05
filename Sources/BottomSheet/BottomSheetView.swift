@@ -22,15 +22,14 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 if self.resizeable {
-                    Button(action: {
-                        self.switchPositionIndicator()
-                    }) {
-                        Capsule()
-                            .fill(Color.tertiaryLabel)
-                            .frame(width: 40, height: 6)
-                    }
-                    .padding(.top, 10)
-                    .contentShape(Capsule())
+                    Capsule()
+                        .fill(Color.tertiaryLabel)
+                        .frame(width: 40, height: 6)
+                        .padding(.top, 10)
+                        .contentShape(Capsule())
+                        .onTapGesture {
+                            self.switchPositionIndicator()
+                        }
                 }
                 if self.headerContent != nil || self.showCancelButton {
                     HStack(alignment: .top, spacing: 0) {
