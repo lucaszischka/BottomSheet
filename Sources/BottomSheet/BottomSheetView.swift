@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
+fileprivate struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosition: BottomSheetPosition>: View {
     
     @State private var translation: CGFloat = 0
-    @Binding private var bottomSheetPosition: BottomSheetPosition
+    @Binding private var bottomSheetPosition: bottomSheetPosition
     
     private let resizeable: Bool
     private let showCancelButton: Bool
@@ -28,7 +28,7 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                         .padding(.top, 10)
                         .contentShape(Capsule())
                         .onTapGesture {
-                            self.switchPositionIndicator()
+                            self.bottomSheetPosition.switchPositionIndicator()
                         }
                 }
                 if self.headerContent != nil || self.showCancelButton {
@@ -60,21 +60,8 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                             }
                             .onEnded { value in
                                 if resizeable {
-                                    if abs(value.translation.height) > geometry.size.height * 0.3 {
-                                        if value.translation.height < 0 {
-                                            self.switchPositionUp()
-                                            self.switchPositionUp()
-                                        } else if value.translation.height > 0 {
-                                            self.switchPositionDown()
-                                            self.switchPositionDown()
-                                        }
-                                    } else if abs(value.translation.height) > geometry.size.height * 0.1 {
-                                        if value.translation.height < 0 {
-                                            self.switchPositionUp()
-                                        } else if value.translation.height > 0 {
-                                            self.switchPositionDown()
-                                        }
-                                    }
+                                    let height: CGFloat = value.translation.height / geometry.size.height
+                                    self.bottomSheetPosition.switchPosition(with: height)
 
                                     self.translation = 0
                                 }
@@ -82,7 +69,7 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                     )
                     .padding(.horizontal)
                     .padding(.top, self.resizeable ? 10 : 20)
-                    .padding(.bottom, self.bottomSheetPosition == .bottom ? geometry.safeAreaInsets.bottom + 25 : 0)
+                    .padding(.bottom, self.bottomSheetPosition.isBottom() ? geometry.safeAreaInsets.bottom + 25 : 0)
                 }
                 
                 self.mainContent
@@ -107,76 +94,23 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
                             }
                             .onEnded { value in
                                 if resizeable {
-                                    if abs(value.translation.height) > geometry.size.height * 0.3 {
-                                        if value.translation.height < 0 {
-                                            self.switchPositionUp()
-                                            self.switchPositionUp()
-                                        } else if value.translation.height > 0 {
-                                            self.switchPositionDown()
-                                            self.switchPositionDown()
-                                        }
-                                    } else if abs(value.translation.height) > geometry.size.height * 0.1 {
-                                        if value.translation.height < 0 {
-                                            self.switchPositionUp()
-                                        } else if value.translation.height > 0 {
-                                            self.switchPositionDown()
-                                        }
-                                    }
+                                    let height: CGFloat = value.translation.height / geometry.size.height
+                                    self.bottomSheetPosition.switchPosition(with: height)
                                     
                                     self.translation = 0
                                 }
                             }
                     )
             )
-            .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
-            .offset(y: self.bottomSheetPosition == .hidden ? geometry.size.height + geometry.safeAreaInsets.bottom : self.bottomSheetPosition == .bottom ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
+            .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
+            .offset(y: self.bottomSheetPosition.isHidden() ? geometry.size.height + geometry.safeAreaInsets.bottom : self.bottomSheetPosition.isBottom() ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.bottomSheetPosition.rawValue) + self.translation)
             .transition(.move(edge: .bottom))
             .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
         }
     }
     
     
-    private func switchPositionUp() {
-        switch self.bottomSheetPosition {
-        case .top:
-            self.bottomSheetPosition = .top
-        case .middle:
-            self.bottomSheetPosition = .top
-        case .bottom:
-            self.bottomSheetPosition = .middle
-        case .hidden:
-            self.bottomSheetPosition = .hidden
-        }
-    }
-    
-    private func switchPositionDown() {
-        switch self.bottomSheetPosition {
-        case .top:
-            self.bottomSheetPosition = .middle
-        case .middle:
-            self.bottomSheetPosition = .bottom
-        case .bottom:
-            self.bottomSheetPosition = .bottom
-        case .hidden:
-            self.bottomSheetPosition = .hidden
-        }
-    }
-    
-    private func switchPositionIndicator() {
-        switch self.bottomSheetPosition {
-        case .top:
-            self.bottomSheetPosition = .middle
-        case .middle:
-            self.bottomSheetPosition = .top
-        case .bottom:
-            self.bottomSheetPosition = .middle
-        case .hidden:
-            self.bottomSheetPosition = .hidden
-        }
-    }
-    
-    
-    fileprivate init(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) {
+    fileprivate init(bottomSheetPosition: Binding<bottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) {
         self._bottomSheetPosition = bottomSheetPosition
         self.resizeable = resizeable
         self.showCancelButton = showCancelButton
@@ -187,7 +121,7 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View>: View {
 }
 
 fileprivate extension BottomSheetView where hContent == ModifiedContent<ModifiedContent<Text, _EnvironmentKeyWritingModifier<Optional<Int>>>, _PaddingLayout> {
-    init(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) {
+    init(bottomSheetPosition: Binding<bottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) {
         if title == nil {
             self.init(bottomSheetPosition: bottomSheetPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: { return nil }, mainContent: content, closeAction: closeAction)
         } else {
@@ -198,14 +132,14 @@ fileprivate extension BottomSheetView where hContent == ModifiedContent<Modified
 }
 
 public extension View {
-    func bottomSheet<hContent: View, mContent: View>(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) -> some View {
+    func bottomSheet<hContent: View, mContent: View, bottomSheetPosition: BottomSheetPosition>(bottomSheetPosition: Binding<bottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) -> some View {
         ZStack {
             self
             BottomSheetView(bottomSheetPosition: bottomSheetPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: headerContent, mainContent: mainContent, closeAction: closeAction)
         }
     }
     
-    func bottomSheet<mContent: View>(bottomSheetPosition: Binding<BottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) -> some View {
+    func bottomSheet<mContent: View, bottomSheetPosition: BottomSheetPosition>(bottomSheetPosition: Binding<bottomSheetPosition>, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) -> some View {
         ZStack {
             self
             BottomSheetView(bottomSheetPosition: bottomSheetPosition, resizeable: resizeable, showCancelButton: showCancelButton, title: title, content: content, closeAction: closeAction)
@@ -220,7 +154,7 @@ struct BottomSheetView_Previews: PreviewProvider {
     
     struct PreviewView: View {
 
-        @State var bottomSheetPosition: BottomSheetPosition = .middle
+        @State var bottomSheetPosition: HBMTBottomSheetPosition = HBMTBottomSheetPosition(bottomSheetPosition: .middle)
         
         var body: some View {
             Color.black
