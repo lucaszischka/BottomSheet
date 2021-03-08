@@ -1,6 +1,15 @@
 BottomSheet Changelog
 ==================
 
+#### v1.0.7
+- Added flick through feature
+- Fixed drag indicator button not working issue #2 (thx @dbarsamian)
+- Improved Preview (thx @dbarsamian)
+- Plenty README.md updates
+- Fixed Dependencies
+- Custom States feature #4, #5
+- Extended SearchBar support
+
 #### v1.0.6
 - Updated .bottom BottomSheetPosition to mimic Apple Maps
 
@@ -8,7 +17,7 @@ BottomSheet Changelog
 - Made the BottomSheet easier to drag
 - Updated .top BottomSheetPosition to mimic Apple Maps
 - Search Bar enhancements
-- Fixed .bottom BottomSheetPosition (Issue #1)
+- Fixed .bottom BottomSheetPosition #1
 - Added Bottom Padding to the Title
 
 #### v1.0.4
