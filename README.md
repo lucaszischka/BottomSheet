@@ -288,11 +288,6 @@ struct BottomSheetTest2: View {
                         Spacer()
                     }
                     .padding(.top)
-                }, closeAction: {
-                    //The Close (X) moves the Bottom Sheet to the bottom
-                    withAnimation(.linear) {
-                        self.bottomSheetPosition = .hidden
-                    }
                 })
         }
     }
@@ -337,11 +332,6 @@ struct BottomSheetTest3: View {
                     .frame(maxWidth: .infinity)
                 }
                 .padding(.top)
-            }, closeAction: {
-                //The Close (X) moves the Bottom Sheet to the bottom
-                withAnimation(.linear) {
-                    self.bottomSheetPosition = .bottom
-                }
             })
     }
 }
