@@ -45,6 +45,9 @@ There are also many implementations out there that **only have 2 states** - **no
 #### Here you can see the states mentioned above:
 ![Apple Maps BottomSheet](Asset/apple-maps.png)
 
+#### Here you can see a preview of the BottomSheet:
+<img src="Asset/BottomSheet-Preview.gif" height="600">
+
 # Requirements 
 
 - iOS 13
