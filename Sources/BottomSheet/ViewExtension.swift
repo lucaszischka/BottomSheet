@@ -15,7 +15,7 @@ public extension View {
         }
     }
     
-    func bottomSheet<mContent: View, bottomSheetPositionEnum: RawRepresentable>(bottomSheetPosition: Binding<bottomSheetPositionEnum>, hasBottomPosition: Bool = true, resizeable: Bool = true, showCancelButton: Bool = false, options: [BottomSheet.Options], title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) -> some View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
+    func bottomSheet<mContent: View, bottomSheetPositionEnum: RawRepresentable>(bottomSheetPosition: Binding<bottomSheetPositionEnum>, options: [BottomSheet.Options], title: String? = nil, @ViewBuilder content: () -> mContent) -> some View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
         ZStack {
             self
             BottomSheetView(bottomSheetPosition: bottomSheetPosition, options: options, title: title, content: content)

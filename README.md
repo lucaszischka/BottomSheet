@@ -1,4 +1,4 @@
-![SwiftUI BottomSheet](Asset/logo.png)
+![SwiftUI BottomSheet](Assets/logo.png)
 ======================================
 
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/release/LucasMucGH/BottomSheet?sort=semver)](https://github.com/LucasMucGH/BottomSheet/releases)
@@ -43,10 +43,10 @@ There are also many implementations out there that **only have 2 states** - **no
 - https://github.com/fernandodelafuente/BottomSheetModal
 
 #### Here you can see the states mentioned above:
-![Apple Maps BottomSheet](Asset/apple-maps.png)
+![Apple Maps BottomSheet](Assets/apple-maps.png)
 
 #### Here you can see a preview of the BottomSheet:
-<img src="Asset/BottomSheet-Preview.gif" height="600">
+<img src="Assets/BottomSheet-Preview.gif" height="600">
 
 # Requirements 
 
