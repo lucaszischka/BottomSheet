@@ -39,9 +39,9 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             self.headerContent!
                         }
                         
-                        Spacer()
-                        
                         if self.options.contains(BottomSheet.Options.showCloseButton()) {
+                            Spacer()
+                            
                             Button(action: {
                                 if let hidden = bottomSheetPositionEnum(rawValue: 0) {
                                     self.bottomSheetPosition = hidden
@@ -85,8 +85,8 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             }
                     )
                     .padding(.horizontal)
-                    .padding(.top, !self.options.contains(BottomSheet.Options.notResizeable) ? 10 : 20)
-                    .padding(.bottom, self.isBottomPosition() ? geometry.safeAreaInsets.bottom + 25 : 0)
+                    .padding(.top, !self.options.contains(BottomSheet.Options.notResizeable) && !self.options.contains(BottomSheet.Options.noDragIndicator) ? 10 : 20)
+                    .padding(.bottom, self.isBottomPosition() ? geometry.safeAreaInsets.bottom + 25 : self.headerContent == nil ? 20 : 0)
                 }
                 
                 self.mainContent
