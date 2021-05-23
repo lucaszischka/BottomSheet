@@ -39,9 +39,9 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             self.headerContent!
                         }
                         
+                        Spacer(minLength: 0)
+                        
                         if self.options.contains(BottomSheet.Options.showCloseButton()) {
-                            Spacer()
-                            
                             Button(action: {
                                 if let hidden = bottomSheetPositionEnum(rawValue: 0) {
                                     self.bottomSheetPosition = hidden
@@ -89,13 +89,22 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .padding(.bottom, self.isBottomPosition() ? geometry.safeAreaInsets.bottom + 25 : self.headerContent == nil ? 20 : 0)
                 }
                 
-                ScrollView(self.options.contains(BottomSheet.Options.appleScrollBehavior) && self.allCases.last != nil && self.allCases.last! != self.bottomSheetPosition ? [] : .vertical) {
+                if self.options.contains(BottomSheet.Options.appleScrollBehavior) {
+                    ScrollView(self.allCases.last != nil && self.allCases.last! != self.bottomSheetPosition ? [] : .vertical) {
+                        self.mainContent
+                            .transition(.move(edge: .bottom))
+                            .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .padding(.bottom, geometry.safeAreaInsets.bottom)
+                    }
+                } else {
                     self.mainContent
                         .transition(.move(edge: .bottom))
                         .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding(.bottom, geometry.safeAreaInsets.bottom)
                 }
+                
             }
             .edgesIgnoringSafeArea(.bottom)
             .background(
