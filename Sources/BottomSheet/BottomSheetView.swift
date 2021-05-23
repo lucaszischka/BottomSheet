@@ -11,6 +11,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     
     @State private var translation: CGFloat = 0
     @Binding private var bottomSheetPosition: bottomSheetPositionEnum
+    @Namespace private var namespace
     
     private let options: [BottomSheet.Options]
     private let headerContent: hContent?
@@ -96,6 +97,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding(.bottom, geometry.safeAreaInsets.bottom)
+                            .matchedGeometryEffect(id: "mainContent", in: namespace)
                     }
                 } else {
                     self.mainContent
@@ -103,6 +105,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                         .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding(.bottom, geometry.safeAreaInsets.bottom)
+                        .matchedGeometryEffect(id: "mainContent", in: namespace)
                 }
                 
             }
