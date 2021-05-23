@@ -89,11 +89,13 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .padding(.bottom, self.isBottomPosition() ? geometry.safeAreaInsets.bottom + 25 : self.headerContent == nil ? 20 : 0)
                 }
                 
-                self.mainContent
-                    .transition(.move(edge: .bottom))
-                    .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(.bottom, geometry.safeAreaInsets.bottom)
+                ScrollView(self.options.contains(BottomSheet.Options.appleScrollBehavior) && self.allCases.last != nil && self.allCases.last! != self.bottomSheetPosition ? [] : .vertical) {
+                    self.mainContent
+                        .transition(.move(edge: .bottom))
+                        .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .padding(.bottom, geometry.safeAreaInsets.bottom)
+                }
             }
             .edgesIgnoringSafeArea(.bottom)
             .background(
