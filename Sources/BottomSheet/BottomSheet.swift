@@ -16,9 +16,9 @@ public struct BottomSheet {
         case showCloseButton(action: () -> Void = {})
         //case dragToDismiss
         //case appleScrollBehavior
-        //case noDragIndicator
+        case noDragIndicator
         case noBottomPosition
-        case resizeable
+        case notResizeable
         
         var rawValue: String {
             switch self {
@@ -28,12 +28,12 @@ public struct BottomSheet {
                 //return "dragToDismiss"
             //case .appleScrollBehavior:
                 //return "appleScrollBehavior"
-            //case .noDragIndicator:
-                //return "noDragIndicator"
+            case .noDragIndicator:
+                return "noDragIndicator"
             case .noBottomPosition:
                 return "noBottomPosition"
-            case .resizeable:
-                return "resizeable"
+            case .notResizeable:
+                return "notResizeable"
             }
         }
     }

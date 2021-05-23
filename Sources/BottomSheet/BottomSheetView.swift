@@ -21,7 +21,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     internal var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                if self.options.contains(BottomSheet.Options.resizeable) {
+                if !self.options.contains(BottomSheet.Options.notResizeable) && !self.options.contains(BottomSheet.Options.noDragIndicator) {
                     Capsule()
                         .fill(Color.tertiaryLabel)
                         .frame(width: 40, height: 6)
@@ -67,14 +67,14 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                if self.options.contains(BottomSheet.Options.resizeable) {
+                                if !self.options.contains(BottomSheet.Options.notResizeable) {
                                     self.translation = value.translation.height
                                     
                                     UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
                                 }
                             }
                             .onEnded { value in
-                                if self.options.contains(BottomSheet.Options.resizeable) {
+                                if !self.options.contains(BottomSheet.Options.notResizeable) {
                                     let height: CGFloat = value.translation.height / geometry.size.height
                                     self.switchPosition(with: height)
                                     
@@ -85,7 +85,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             }
                     )
                     .padding(.horizontal)
-                    .padding(.top, self.options.contains(BottomSheet.Options.resizeable) ? 10 : 20)
+                    .padding(.top, !self.options.contains(BottomSheet.Options.notResizeable) ? 10 : 20)
                     .padding(.bottom, self.isBottomPosition() ? geometry.safeAreaInsets.bottom + 25 : 0)
                 }
                 
@@ -103,14 +103,14 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                if self.options.contains(BottomSheet.Options.resizeable) {
+                                if !self.options.contains(BottomSheet.Options.notResizeable) {
                                     self.translation = value.translation.height
                                     
                                     UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
                                 }
                             }
                             .onEnded { value in
-                                if self.options.contains(BottomSheet.Options.resizeable) {
+                                if !self.options.contains(BottomSheet.Options.notResizeable) {
                                     let height: CGFloat = value.translation.height / geometry.size.height
                                     self.switchPosition(with: height)
                                     
