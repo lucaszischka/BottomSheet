@@ -7,12 +7,15 @@
 
 import SwiftUI
 
+
 fileprivate struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
     
     @State private var translation: CGFloat = 0
     @Binding private var bottomSheetPosition: bottomSheetPositionEnum
     
+    private var customSheetBackground: AnyView
     private let hasBottomPosition: Bool
+    private let capsuleColor: Color
     private let resizeable: Bool
     private let showCancelButton: Bool
     private let headerContent: hContent?
@@ -26,13 +29,13 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View, bottomSheetPo
             VStack(spacing: 0) {
                 if self.resizeable {
                     Capsule()
-                        .fill(Color.tertiaryLabel)
+                        .fill(capsuleColor)
                         .frame(width: 40, height: 6)
                         .padding(.top, 10)
+                        .padding()
                         .contentShape(Capsule())
                         .onTapGesture {
                             self.switchPositionIndicator()
-                            
                             UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
                         }
                 }
@@ -41,21 +44,19 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View, bottomSheetPo
                         if self.headerContent != nil {
                             self.headerContent!
                         }
-                        
                         Spacer()
-                        
                         if self.showCancelButton {
                             Button(action: {
                                 if let hidden = bottomSheetPositionEnum(rawValue: 0) {
-                                    self.bottomSheetPosition = hidden
+                                    withAnimation{
+                                        self.bottomSheetPosition = hidden
+                                    }
                                 }
-                                
                                 self.closeAction()
-                                
                                 UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
                             }) {
                                 Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.tertiaryLabel)
+                                    .foregroundColor(.gray)
                             }
                             .font(.title)
                         }
@@ -73,9 +74,7 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View, bottomSheetPo
                                 if resizeable {
                                     let height: CGFloat = value.translation.height / geometry.size.height
                                     self.switchPosition(with: height)
-
                                     self.translation = 0
-                                    
                                     UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
                                 }
                             }
@@ -87,47 +86,45 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View, bottomSheetPo
                 
                 self.mainContent
                     .transition(.move(edge: .bottom))
-                    .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding(.bottom, geometry.safeAreaInsets.bottom)
             }
             .edgesIgnoringSafeArea(.bottom)
             .background(
-                EffectView(effect: UIBlurEffect(style: .systemMaterial))
+                customSheetBackground
                     .cornerRadius(10, corners: [.topRight, .topLeft])
                     .edgesIgnoringSafeArea(.bottom)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                if resizeable {
-                                    self.translation = value.translation.height
-                                    
-                                    UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
-                                }
-                            }
-                            .onEnded { value in
-                                if resizeable {
-                                    let height: CGFloat = value.translation.height / geometry.size.height
-                                    self.switchPosition(with: height)
-
-                                    self.translation = 0
-                                    
-                                    UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
-                                }
-                            }
-                    )
             )
             .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
             .offset(y: self.bottomSheetPosition.rawValue == 0 ? geometry.size.height + geometry.safeAreaInsets.bottom : self.isBottomPosition() ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
             .transition(.move(edge: .bottom))
-            .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
+            .animation(Animation.spring(response: 0.48, dampingFraction: 0.75, blendDuration: 1))
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        if resizeable {
+                            self.translation = value.translation.height
+                            
+                            UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
+                        }
+                    }
+                    .onEnded { value in
+                        if resizeable {
+                            let height: CGFloat = value.translation.height / geometry.size.height
+                            self.switchPosition(with: height)
+                            
+                            self.translation = 0
+                            
+                            UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
+                        }
+                    }
+            )
         }
     }
     
     
     private func switchPositionIndicator() -> Void {
         if self.bottomSheetPosition.rawValue != 0 {
-            
             if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }), self.allCases.count > 1 {
                 if currentIndex == self.allCases.endIndex - 1 {
                     if self.allCases[currentIndex - 1].rawValue != 0 {
@@ -176,7 +173,7 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View, bottomSheetPo
     }
     
     
-    fileprivate init(bottomSheetPosition: Binding<bottomSheetPositionEnum>, hasBottomPosition: Bool = true, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) {
+    fileprivate init(bottomSheetPosition: Binding<bottomSheetPositionEnum>, customSheetBackground: AnyView , capsuleColor: Color , hasBottomPosition: Bool = true, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) {
         self._bottomSheetPosition = bottomSheetPosition
         self.hasBottomPosition = hasBottomPosition
         self.resizeable = resizeable
@@ -184,32 +181,34 @@ fileprivate struct BottomSheetView<hContent: View, mContent: View, bottomSheetPo
         self.headerContent = headerContent()
         self.mainContent = mainContent()
         self.closeAction = closeAction
+        self.capsuleColor = capsuleColor
+        self.customSheetBackground = customSheetBackground
     }
 }
 
 fileprivate extension BottomSheetView where hContent == ModifiedContent<ModifiedContent<Text, _EnvironmentKeyWritingModifier<Optional<Int>>>, _PaddingLayout> {
-    init(bottomSheetPosition: Binding<bottomSheetPositionEnum>, hasBottomPosition: Bool = true, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) {
+    init(bottomSheetPosition: Binding<bottomSheetPositionEnum>, customSheetBackground: AnyView ,capsuleColor: Color ,hasBottomPosition: Bool = true, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) {
         if title == nil {
-            self.init(bottomSheetPosition: bottomSheetPosition, hasBottomPosition: hasBottomPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: { return nil }, mainContent: content, closeAction: closeAction)
+            self.init(bottomSheetPosition: bottomSheetPosition, customSheetBackground: AnyView(customSheetBackground) , capsuleColor: capsuleColor, hasBottomPosition: hasBottomPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: { return nil }, mainContent: content, closeAction: closeAction)
         } else {
-            self.init(bottomSheetPosition: bottomSheetPosition, hasBottomPosition: hasBottomPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: { return Text(title!)
+            self.init(bottomSheetPosition: bottomSheetPosition, customSheetBackground: AnyView(customSheetBackground) ,capsuleColor: capsuleColor, hasBottomPosition: hasBottomPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: { return Text(title!)
                         .font(.title).bold().lineLimit(1).padding(.bottom) as? hContent }, mainContent: content, closeAction: closeAction)
         }
     }
 }
 
 public extension View {
-    func bottomSheet<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>(bottomSheetPosition: Binding<bottomSheetPositionEnum>, hasBottomPosition: Bool = true, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) -> some View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
+    func bottomSheet<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>(bottomSheetPosition: Binding<bottomSheetPositionEnum>, customSheetBackground: AnyView , capsuleColor: Color , hasBottomPosition: Bool = true, resizeable: Bool = true, showCancelButton: Bool = false, @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent, closeAction: @escaping () -> () = {}) -> some View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
         ZStack {
             self
-            BottomSheetView(bottomSheetPosition: bottomSheetPosition, hasBottomPosition: hasBottomPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: headerContent, mainContent: mainContent, closeAction: closeAction)
+            BottomSheetView(bottomSheetPosition: bottomSheetPosition, customSheetBackground: AnyView(customSheetBackground), capsuleColor: capsuleColor, hasBottomPosition: hasBottomPosition, resizeable: resizeable, showCancelButton: showCancelButton, headerContent: headerContent, mainContent: mainContent, closeAction: closeAction)
         }
     }
     
-    func bottomSheet<mContent: View, bottomSheetPositionEnum: RawRepresentable>(bottomSheetPosition: Binding<bottomSheetPositionEnum>, hasBottomPosition: Bool = true, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) -> some View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
+    func bottomSheet<mContent: View, bottomSheetPositionEnum: RawRepresentable>(bottomSheetPosition: Binding<bottomSheetPositionEnum>, customSheetBackground: AnyView ,capsuleColor: Color ,hasBottomPosition: Bool = true, resizeable: Bool = true, showCancelButton: Bool = false, title: String? = nil, @ViewBuilder content: () -> mContent, closeAction: @escaping () -> () = {}) -> some View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
         ZStack {
             self
-            BottomSheetView(bottomSheetPosition: bottomSheetPosition, hasBottomPosition: hasBottomPosition, resizeable: resizeable, showCancelButton: showCancelButton, title: title, content: content, closeAction: closeAction)
+            BottomSheetView(bottomSheetPosition: bottomSheetPosition, customSheetBackground: AnyView(customSheetBackground) , capsuleColor: capsuleColor, hasBottomPosition: hasBottomPosition, resizeable: resizeable, showCancelButton: showCancelButton, title: title, content: content, closeAction: closeAction)
         }
     }
 }
@@ -226,7 +225,7 @@ struct BottomSheetView_Previews: PreviewProvider {
         var body: some View {
             Color.black
                 .edgesIgnoringSafeArea(.all)
-                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, resizeable: true, showCancelButton: true, title: "nil", content: {
+                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, customSheetBackground: AnyView(Color.green), capsuleColor: .white, resizeable: true, showCancelButton: true, title: "nil", content: {
                     ScrollView {
                         ForEach(0..<150) { index in
                             Text(String(index))
