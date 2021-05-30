@@ -54,7 +54,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             .fill(self.capsuleColor)
                             .frame(width: 40, height: 6)
                             .padding(.top, 10)
-                            .padding(.bottom, !self.options.notResizeable && !self.options.noDragIndicator ? 10 : 20)
+                            .padding(.bottom, 10)
                     })
                 }
                 if self.headerContent != nil || self.options.showCloseButton {
@@ -90,6 +90,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             }
                     )
                     .padding(.horizontal)
+                    .padding(.top, !self.options.notResizeable && !self.options.noDragIndicator ? 0 : 20)
                     .padding(.bottom, self.isBottomPosition() ? geometry.safeAreaInsets.bottom + 25 : self.headerContent == nil ? 20 : 0)
                 }
                 
