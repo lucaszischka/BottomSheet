@@ -89,21 +89,11 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .padding(.bottom, self.isBottomPosition() ? geometry.safeAreaInsets.bottom + 25 : self.headerContent == nil ? 20 : 0)
                 }
                 
-                if self.options.contains(BottomSheet.Options.appleScrollBehavior), let top = self.allCases.last, self.bottomSheetPosition == top {
-                    ScrollView {
-                        self.mainContent
-                            .transition(.move(edge: .bottom))
-                            .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .padding(.bottom, geometry.safeAreaInsets.bottom)
-                    }
-                } else {
-                    self.mainContent
-                        .transition(.move(edge: .bottom))
-                        .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .padding(.bottom, geometry.safeAreaInsets.bottom)
-                }
+                self.mainContent
+                    .transition(.move(edge: .bottom))
+                    .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.bottom, geometry.safeAreaInsets.bottom)
                 
             }
             .edgesIgnoringSafeArea(.bottom)
