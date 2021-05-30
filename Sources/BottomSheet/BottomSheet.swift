@@ -5,7 +5,7 @@
 //  Copyright © 2021 Lucas Zischka. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
 public struct BottomSheet {
     public enum Options: Equatable {
@@ -20,6 +20,7 @@ public struct BottomSheet {
         case noDragIndicator
         case noBottomPosition
         case notResizeable
+        case capsuleColor(Color)
         
         var rawValue: String {
             switch self {
@@ -37,6 +38,8 @@ public struct BottomSheet {
                 return "noBottomPosition"
             case .notResizeable:
                 return "notResizeable"
+            case .capsuleColor:
+                return "capsuleColor"
             }
         }
     }

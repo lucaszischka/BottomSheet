@@ -18,12 +18,29 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     
     private let allCases = bottomSheetPositionEnum.allCases.sorted(by: { $0.rawValue < $1.rawValue })
     
+    private var capsuleColor: Color {
+        var capsuleColor = Color.tertiaryLabel
+        
+        if self.options.contains(BottomSheet.Options.capsuleColor(Color.clear)) {
+            self.options.forEach { item in
+                switch item {
+                case .capsuleColor(let color):
+                    capsuleColor = color
+                default:
+                    return
+                }
+            }
+        }
+        
+        return capsuleColor
+    }
+    
     internal var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 if !self.options.contains(BottomSheet.Options.notResizeable) && !self.options.contains(BottomSheet.Options.noDragIndicator) {
                     Capsule()
-                        .fill(Color.tertiaryLabel)
+                        .fill(self.capsuleColor)
                         .frame(width: 40, height: 6)
                         .padding(.top, 10)
                         .contentShape(Capsule())
