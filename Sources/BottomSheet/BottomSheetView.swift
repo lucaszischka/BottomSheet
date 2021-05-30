@@ -21,10 +21,10 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     private var capsuleColor: Color {
         var capsuleColor = Color.tertiaryLabel
         
-        if self.options.contains(BottomSheet.Options.capsuleColor(Color.clear)) {
+        if self.options.dragIndicatorColor {
             self.options.forEach { item in
                 switch item {
-                case .capsuleColor(let color):
+                case .dragIndicatorColor(let color):
                     capsuleColor = color
                 default:
                     return
@@ -37,20 +37,27 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     
     internal var body: some View {
         GeometryReader { geometry in
+            if (self.options.backgroundBlur || self.options.tapToDismiss) && !self.isHiddenPosition() {
+                EffectView(effect: UIBlurEffect(style: .systemThinMaterial))
+                    .opacity(self.options.backgroundBlur ? Double((self.bottomSheetPosition.rawValue * geometry.size.height - self.translation) / geometry.size.height) : 0)
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .contentShape(Rectangle())
+                    .transition(.opacity)
+                    .animation(.linear)
+                    .onTapGesture(perform: self.tapToDismiss)
+            }
             VStack(spacing: 0) {
-                if !self.options.contains(BottomSheet.Options.notResizeable) && !self.options.contains(BottomSheet.Options.noDragIndicator) {
-                    Capsule()
-                        .fill(self.capsuleColor)
-                        .frame(width: 40, height: 6)
-                        .padding(.top, 10)
-                        .contentShape(Capsule())
-                        .onTapGesture {
-                            self.switchPositionIndicator()
-                            
-                            UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
-                        }
+                if !self.options.notResizeable && !self.options.noDragIndicator {
+                    Button(action: self.switchPositionIndicator, label: {
+                        Capsule()
+                            .fill(self.capsuleColor)
+                            .frame(width: 40, height: 6)
+                            .padding(.top, 10)
+                            .padding(.bottom, !self.options.notResizeable && !self.options.noDragIndicator ? 10 : 20)
+                    })
                 }
-                if self.headerContent != nil || self.options.contains(BottomSheet.Options.showCloseButton()) {
+                if self.headerContent != nil || self.options.showCloseButton {
                     HStack(alignment: .top, spacing: 0) {
                         if self.headerContent != nil {
                             self.headerContent!
@@ -58,23 +65,8 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                         
                         Spacer(minLength: 0)
                         
-                        if self.options.contains(BottomSheet.Options.showCloseButton()) {
-                            Button(action: {
-                                if let hidden = bottomSheetPositionEnum(rawValue: 0) {
-                                    self.bottomSheetPosition = hidden
-                                }
-                                
-                                self.options.forEach { item in
-                                    switch item {
-                                    case .showCloseButton(action: let closeAction):
-                                        closeAction()
-                                    default:
-                                        return
-                                    }
-                                }
-                                
-                                UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
-                            }) {
+                        if self.options.showCloseButton {
+                            Button(action: closeButton) {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundColor(.tertiaryLabel)
                             }
@@ -84,31 +76,25 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                if !self.options.contains(BottomSheet.Options.notResizeable) {
+                                if !self.options.notResizeable {
                                     self.translation = value.translation.height
                                     
-                                    UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
+                                    self.endEditing()
                                 }
                             }
                             .onEnded { value in
-                                if !self.options.contains(BottomSheet.Options.notResizeable) {
+                                if !self.options.notResizeable {
                                     let height: CGFloat = value.translation.height / geometry.size.height
                                     self.switchPosition(with: height)
-                                    
-                                    self.translation = 0
-                                    
-                                    UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
                                 }
                             }
                     )
                     .padding(.horizontal)
-                    .padding(.top, !self.options.contains(BottomSheet.Options.notResizeable) && !self.options.contains(BottomSheet.Options.noDragIndicator) ? 10 : 20)
                     .padding(.bottom, self.isBottomPosition() ? geometry.safeAreaInsets.bottom + 25 : self.headerContent == nil ? 20 : 0)
                 }
                 
                 self.mainContent
                     .transition(.move(edge: .bottom))
-                    .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding(.bottom, geometry.safeAreaInsets.bottom)
                 
@@ -116,39 +102,58 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             .edgesIgnoringSafeArea(.bottom)
             .background(
                 EffectView(effect: UIBlurEffect(style: .systemMaterial))
-                    .cornerRadius(10, corners: [.topRight, .topLeft])
+                    .cornerRadius(15, corners: [.topRight, .topLeft])
                     .edgesIgnoringSafeArea(.bottom)
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                if !self.options.contains(BottomSheet.Options.notResizeable) {
+                                if !self.options.notResizeable {
                                     self.translation = value.translation.height
                                     
-                                    UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
+                                    self.endEditing()
                                 }
                             }
                             .onEnded { value in
-                                if !self.options.contains(BottomSheet.Options.notResizeable) {
+                                if !self.options.notResizeable {
                                     let height: CGFloat = value.translation.height / geometry.size.height
                                     self.switchPosition(with: height)
-                                    
-                                    self.translation = 0
-                                    
-                                    UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
                                 }
                             }
                     )
             )
             .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
-            .offset(y: self.bottomSheetPosition.rawValue == 0 ? geometry.size.height + geometry.safeAreaInsets.bottom : self.isBottomPosition() ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
+            .offset(y: self.isHiddenPosition() ? geometry.size.height + geometry.safeAreaInsets.bottom : self.isBottomPosition() ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
             .transition(.move(edge: .bottom))
             .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
         }
     }
     
+    private func endEditing() -> Void {
+        UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
+    }
+    
+    private func tapToDismiss() -> Void {
+        if self.options.tapToDismiss {
+            self.closeSheet()
+        }
+    }
+    
+    private func closeButton() -> Void {
+        self.options.closeAction()
+        
+        self.closeSheet()
+    }
+    
+    private func closeSheet() -> Void {
+        if let hidden = bottomSheetPositionEnum(rawValue: 0) {
+            self.bottomSheetPosition = hidden
+        }
+        
+        self.endEditing()
+    }
     
     private func switchPositionIndicator() -> Void {
-        if self.bottomSheetPosition.rawValue != 0 {
+        if !self.isHiddenPosition() {
             
             if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }), self.allCases.count > 1 {
                 if currentIndex == self.allCases.endIndex - 1 {
@@ -160,10 +165,12 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                 }
             }
         }
+        
+        self.endEditing()
     }
     
     private func switchPosition(with height: CGFloat) -> Void {
-        if self.bottomSheetPosition.rawValue != 0 {
+        if !self.isHiddenPosition() {
             
             if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }), self.allCases.count > 1 {
                 
@@ -174,11 +181,11 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                 } else if height <= -0.3 {
                     self.bottomSheetPosition = self.allCases[self.allCases.endIndex - 1]
                 } else if height >= 0.1 && height < 0.3 {
-                    if currentIndex > self.allCases.startIndex, self.allCases[currentIndex - 1].rawValue != 0 {
+                    if currentIndex > self.allCases.startIndex && (self.allCases[currentIndex - 1].rawValue != 0 || (self.allCases[currentIndex - 1].rawValue == 0 && self.options.swipeToDismiss))  {
                         self.bottomSheetPosition = self.allCases[currentIndex - 1]
                     }
                 } else if height >= 0.3 {
-                    if self.allCases[self.allCases.startIndex].rawValue != 0 {
+                    if (self.allCases[self.allCases.startIndex].rawValue == 0 && self.options.swipeToDismiss) || self.allCases[self.allCases.startIndex].rawValue != 0 {
                         self.bottomSheetPosition = self.allCases[self.allCases.startIndex]
                     } else {
                         self.bottomSheetPosition = self.allCases[self.allCases.startIndex + 1]
@@ -187,10 +194,17 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                 
             }
         }
+        
+        self.translation = 0
+        self.endEditing()
+    }
+    
+    private func isHiddenPosition() -> Bool {
+        return self.bottomSheetPosition.rawValue == 0
     }
     
     private func isBottomPosition() -> Bool {
-        if !self.options.contains(BottomSheet.Options.noBottomPosition), let bottomPositionRawValue = self.allCases.first(where: { $0.rawValue != 0})?.rawValue {
+        if !self.options.noBottomPosition, let bottomPositionRawValue = self.allCases.first(where: { $0.rawValue != 0})?.rawValue {
             return self.bottomSheetPosition.rawValue == bottomPositionRawValue
         } else {
             return false
