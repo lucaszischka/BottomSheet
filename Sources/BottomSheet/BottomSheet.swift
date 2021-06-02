@@ -8,27 +8,27 @@
 import SwiftUI
 
 public struct BottomSheet {
-    ///The options for changing the behavior and settings of the BottomSheet
+    ///The options to adjust the behavior and the settings of the BottomSheet.
     public enum Options: Equatable {
         public static func == (lhs: BottomSheet.Options, rhs: BottomSheet.Options) -> Bool {
             return lhs.rawValue == rhs.rawValue
         }
         
-        ///An option to blur the background when moving the BottomSheet up
+        ///Blurs the background when pulling up the BottomSheet.
         case backgroundBlur
-        ///An option to change the color of the drag indicator
+        ///Changes the color of the drag indicator.
         case dragIndicatorColor(Color)
-        ///An option that prevents the lowest value (greater than 0) from being the bottom position and hiding the main content
+        ///Prevents the lowest value (above 0) from being the bottom position and hiding the main content.
         case noBottomPosition
-        ///An option to hide the drag indicator
+        ///Hides the drag indicator.
         case noDragIndicator
-        ///An option to hide the drag indicator and prevent the BottomSheet from being dragged
+        ///Hides the drag indicator and prevents the BottomSheet from being dragged.
         case notResizeable
-        ///An option to show the close button and define an action when tapped
+        ///Shows a close button and declares an action to be performed when tapped.
         case showCloseButton(action: () -> Void = {})
-        ///An option to close the BottomSheet when swiping it down
+        ///Dismisses the BottomSheet when swiped down.
         case swipeToDismiss
-        ///An option to close the BottomSheet when tapping on the background
+        ///Dismisses the BottomSheet when the background is tapped.
         case tapToDissmiss
         
         /**

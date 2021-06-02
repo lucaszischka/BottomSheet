@@ -29,7 +29,7 @@ There are also many implementations out there that **only have 2 states** - **no
 #### Here are the benefits of my implementation:
 - Dynamic height (works with `ScrollView` and **every** other view)
 - Fully customizable States (**any number of states at any height**)
-- Many options for **customization**
+- Many options for **customization** (backgroundBlur, tapToDismiss, swipeToDismiss, etc.)
 - Very **easy to use**
 - Support for **SearchBar** in the header
 - Flick through feature
@@ -67,8 +67,6 @@ The preferred way of installing BottomSheet is via the [Swift Package Manager](h
 
 # Usage
 
-## Basic Usage
-
 **WARNING:**
 This is Sample Code for visualisation where and how to use, without a working initializer. Please see [Examples](#examples) for working code.
 
@@ -88,9 +86,9 @@ struct ContentView: View {
 ````
 
 `//1` This is where you store the current State of the BottomSheet.
-- The following States are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
-- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with `resizeable: false`).
-- You can also create your own `enum` with any number of states at any height. Please see [Custom States](#custom-states) for more info.
+- This can be any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
+- The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
+- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
 
 `//2` This is the view you want the BottomSheet to overlay on.
 
@@ -100,93 +98,85 @@ struct ContentView: View {
 
 ## Title as Header Content
 
-**WARNING:**
-This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Examples](#examples) for working code.
-
 ````swift
 .bottomSheet(
     bottomSheetPosition: Binding<BottomSheetPosition>,
-    hasBottomPosition: Bool = true,
-    resizeable: Bool = true,
-    showCancelButton: Bool = false,
+    options: [BottomSheet.Options] = [],
     title: String? = nil,
-    @ViewBuilder content: () -> mContent,
-    closeAction: @escaping () -> () = {}
+    @ViewBuilder content: () -> mContent
 )
 ````
 
-`bottomSheetPosition` This is where you store the current State of the BottomSheet.
-- The following States are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
-- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with `resizeable: false`).
-- You can also create your own `enum` with any number of states at any height. Please see [Custom States](#custom-states) for more info.
+`bottomSheetPosition`: A binding that saves the current state of the BottomSheet.
+- This can be any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
+- The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
+- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
 
-`hasBottomPosition` This parameter determines whether you want the custom bottom position behavior.
-- Only sensible if you have a custom `enum` for the states. Please see [Custom States](#custom-states) for more info.
+`options`: An array that contains the settings / options for the BottomSheet. For more information about the possible options see [Options](#options).
 
-`resizeable` This parameter controls whether you can drag it.
-- If `false`, the drag indicator disappears.
-
-`showCancelButton` Toggles the visibility of the Close (X) button.
-
-`title` The title of the BottomSheet.
+`title`: A string that is used as the title for the BottomSheet.
 - Can be `nil`.
+- You can use a view that is used as header content for the BottomSheet instead.
 
-`content` Here you declare the view that should be inside of the BottomSheet.
-
-`closeAction` Here you declare the action that should be executed if you tap on the Close (X) button.
-- Default behavior: Hides the BottomSheet (`self.bottomSheetPostion = .hidden`) and the Keyboard (`UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)`)
-- Anything else you want to execute must be declared here.
+`content`: A view that is used as main content for the BottomSheet.
 
 ## Custom Header Content
 
-**WARNING:**
-This is Sample Code for visualisation of the parameters and their default values and value types, without a working initializer. Please see [Examples](#examples) for working code.
-
 ````swift
 .bottomSheet(
     bottomSheetPosition: Binding<BottomSheetPosition>,
-    hasBottomPosition: Bool = true,
-    resizeable: Bool = true,
-    showCancelButton: Bool = false,
+    options: [BottomSheet.Options] = [],
     @ViewBuilder headerContent: () -> hContent?,
-    @ViewBuilder mainContent: () -> mContent,
-    closeAction: @escaping () -> () = {}
+    @ViewBuilder mainContent: () -> mContent
 )
 ````
 
-`bottomSheetPosition` This is where you store the current State of the BottomSheet.
-- The following States are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
-- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with `resizeable: false`).
-- You can also create your own `enum` with any number of states at any height. Please see [Custom States](#custom-states) for more info.
+`bottomSheetPosition`: A binding that saves the current state of the BottomSheet.
+- This can be any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
+- The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
+- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
 
-`hasBottomPosition` This parameter determines whether you want the custom bottom position behavior.
-- Only sensible if you have a custom `enum` for the states. Please see [Custom States](#custom-states) for more info.
+`options`: An array that contains the settings / options for the BottomSheet. For more information about the possible options see [Options](#options).
 
-`resizeable` This parameter controls whether you can drag it.
-- If `false`, the drag indicator disappears.
-
-`showCancelButton` Toggles the visibility of the Close (X) button.
-
-`headerContent` Here goes your Custom Header Content.
-- Any view is possible - this can lead to problems if the views are too large. Label, a Small Image or Text is recommended.
+`headerContent`: A view that is used as header content for the BottomSheet.
 - Can be `nil`.
+- You can use a string that is used as the title for the BottomSheet instead.
+- Any view is possible - this can lead to problems if the view is too large. A label, a small picture or text is recommended
 
-`mainContent` Here you declare the view that should be inside of the BottomSheet.
+`mainContent`: A view that is used as main content for the BottomSheet.
 
-`closeAction` Here you declare the action that should be executed if you tap on the Close (X) button.
-- Default behavior: Hides the BottomSheet (`self.bottomSheetPostion = .hidden`) and the Keyboard (`UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)`).
-- Anything else you want to execute must be declared here.
+## Options
+
+`.backgroundBlur` Blurs the background when pulling up the BottomSheet.
+
+`.dragIndicatorColor(Color)` Changes the color of the drag indicator.
+
+ `.noBottomPosition` Prevents the lowest value (above 0) from being the bottom position and hiding the main content.
+ 
+ `.noDragIndicator` Hides the drag indicator.
+ 
+ `.notResizeable` Hides the drag indicator and prevents the BottomSheet from being dragged.
+ 
+ `.showCloseButton(action: () -> Void = {})` Shows a close button and declares an action to be performed when tapped.
+ 
+ - If you tap on it, the BottomSheet and the keyboard always get dismissed.
+ 
+ - If you want to do something extra, you have to declare it here.
+ 
+ `.swipeToDismiss` Dismisses the BottomSheet when swiped down.
+ 
+ `.tapToDissmiss` Dismisses the BottomSheet when the background is tapped.
 
 # Custom States
 
-All you have to do is to create a custom enum conforming to `CGFloat` and `CaseIterable`.
-
-- The case and enum name doesnt matter.
-- Must be conforming to `CGFloat` and `CaseIterable`.
-- The state with the `rawValue == 0` is hiding the BottomSheet.
-- The value can be anythig between `0` and `1` (`x <= 1, x >= 0`) .
-- The value is the height of the BottomSheet propotional to the screen height  (`1 == 100% == full screen`)
-- The lowest value (grater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the parameter `hasBottomPosition = false`.
+ 
+You can create your own custom BottomSheetPosition enum:
+   - The enum must be conforming to `CGFloat` and `CaseIterable`
+   - The case and enum name doesnt matter
+   - The case/state with `rawValue == 0` is hiding the BottomSheet
+   - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`)
+   - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`)
+   - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
 
 ````swift
 import SwiftUI
@@ -198,7 +188,7 @@ enum CustomBottomSheetPosition: CGFloat, CaseIterable {
 
 # Examples
 
-## The simplest Version of a BottomSheet
+## The simplest version of a BottomSheet
 
 ````swift
 import SwiftUI
@@ -214,7 +204,7 @@ struct BottomSheetTest1: View {
             Color.black
                 .edgesIgnoringSafeArea(.all)
                 
-                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, content: {
+                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition) {
                     //The Numbers from 0 to 99 as Main Content in a Scroll View
                     ScrollView {
                         ForEach(0..<100) { index in
@@ -223,14 +213,15 @@ struct BottomSheetTest1: View {
                         .frame(maxWidth: .infinity)
                     }
                     .padding(.top)
-                })
+                }
         }
     }
 }
 ````
 
-## A not draggable, but dismissable Bottom Sheet to show aditional Information
+## A bottom sheet for additional information
 
+A BottomSheet that cannot be dragged, which can be closed by tapping on the background or the close button
 ````swift
 import SwiftUI
 import BottomSheet
@@ -245,7 +236,7 @@ struct BottomSheetTest2: View {
             Color.black
                 .edgesIgnoringSafeArea(.all)
                 
-                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, resizeable: false, showCancelButton: true, title: "Hello World", content: {
+                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.notResizeable, .showCloseButton(), .tapToDissmiss], title: "Hello World") {
                     //A Tag, with some sample Text and a Read More and Bookmark Button
                     VStack(alignment: .leading, spacing: nil) {
                         
@@ -287,15 +278,15 @@ struct BottomSheetTest2: View {
                         
                         Spacer()
                     }
-                    .padding(.top)
-                })
+                }
         }
     }
 }
 ````
 
-## A simple BottomSheet with a Search bar as Header Content
+## A BottomSheet for Search
 
+A BottomSheet that has a close button and a SearchBar as custorm header content
 ````swift
 import SwiftUI
 import BottomSheet
@@ -310,19 +301,21 @@ struct BottomSheetTest3: View {
         Color.black
             .edgesIgnoringSafeArea(.all)
             
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, resizeable: true, showCancelButton: true, headerContent: {
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.showCloseButton()], headerContent: {
                 //A Search Bar as Header Content
                 HStack {
                     Image(systemName: "magnifyingglass")
                     TextField("Search", text: self.$searchText)
                 }
-                .foregroundColor(.secondaryLabel)
+                .foregroundColor(Color(UIColor.secondaryLabel))
                 .padding(.vertical, 8)
                 .padding(.horizontal, 5)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.quaternaryLabel)
+                        .fill(Color(UIColor.quaternaryLabel))
                 )
+                .padding(.top, -2)
+                .padding(.trailing)
             }, mainContent: {
                 //The Numbers from 0 to 99 as Main Content in a Scroll View
                 ScrollView {
@@ -337,7 +330,7 @@ struct BottomSheetTest3: View {
 }
 ````
 
-## The simplest Version of a BottomSheet, but with custom States
+## The simplest version of a BottomSheet, but with custom states
 
 ````swift
 import SwiftUI
@@ -357,7 +350,7 @@ struct BottomSheetTest4: View {
             Color.black
                 .edgesIgnoringSafeArea(.all)
                 
-                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, content: {
+                .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition) {
                     //The Numbers from 0 to 99 as Main Content in a Scroll View
                     ScrollView {
                         ForEach(0..<100) { index in
@@ -366,7 +359,7 @@ struct BottomSheetTest4: View {
                         .frame(maxWidth: .infinity)
                     }
                     .padding(.top)
-                })
+                }
         }
     }
 }
