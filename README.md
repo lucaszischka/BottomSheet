@@ -1,3 +1,5 @@
+# NEW VERSION IS RELEASED! TO FIX YOUR CODE, PLEASE READ THE README.md AGAIN
+
 ![SwiftUI BottomSheet](Assets/logo.png)
 ======================================
 
