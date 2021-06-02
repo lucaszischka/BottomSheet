@@ -1,6 +1,18 @@
 BottomSheet Changelog
 ==================
 
+#### v2.0.0
+- Implementation of the "options" system
+- Add noDragIndicator option
+- Add swipeToDismiss option
+- Add tapToDissmiss option
+- Add backgroundBlur option
+- Add dragIndicatorColor(Color) option
+- Splitting the code in different files for better clarity (ViewExtension)
+- Reorganised Files
+- Design fixes
+- Update Documentation accordingly
+
 #### v1.0.7
 - Added flick through feature
 - Fixed drag indicator button not working issue #2 (thx @dbarsamian)
