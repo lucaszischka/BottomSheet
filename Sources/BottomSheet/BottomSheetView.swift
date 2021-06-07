@@ -125,7 +125,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
             .offset(y: self.isHiddenPosition() ? geometry.size.height + geometry.safeAreaInsets.bottom : self.isBottomPosition() ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
             .transition(.move(edge: .bottom))
-            .animation(Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1))
+            .animation(self.options.animation)
         }
     }
     
