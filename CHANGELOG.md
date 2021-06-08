@@ -3,6 +3,10 @@ BottomSheet Changelog
 
 #### v2.1.0
 - Add animation option (thx @deermichel)
+- Add appleScrollBehavior option
+- Add allowContentDrag option
+- Clean up code
+- Update Readme
 
 #### v2.0.0
 - Implementation of the "options" system

@@ -19,7 +19,7 @@ internal struct EffectView: UIViewRepresentable {
     }
     
     internal func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        //
+        uiView.effect = self.effect
     }
 }
 

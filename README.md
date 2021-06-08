@@ -1,7 +1,4 @@
-# NEW VERSION HAS BEEN RELEASED! TO FIX YOUR CODE, PLEASE READ THE README.md AGAIN
-
-![SwiftUI BottomSheet](Assets/logo.png)
-======================================
+# BottomSheet
 
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/release/LucasMucGH/BottomSheet?sort=semver)](https://github.com/LucasMucGH/BottomSheet/releases)
 [![License](https://img.shields.io/github/license/LucasMucGH/BottomSheet)](https://github.com/LucasMucGH/BottomSheet/blob/main/LICENSE)
@@ -9,18 +6,7 @@
 
 A sliding Sheet from the bottom of the Screen with 3 States build with SwiftUI
 
-- [Why](#why) 
-- [Requirements](#requirements) 
-- [Installation](#installation)
-- [Usage](#usage) 
-- [Parameters](#parameters)
-- [Custom States](#custom-states)
-- [Examples](#examples)
-- [Contributing](#contributing)
-- [License](#license)
-- [Credits](#credits)
-
-# Why
+## Why
 
 There have been many different attempts to recreate the BottomSheet from Apple Maps, Shortcuts and Apple Music, because Apple unfortunately does not provide it in their SDK.
 
@@ -36,7 +22,7 @@ There are also many implementations out there that **only have 2 states** - **no
 - Support for **SearchBar** in the header
 - Flick through feature
 - Same behavior as Apple for the `.bottom` position
-- Beatuiful **animations**
+- Beatuiful customizable **animations**
 
 #### Here are some alternatives:
 - https://swiftwithmajid.com/2019/12/11/building-bottom-sheet-in-swiftui/
@@ -50,13 +36,13 @@ There are also many implementations out there that **only have 2 states** - **no
 #### Here you can see a preview of the BottomSheet:
 <img src="Assets/BottomSheet-Preview.gif" height="600">
 
-# Requirements 
+## Requirements 
 
 - iOS 13
 - Swift 5.3
 - Xcode 12
 
-# Installation
+## Installation
 
 The preferred way of installing BottomSheet is via the [Swift Package Manager](https://swift.org/package-manager/).
 
@@ -67,14 +53,14 @@ The preferred way of installing BottomSheet is via the [Swift Package Manager](h
 3. For **Rules**, select **Branch** (with branch set to `main`).
 4. Click **Finish**.
 
-# Usage
+## Usage
 
 **WARNING:**
 This is Sample Code for visualisation where and how to use, without a working initializer. Please see [Examples](#examples) for working code.
 
-Same way you use Sheet in SwiftUI:
+BottomSheet is similar to the built-in Sheet:
 
-````swift
+```swift
 struct ContentView: View {
 
     @State var bottomSheetPosition: BottomSheetPosition = .middle //1
@@ -85,29 +71,29 @@ struct ContentView: View {
             .bottomSheet() //3
     }
 }
-````
+```
 
-`//1` This is where you store the current State of the BottomSheet.
-- This can be any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
+`//1` The current State of the BottomSheet.
+- This is any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
 - The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
-- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
+- If you don't want the state to be changed, you can use `.constant(.middle)` (with the `.notResizeable` or `.noDragIndicator` option).
 
-`//2` This is the view you want the BottomSheet to overlay on.
+`//2` The view which the BottomSheet overlays.
 
 `//3` This is how you add the BottomSheet - easy right?
 
-# Parameters
+## Parameters
 
-## Title as Header Content
+### Title as Header Content
 
-````swift
+```swift
 .bottomSheet(
     bottomSheetPosition: Binding<BottomSheetPosition>,
     options: [BottomSheet.Options] = [],
     title: String? = nil,
     @ViewBuilder content: () -> mContent
 )
-````
+```
 
 `bottomSheetPosition`: A binding that saves the current state of the BottomSheet.
 - This can be any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
@@ -122,16 +108,16 @@ struct ContentView: View {
 
 `content`: A view that is used as main content for the BottomSheet.
 
-## Custom Header Content
+### Custom Header Content
 
-````swift
+```swift
 .bottomSheet(
     bottomSheetPosition: Binding<BottomSheetPosition>,
     options: [BottomSheet.Options] = [],
     @ViewBuilder headerContent: () -> hContent?,
     @ViewBuilder mainContent: () -> mContent
 )
-````
+```
 
 `bottomSheetPosition`: A binding that saves the current state of the BottomSheet.
 - This can be any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
@@ -147,15 +133,21 @@ struct ContentView: View {
 
 `mainContent`: A view that is used as main content for the BottomSheet.
 
-## Options
+### Options
+
+`.allowContentDrag` Allows the BottomSheet to move when dragging the mainContent.
+
+- Do not use if the mainContent is packed into a ScrollView.
 
 `.animation(Animation)` Sets the animation for opening and closing the BottomSheet.
+
+`.appleScrollBehavior` The mainView is packed into a ScrollView, which can only scrolled at the .top position
 
 `.backgroundBlur` Blurs the background when pulling up the BottomSheet.
 
 `.dragIndicatorColor(Color)` Changes the color of the drag indicator.
 
- `.noBottomPosition` Prevents the lowest value (above 0) from being the bottom position and hiding the main content.
+ `.noBottomPosition` Prevents the lowest value (above 0) from being the bottom position and hiding the mainContent.
  
  `.noDragIndicator` Hides the drag indicator.
  
@@ -171,7 +163,7 @@ struct ContentView: View {
  
  `.tapToDissmiss` Dismisses the BottomSheet when the background is tapped.
 
-# Custom States
+## Custom States
 
  
 You can create your own custom BottomSheetPosition enum:
@@ -182,19 +174,19 @@ You can create your own custom BottomSheetPosition enum:
    - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`)
    - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
 
-````swift
+```swift
 import SwiftUI
 
 enum CustomBottomSheetPosition: CGFloat, CaseIterable {
     case top = 0.975, topMiddle = 0.7, middle = 0.4, middleBottom = 0.3, bottom = 0.125, hidden = 0
 }
-````
+```
 
-# Examples
+## Examples
 
-## The simplest version of a BottomSheet
+### The simplest version of a BottomSheet
 
-````swift
+```swift
 import SwiftUI
 import BottomSheet
 
@@ -221,12 +213,12 @@ struct BottomSheetTest1: View {
         }
     }
 }
-````
+```
 
-## A bottom sheet for additional information
+### A bottom sheet for additional information
 
 A BottomSheet that cannot be dragged, which can be closed by tapping on the background or the close button
-````swift
+```swift
 import SwiftUI
 import BottomSheet
 
@@ -286,12 +278,12 @@ struct BottomSheetTest2: View {
         }
     }
 }
-````
+```
 
-## A BottomSheet for Search
+### A BottomSheet for Search
 
 A BottomSheet that has a close button and a SearchBar as custorm header content
-````swift
+```swift
 import SwiftUI
 import BottomSheet
 
@@ -332,11 +324,11 @@ struct BottomSheetTest3: View {
             })
     }
 }
-````
+```
 
-## The simplest version of a BottomSheet, but with custom states
+### The simplest version of a BottomSheet, but with custom states
 
-````swift
+```swift
 import SwiftUI
 import BottomSheet
 
@@ -367,16 +359,16 @@ struct BottomSheetTest4: View {
         }
     }
 }
-````
+```
 
-# Contributing
+## Contributing
 
 BottomSheet welcomes contributions in the form of GitHub issues and pull-requests.
 
-# License
+## License
 
-BottomSheet is available under the MIT license. See [the LICENSE file](LICENSE) for more information.
+BottomSheet is available under the MIT license. See [the LICENSE file](LICENSE.txt) for more information.
 
-# Credits
+## Credits
 
 BottomSheet is a project of [@LucasMucGH](https://github.com/LucasMucGH).

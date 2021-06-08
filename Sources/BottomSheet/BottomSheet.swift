@@ -14,13 +14,17 @@ public struct BottomSheet {
             return lhs.rawValue == rhs.rawValue
         }
         
+        ///Allows the BottomSheet to move when dragging the mainContent. Do not use if the mainContent is packed into a ScrollView.
+        case allowContentDrag
         ///Sets the animation for opening and closing the BottomSheet.
         case animation(Animation)
+        ///The mainView is packed into a ScrollView, which can only scrolled at the .top position
+        case appleScrollBehavior
         ///Blurs the background when pulling up the BottomSheet.
         case backgroundBlur
         ///Changes the color of the drag indicator.
         case dragIndicatorColor(Color)
-        ///Prevents the lowest value (above 0) from being the bottom position and hiding the main content.
+        ///Prevents the lowest value (above 0) from being the bottom position and hiding the mainContent.
         case noBottomPosition
         ///Hides the drag indicator.
         case noDragIndicator
@@ -52,8 +56,12 @@ public struct BottomSheet {
          */
         public var rawValue: String {
             switch self {
+            case .allowContentDrag:
+                return "allowContentDrag"
             case .animation:
                 return "animation"
+            case .appleScrollBehavior:
+                return "appleScrollBehavior"
             case .backgroundBlur:
                 return "backgroundBlur"
             case .dragIndicatorColor:
@@ -76,6 +84,10 @@ public struct BottomSheet {
 }
 
 internal extension Array where Element == BottomSheet.Options {
+    var allowContentDrag: Bool {
+        self.contains(BottomSheet.Options.allowContentDrag)
+    }
+    
     var animation: Animation {
         var animation = Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1)
         
@@ -88,12 +100,24 @@ internal extension Array where Element == BottomSheet.Options {
         return animation
     }
     
+    var appleScrollBehavior: Bool {
+        self.contains(BottomSheet.Options.appleScrollBehavior)
+    }
+    
     var backgroundBlur: Bool {
         self.contains(BottomSheet.Options.backgroundBlur)
     }
     
-    var dragIndicatorColor: Bool {
-        self.contains(BottomSheet.Options.dragIndicatorColor(Color.clear))
+    var dragIndicatorColor: Color {
+        var dragIndicatorColor = Color(UIColor.tertiaryLabel)
+        
+        self.forEach { item in
+            if case .dragIndicatorColor(let customDragIndicatorColor) = item {
+                dragIndicatorColor = customDragIndicatorColor
+            }
+        }
+        
+        return dragIndicatorColor
     }
     
     var noBottomPosition: Bool {
@@ -108,7 +132,6 @@ internal extension Array where Element == BottomSheet.Options {
         self.contains(BottomSheet.Options.notResizeable)
     }
     
-    
     var showCloseButton: Bool {
         self.contains(BottomSheet.Options.showCloseButton())
     }
@@ -117,11 +140,8 @@ internal extension Array where Element == BottomSheet.Options {
         var closeAction: () -> Void = {}
         
         self.forEach { item in
-            switch item {
-            case .showCloseButton(action: let action):
-                closeAction = action
-            default:
-                return
+            if case .showCloseButton(action: let customCloseAction) = item {
+                closeAction = customCloseAction
             }
         }
         
