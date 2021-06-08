@@ -1,6 +1,9 @@
 BottomSheet Changelog
 ==================
 
+#### v2.1.0
+- Add animation option (thx @deermichel)
+
 #### v2.0.0
 - Implementation of the "options" system
 - Add noDragIndicator option

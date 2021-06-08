@@ -1,4 +1,4 @@
-# NEW VERSION IS RELEASED! TO FIX YOUR CODE, PLEASE READ THE README.md AGAIN
+# NEW VERSION HAS BEEN RELEASED! TO FIX YOUR CODE, PLEASE READ THE README.md AGAIN
 
 ![SwiftUI BottomSheet](Assets/logo.png)
 ======================================
@@ -24,7 +24,7 @@ A sliding Sheet from the bottom of the Screen with 3 States build with SwiftUI
 
 There have been many different attempts to recreate the BottomSheet from Apple Maps, Shortcuts and Apple Music, because Apple unfortunately does not provide it in their SDK.
 
-However, all previous attempts have a common problem: The **hight does not change** in the different states. Thus, the BottomSheet is always the same size (e.g. 800px) and thus remains 800px, even if you only see e.g. 400px - the rest is **inaccessible** unless you pull the BottomSheet up to the very top.
+However, all previous attempts share a common problem: The **height does not change** in the different states. Thus, the BottomSheet is always the same size (e.g. 800px) and thus remains 800px, even if you only see e.g. 400px - the rest is **inaccessible** unless you pull the BottomSheet up to the very top.
 
 There are also many implementations out there that **only have 2 states** - **not 3** like e.g. Apple Maps.
 
@@ -35,7 +35,7 @@ There are also many implementations out there that **only have 2 states** - **no
 - Very **easy to use**
 - Support for **SearchBar** in the header
 - Flick through feature
-- Same behavoir as Apple for the `.bottom` position
+- Same behavior as Apple for the `.bottom` position
 - Beatuiful **animations**
 
 #### Here are some alternatives:
@@ -148,6 +148,8 @@ struct ContentView: View {
 `mainContent`: A view that is used as main content for the BottomSheet.
 
 ## Options
+
+`.animation(Animation)` Sets the animation for opening and closing the BottomSheet.
 
 `.backgroundBlur` Blurs the background when pulling up the BottomSheet.
 

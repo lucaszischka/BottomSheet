@@ -14,6 +14,8 @@ public struct BottomSheet {
             return lhs.rawValue == rhs.rawValue
         }
         
+        ///Sets the animation for opening and closing the BottomSheet.
+        case animation(Animation)
         ///Blurs the background when pulling up the BottomSheet.
         case backgroundBlur
         ///Changes the color of the drag indicator.
@@ -50,6 +52,8 @@ public struct BottomSheet {
          */
         public var rawValue: String {
             switch self {
+            case .animation:
+                return "animation"
             case .backgroundBlur:
                 return "backgroundBlur"
             case .dragIndicatorColor:
@@ -72,6 +76,18 @@ public struct BottomSheet {
 }
 
 internal extension Array where Element == BottomSheet.Options {
+    var animation: Animation {
+        var animation = Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1)
+        
+        self.forEach { item in
+            if case .animation(let customAnimation) = item {
+                animation = customAnimation
+            }
+        }
+        
+        return animation
+    }
+    
     var backgroundBlur: Bool {
         self.contains(BottomSheet.Options.backgroundBlur)
     }
