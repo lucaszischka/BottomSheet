@@ -56,9 +56,9 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     Button(action: self.switchPositionIndicator, label: {
                         Capsule()
                             .fill(self.options.dragIndicatorColor)
-                            .frame(width: 40, height: 6)
-                            .padding(.top, 10)
-                            .padding(.bottom, 10)
+                            .frame(width: 36, height: 5)
+                            .padding(.top, 5)
+                            .padding(.bottom, 7)
                     })
                 }
                 if self.headerContent != nil || self.options.showCloseButton {
@@ -145,7 +145,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             .edgesIgnoringSafeArea(.bottom)
             .background(
                 EffectView(effect: UIBlurEffect(style: .systemMaterial))
-                    .cornerRadius(15, corners: [.topRight, .topLeft])
+                    .cornerRadius(10, corners: [.topRight, .topLeft])
                     .edgesIgnoringSafeArea(.bottom)
                     .gesture(
                         DragGesture()
@@ -164,8 +164,8 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             }
                     )
             )
-            .frame(width: geometry.size.width, height: max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), alignment: .top)
-            .offset(y: self.isHiddenPosition ? geometry.size.height + geometry.safeAreaInsets.bottom : self.isBottomPosition ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation)
+            .frame(width: geometry.size.width, height: min(max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), geometry.size.height * 1.05), alignment: .top)
+            .offset(y: max(self.isHiddenPosition ? geometry.size.height + geometry.safeAreaInsets.bottom : self.isBottomPosition ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation, geometry.size.height * -0.05))
             .transition(.move(edge: .bottom))
             .animation(self.options.animation)
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 /**
-The default BottomSheetPosition; it has the following cases and values: `top = 0.975 `,  `middle = 0.4 `,  `bottom = 0.125 `,  `hidden = 0 `
+The default BottomSheetPosition; it has the following cases and values: `top = 0.975`,  `middle = 0.4`,  `bottom = 0.125`,  `hidden = 0`
  
 You can create your own custom BottomSheetPosition enum:
    - The enum must be conforming to `CGFloat` and `CaseIterable`
