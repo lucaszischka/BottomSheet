@@ -1,6 +1,11 @@
 BottomSheet Changelog
 ==================
 
+#### v2.2.0
+- Add background option
+- Updated examples
+- File clean up
+
 #### v2.1.0
 - Add animation option (thx @deermichel)
 - Add appleScrollBehavior option

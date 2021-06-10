@@ -144,7 +144,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             }
             .edgesIgnoringSafeArea(.bottom)
             .background(
-                EffectView(effect: UIBlurEffect(style: .systemMaterial))
+                self.options.background
                     .cornerRadius(10, corners: [.topRight, .topLeft])
                     .edgesIgnoringSafeArea(.bottom)
                     .gesture(

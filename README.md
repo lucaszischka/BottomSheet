@@ -131,6 +131,9 @@ struct ContentView: View {
 
 `.appleScrollBehavior` The mainView is packed into a ScrollView, which can only scrolled at the .top position
 
+`.background(AnyView)` Changes the background of the BottomSheet.
+- Must be erased to AnyView.
+
 `.backgroundBlur` Blurs the background when pulling up the BottomSheet.
 
 `.dragIndicatorColor(Color)` Changes the color of the drag indicator.
@@ -318,7 +321,7 @@ struct WordSearchView: View {
 ### Artist Songs View
 
 This BottomSheet shows the most popular songs by an artist.
-It has a custom animation and color for the drag indicator, as well as it deactivates the bottom position behavior.
+It has a custom animation and color for the drag indicator and the background, as well as it deactivates the bottom position behavior.
 
 <img src="Assets/ArtistSongsView.gif" height="600">
 
@@ -338,7 +341,7 @@ struct ArtistSongsView: View {
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
             
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.animation(.linear.speed(0.4)), .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33)), .noBottomPosition], title: "Drake") {
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.animation(.linear.speed(0.4)), .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33)), .background(AnyView(Color.black)), .noBottomPosition], title: "Drake") {
                 //The list of the most popular songs of the artist.
                 ScrollView {
                     ForEach(self.songs, id: \.self) { song in
@@ -348,6 +351,7 @@ struct ArtistSongsView: View {
                     }
                 }
             }
+            .foregroundColor(.white)
     }
 }
 ```

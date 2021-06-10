@@ -20,6 +20,8 @@ public struct BottomSheet {
         case animation(Animation)
         ///The mainView is packed into a ScrollView, which can only scrolled at the .top position
         case appleScrollBehavior
+        ///Changes the background of the BottomSheet. Must be erased to AnyView
+        case background(AnyView)
         ///Blurs the background when pulling up the BottomSheet.
         case backgroundBlur
         ///Changes the color of the drag indicator.
@@ -62,6 +64,8 @@ public struct BottomSheet {
                 return "animation"
             case .appleScrollBehavior:
                 return "appleScrollBehavior"
+            case .background:
+                return "background"
             case .backgroundBlur:
                 return "backgroundBlur"
             case .dragIndicatorColor:
@@ -102,6 +106,18 @@ internal extension Array where Element == BottomSheet.Options {
     
     var appleScrollBehavior: Bool {
         self.contains(BottomSheet.Options.appleScrollBehavior)
+    }
+    
+    var background: AnyView {
+        var background = AnyView(EffectView(effect: UIBlurEffect(style: .systemMaterial)))
+        
+        self.forEach { item in
+            if case .background(let customBackground) = item {
+                background = customBackground
+            }
+        }
+        
+        return background
     }
     
     var backgroundBlur: Bool {
