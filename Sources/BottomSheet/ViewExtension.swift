@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOSApplicationExtension, unavailable)
 public extension View {
     /**
      A modifer to add a BottomSheet to your view.
