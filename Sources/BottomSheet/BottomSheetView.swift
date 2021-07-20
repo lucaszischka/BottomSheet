@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOSApplicationExtension, unavailable)
 internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
     
     @State private var translation: CGFloat = 0
@@ -251,6 +252,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     }
 }
 
+@available(iOSApplicationExtension, unavailable)
 internal extension BottomSheetView where hContent == ModifiedContent<ModifiedContent<Text, _EnvironmentKeyWritingModifier<Optional<Int>>>, _PaddingLayout> {
     init(bottomSheetPosition: Binding<bottomSheetPositionEnum>, options: [BottomSheet.Options], title: String?, @ViewBuilder content: () -> mContent) {
         if title == nil {
