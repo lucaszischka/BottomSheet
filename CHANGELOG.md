@@ -1,6 +1,11 @@
 BottomSheet Changelog
 ==================
 
+#### v2.3.0
+- Fix compile for iOS 15 and Xcode 13 #19 #20
+- Add possibility to change the blur effect
+- Add possibility to change the corner radius
+
 #### v2.2.0
 - Add background option
 - Updated examples

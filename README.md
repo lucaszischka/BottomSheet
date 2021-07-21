@@ -265,7 +265,7 @@ struct BookButton: ButtonStyle {
 
 This BottomSheet shows nouns which can be filtered by searching.
 It adopts the scrolling behavior of apple, so that you can only scroll the  `ScrollView ` in the  `.top ` position.
-Also, the higher the BottomSheet, the more blurred the background is to move the focus.
+The higher the BottomSheet is dragged, the more blurry the background becomes (with the BlurEffect .dark) to move the focus to the BottomSheet.
 
 <img src="Assets/WordSearchView.gif" height="600">
 
@@ -286,7 +286,7 @@ struct WordSearchView: View {
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
             
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.appleScrollBehavior, .backgroundBlur], headerContent: {
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.appleScrollBehavior, .backgroundBlur(.dark)], headerContent: {
                 //A SearchBar as headerContent.
                 HStack {
                     Image(systemName: "magnifyingglass")
@@ -321,7 +321,7 @@ struct WordSearchView: View {
 ### Artist Songs View
 
 This BottomSheet shows the most popular songs by an artist.
-It has a custom animation and color for the drag indicator and the background, as well as it deactivates the bottom position behavior.
+It has a custom animation and color for the drag indicator and the background, as well as it deactivates the bottom position behavior and uses an custom corner radius.
 
 <img src="Assets/ArtistSongsView.gif" height="600">
 
@@ -341,7 +341,7 @@ struct ArtistSongsView: View {
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
             
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.animation(.linear.speed(0.4)), .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33)), .background(AnyView(Color.black)), .noBottomPosition], title: "Drake") {
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.animation(.linear.speed(0.4)), .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33)), .background(AnyView(Color.black)), .noBottomPosition, .cornerRadius(30)], title: "Drake") {
                 //The list of the most popular songs of the artist.
                 ScrollView {
                     ForEach(self.songs, id: \.self) { song in

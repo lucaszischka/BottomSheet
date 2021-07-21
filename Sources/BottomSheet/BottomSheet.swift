@@ -18,12 +18,14 @@ public struct BottomSheet {
         case allowContentDrag
         ///Sets the animation for opening and closing the BottomSheet.
         case animation(Animation)
-        ///The mainView is packed into a ScrollView, which can only scrolled at the .top position
+        ///The mainView is packed into a ScrollView, which can only scrolled at the .top position.
         case appleScrollBehavior
-        ///Changes the background of the BottomSheet. Must be erased to AnyView
+        ///Changes the background of the BottomSheet. Must be erased to AnyView.
         case background(AnyView)
-        ///Blurs the background when pulling up the BottomSheet.
-        case backgroundBlur
+        ///Enables and sets the blur effect of the background when pulling up the BottomSheet.
+        case backgroundBlur(UIBlurEffect.Style = .systemThinMaterial)
+        ///Changes the corener radius of the BottomSheet.
+        case cornerRadius(Double)
         ///Changes the color of the drag indicator.
         case dragIndicatorColor(Color)
         ///Prevents the lowest value (above 0) from being the bottom position and hiding the mainContent.
@@ -68,6 +70,8 @@ public struct BottomSheet {
                 return "background"
             case .backgroundBlur:
                 return "backgroundBlur"
+            case .cornerRadius:
+                return "cornerRadius"
             case .dragIndicatorColor:
                 return "dragIndicatorColor"
             case .noBottomPosition:
@@ -89,11 +93,11 @@ public struct BottomSheet {
 
 internal extension Array where Element == BottomSheet.Options {
     var allowContentDrag: Bool {
-        self.contains(BottomSheet.Options.allowContentDrag)
+        return self.contains(BottomSheet.Options.allowContentDrag)
     }
     
     var animation: Animation {
-        var animation = Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1)
+        var animation: Animation = Animation.spring(response: 0.5, dampingFraction: 0.75, blendDuration: 1)
         
         self.forEach { item in
             if case .animation(let customAnimation) = item {
@@ -105,11 +109,11 @@ internal extension Array where Element == BottomSheet.Options {
     }
     
     var appleScrollBehavior: Bool {
-        self.contains(BottomSheet.Options.appleScrollBehavior)
+        return self.contains(BottomSheet.Options.appleScrollBehavior)
     }
     
     var background: AnyView {
-        var background = AnyView(EffectView(effect: UIBlurEffect(style: .systemMaterial)))
+        var background: AnyView = AnyView(EffectView(effect: UIBlurEffect(style: .systemMaterial)))
         
         self.forEach { item in
             if case .background(let customBackground) = item {
@@ -121,11 +125,35 @@ internal extension Array where Element == BottomSheet.Options {
     }
     
     var backgroundBlur: Bool {
-        self.contains(BottomSheet.Options.backgroundBlur)
+        return self.contains(BottomSheet.Options.backgroundBlur())
+    }
+    
+    var backgroundBlurEffect: UIBlurEffect {
+        var blurEffect: UIBlurEffect = UIBlurEffect(style: .systemThinMaterial)
+        
+        self.forEach { item in
+            if case .backgroundBlur(let customBlurEffect) = item {
+                blurEffect = UIBlurEffect(style: customBlurEffect)
+            }
+        }
+        
+        return blurEffect
+    }
+    
+    var cornerRadius: CGFloat {
+        var cornerRadius: CGFloat = 10.0
+        
+        self.forEach { item in
+            if case .cornerRadius(let customCornerRadius) = item {
+                cornerRadius = CGFloat(customCornerRadius)
+            }
+        }
+        
+        return cornerRadius
     }
     
     var dragIndicatorColor: Color {
-        var dragIndicatorColor = Color(UIColor.tertiaryLabel)
+        var dragIndicatorColor: Color = Color(UIColor.tertiaryLabel)
         
         self.forEach { item in
             if case .dragIndicatorColor(let customDragIndicatorColor) = item {
@@ -137,19 +165,19 @@ internal extension Array where Element == BottomSheet.Options {
     }
     
     var noBottomPosition: Bool {
-        self.contains(BottomSheet.Options.noBottomPosition)
+        return self.contains(BottomSheet.Options.noBottomPosition)
     }
     
     var noDragIndicator: Bool {
-        self.contains(BottomSheet.Options.noDragIndicator)
+        return self.contains(BottomSheet.Options.noDragIndicator)
     }
     
     var notResizeable: Bool {
-        self.contains(BottomSheet.Options.notResizeable)
+        return self.contains(BottomSheet.Options.notResizeable)
     }
     
     var showCloseButton: Bool {
-        self.contains(BottomSheet.Options.showCloseButton())
+        return self.contains(BottomSheet.Options.showCloseButton())
     }
     
     var closeAction: () -> Void {
@@ -165,10 +193,10 @@ internal extension Array where Element == BottomSheet.Options {
     }
     
     var swipeToDismiss: Bool {
-        self.contains(BottomSheet.Options.swipeToDismiss)
+        return self.contains(BottomSheet.Options.swipeToDismiss)
     }
     
     var tapToDismiss: Bool {
-        self.contains(BottomSheet.Options.tapToDissmiss)
+        return self.contains(BottomSheet.Options.tapToDissmiss)
     }
 }
