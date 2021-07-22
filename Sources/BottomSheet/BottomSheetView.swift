@@ -148,6 +148,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                 self.options.background
                     .cornerRadius(self.options.cornerRadius, corners: [.topRight, .topLeft])
                     .edgesIgnoringSafeArea(.bottom)
+                    .shadow(color: self.options.shadowColor, radius: self.options.shadowRadius, x: self.options.shadowX, y: self.options.shadowY)
                     .gesture(
                         DragGesture()
                             .onChanged { value in

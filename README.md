@@ -129,12 +129,14 @@ struct ContentView: View {
 
 `.animation(Animation)` Sets the animation for opening and closing the BottomSheet.
 
-`.appleScrollBehavior` The mainView is packed into a ScrollView, which can only scrolled at the .top position
+`.appleScrollBehavior` The mainView is packed into a ScrollView, which can only scrolled at the .top position.
 
 `.background(AnyView)` Changes the background of the BottomSheet.
 - Must be erased to AnyView.
 
-`.backgroundBlur` Blurs the background when pulling up the BottomSheet.
+`.backgroundBlur(UIBlurEffect.Style = .systemThinMaterial)` Enables and sets the blur effect of the background when pulling up the BottomSheet.
+
+`.cornerRadius(Double)` Changes the corener radius of the BottomSheet.
 
 `.dragIndicatorColor(Color)` Changes the color of the drag indicator.
 
@@ -143,6 +145,8 @@ struct ContentView: View {
  `.noDragIndicator` Hides the drag indicator.
  
  `.notResizeable` Hides the drag indicator and prevents the BottomSheet from being dragged.
+ 
+ `.shadow(color: Color = Color(.sRGBLinear, white: 0, opacity: 0.33), radius: CGFloat = 10, x: CGFloat = 0, y: CGFloat = 0)` Adds a shadow to the background of the BottomSheet.
  
  `.showCloseButton(action: () -> Void = {})` Shows a close button and declares an action to be performed when tapped.
  
@@ -286,7 +290,7 @@ struct WordSearchView: View {
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
             
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.appleScrollBehavior, .backgroundBlur(.dark)], headerContent: {
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.appleScrollBehavior, .backgroundBlur(effect: .dark)], headerContent: {
                 //A SearchBar as headerContent.
                 HStack {
                     Image(systemName: "magnifyingglass")
@@ -321,7 +325,7 @@ struct WordSearchView: View {
 ### Artist Songs View
 
 This BottomSheet shows the most popular songs by an artist.
-It has a custom animation and color for the drag indicator and the background, as well as it deactivates the bottom position behavior and uses an custom corner radius.
+It has a custom animation and color for the drag indicator and the background, as well as it deactivates the bottom position behavior and uses an custom corner radius and shadow.
 
 <img src="Assets/ArtistSongsView.gif" height="600">
 
@@ -341,7 +345,7 @@ struct ArtistSongsView: View {
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
             
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.animation(.linear.speed(0.4)), .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33)), .background(AnyView(Color.black)), .noBottomPosition, .cornerRadius(30)], title: "Drake") {
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.animation(.linear.speed(0.4)), .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33)), .background(AnyView(Color.black)), .noBottomPosition, .cornerRadius(30), .shadow(color: .white)], title: "Drake") {
                 //The list of the most popular songs of the artist.
                 ScrollView {
                     ForEach(self.songs, id: \.self) { song in

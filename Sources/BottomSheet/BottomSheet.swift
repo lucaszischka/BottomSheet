@@ -23,7 +23,7 @@ public struct BottomSheet {
         ///Changes the background of the BottomSheet. Must be erased to AnyView.
         case background(AnyView)
         ///Enables and sets the blur effect of the background when pulling up the BottomSheet.
-        case backgroundBlur(UIBlurEffect.Style = .systemThinMaterial)
+        case backgroundBlur(effect: UIBlurEffect.Style = .systemThinMaterial)
         ///Changes the corener radius of the BottomSheet.
         case cornerRadius(Double)
         ///Changes the color of the drag indicator.
@@ -34,6 +34,8 @@ public struct BottomSheet {
         case noDragIndicator
         ///Hides the drag indicator and prevents the BottomSheet from being dragged.
         case notResizeable
+        ///Adds a shadow to the background of the BottomSheet.
+        case shadow(color: Color = Color(.sRGBLinear, white: 0, opacity: 0.33), radius: CGFloat = 10, x: CGFloat = 0, y: CGFloat = 0)
         ///Shows a close button and declares an action to be performed when tapped.
         case showCloseButton(action: () -> Void = {})
         ///Dismisses the BottomSheet when swiped down.
@@ -80,6 +82,8 @@ public struct BottomSheet {
                 return "noDragIndicator"
             case .notResizeable:
                 return "notResizeable"
+            case .shadow:
+                return "shadow"
             case .showCloseButton:
                 return "showCloseButton"
             case .swipeToDismiss:
@@ -174,6 +178,54 @@ internal extension Array where Element == BottomSheet.Options {
     
     var notResizeable: Bool {
         return self.contains(BottomSheet.Options.notResizeable)
+    }
+    
+    var shadowColor: Color {
+        var shadowColor: Color = .clear
+        
+        self.forEach { item in
+            if case .shadow(color: let customShadowColor, radius: _, x: _, y: _) = item {
+                shadowColor = customShadowColor
+            }
+        }
+        
+        return shadowColor
+    }
+    
+    var shadowRadius: CGFloat {
+        var shadowRadius: CGFloat = 0
+        
+        self.forEach { item in
+            if case .shadow(color: _, radius: let customShadowRadius, x: _, y: _) = item {
+                shadowRadius = customShadowRadius
+            }
+        }
+        
+        return shadowRadius
+    }
+    
+    var shadowX: CGFloat {
+        var shadowX: CGFloat = 0
+        
+        self.forEach { item in
+            if case .shadow(color: _, radius: _, x: let customShadowX, y: _) = item {
+                shadowX = customShadowX
+            }
+        }
+        
+        return shadowX
+    }
+    
+    var shadowY: CGFloat {
+        var shadowY: CGFloat = 0
+        
+        self.forEach { item in
+            if case .shadow(color: _, radius: _, x: _, y: let customShadowY) = item {
+                shadowY = customShadowY
+            }
+        }
+        
+        return shadowY
     }
     
     var showCloseButton: Bool {
