@@ -3,6 +3,7 @@ BottomSheet Changelog
 
 #### v2.4.0
 - Add option to enable shadow
+- Add pod install
 
 #### v2.3.0
 - Fix compile for iOS 15 and Xcode 13 #19 #20

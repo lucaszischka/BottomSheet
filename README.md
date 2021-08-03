@@ -32,6 +32,8 @@ There are also many implementations out there that **only have 2 states** - **no
 
 ## Installation
 
+### Swift Package Manager
+
 The preferred way of installing BottomSheet is via the [Swift Package Manager](https://swift.org/package-manager/).
 
 >Xcode 11 integrates with libSwiftPM to provide support for iOS, watchOS, and tvOS platforms.
@@ -40,6 +42,14 @@ The preferred way of installing BottomSheet is via the [Swift Package Manager](h
 2. Paste the repository URL (`https://github.com/LucasMucGH/BottomSheet`) and click **Next**.
 3. For **Rules**, select **Branch** (with branch set to `main`).
 4. Click **Finish**.
+
+### CocoaPods
+
+BottomSheet is available through [CocoaPods](https://cocoapods.org). To install it, simply add the following line to your Podfile:
+
+```ruby
+pod 'BottomSheet'
+```
 
 ## Usage
 
