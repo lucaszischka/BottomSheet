@@ -48,7 +48,7 @@ The preferred way of installing BottomSheet is via the [Swift Package Manager](h
 BottomSheet is available through [CocoaPods](https://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'BottomSheet'
+pod 'BottomSheetSwiftUI'
 ```
 
 ## Usage
