@@ -1,6 +1,9 @@
 # BottomSheet
 
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/release/LucasMucGH/BottomSheet?sort=semver)](https://github.com/LucasMucGH/BottomSheet/releases)
+[![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
+[![GitHub version](https://img.shields.io/github/v/release/LucasMucGH/BottomSheet?sort=semver)](https://github.com/LucasMucGH/BottomSheet/releases)
+[![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-brightgreen)](http://cocoapods.org/)
+[![CocoaPods version](https://img.shields.io/cocoapods/v/BottomSheetSwiftUI.svg)](https://cocoapods.org/pods/BottomSheetSwiftUI)
 [![License](https://img.shields.io/github/license/LucasMucGH/BottomSheet)](https://github.com/LucasMucGH/BottomSheet/blob/main/LICENSE.txt)
 [![Issues](https://img.shields.io/github/issues/LucasMucGH/BottomSheet)](https://github.com/LucasMucGH/BottomSheet/issues)
 
@@ -188,6 +191,8 @@ enum CustomBottomSheetPosition: CGFloat, CaseIterable {
 ```
 
 ## Examples
+
+**PLEASE NOTE:** When installed via Cocoapods, please keep in mind that the pod is called `BottomSheetSwiftUI` and not `BottomSheet`; so please use `import BottomSheetSwiftUI` instead.
 
 ### Book Detail View
 
