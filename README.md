@@ -200,7 +200,7 @@ This BottomSheet shows additional information about a book.
 You can close it by swiping it away, by tapping on the background or the close button.
 It also uses a custom `enum` for the states, since only the states `.middle`, `.bottom` and `.hidden` should exist.
 
-<img src="Assets/BookDetailView.gif" height="600">
+<img src="https://user-images.githubusercontent.com/63545066/132514316-c0d723c6-37fc-4104-b04c-6cf7bbcb0899.gif" height="600">
 
 ```swift
 import SwiftUI
@@ -283,10 +283,10 @@ struct BookButton: ButtonStyle {
 ### Word Search View
 
 This BottomSheet shows nouns which can be filtered by searching.
-It adopts the scrolling behavior of apple, so that you can only scroll the  `ScrollView ` in the  `.top ` position.
+It adopts the scrolling behavior of apple, so that you can only scroll the  `ScrollView` in the  `.top` position.
 The higher the BottomSheet is dragged, the more blurry the background becomes (with the BlurEffect .dark) to move the focus to the BottomSheet.
 
-<img src="Assets/WordSearchView.gif" height="600">
+<img src="https://user-images.githubusercontent.com/63545066/132514347-57c5397b-ec03-4716-8e01-4e693082e844.gif" height="600">
 
 ```swift
 import SwiftUI
@@ -342,7 +342,7 @@ struct WordSearchView: View {
 This BottomSheet shows the most popular songs by an artist.
 It has a custom animation and color for the drag indicator and the background, as well as it deactivates the bottom position behavior and uses an custom corner radius and shadow.
 
-<img src="Assets/ArtistSongsView.gif" height="600">
+<img src="https://user-images.githubusercontent.com/63545066/132514283-b14b2977-c5d1-4b49-96b1-19995cd5a41f.gif" height="600">
 
 ```swift
 import SwiftUI
