@@ -16,7 +16,7 @@ public extension View {
      - Parameter options: An array that contains the settings / options for the BottomSheet. Can be `nil`. For more information about the possible options see `BottomSheet.Options`.
      - Parameter headerContent: A view that is used as header content for the BottomSheet. You can use a string that is used as the title for the BottomSheet instead.
      - Parameter mainContent: A view that is used as main content for the BottomSheet.
-    */
+     */
     func bottomSheet<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>(bottomSheetPosition: Binding<bottomSheetPositionEnum>, options: [BottomSheet.Options] =  [], @ViewBuilder headerContent: () -> hContent? = { return nil }, @ViewBuilder mainContent: () -> mContent) -> some View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
         ZStack {
             self
@@ -31,7 +31,7 @@ public extension View {
      - Parameter options: An array that contains the settings / options for the BottomSheet. For more information about the possible options see `BottomSheet.Options`.
      - Parameter title: A string that is used as the title for the BottomSheet. Can be `nil`. You can use a view that is used as header content for the BottomSheet instead.
      - Parameter content: A view that is used as content for the BottomSheet.
-    */
+     */
     func bottomSheet<mContent: View, bottomSheetPositionEnum: RawRepresentable>(bottomSheetPosition: Binding<bottomSheetPositionEnum>, options: [BottomSheet.Options] = [], title: String? = nil, @ViewBuilder content: () -> mContent) -> some View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
         ZStack {
             self

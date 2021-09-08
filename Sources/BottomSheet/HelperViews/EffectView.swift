@@ -8,7 +8,7 @@
 import SwiftUI
 
 internal struct EffectView: UIViewRepresentable {
-
+    
     internal var effect: UIVisualEffect
     
     
