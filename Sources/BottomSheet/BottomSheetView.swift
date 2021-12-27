@@ -70,7 +70,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                         Spacer(minLength: 0)
                         
                         if self.options.showCloseButton {
-                            Button(action: closeButton) {
+                            Button(action: self.closeButton) {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundColor(Color(UIColor.tertiaryLabel))
                             }
@@ -89,17 +89,15 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                 }
                             }
                             .onEnded { value in
-                                withAnimation(self.options.animation) {
-                                    if !self.options.notResizeable {
-                                        let height: CGFloat = value.translation.height / geometry.size.height
-                                        self.switchPosition(with: height)
-                                    }
+                                if !self.options.notResizeable {
+                                    let height: CGFloat = value.translation.height / geometry.size.height
+                                    self.switchPosition(with: height)
                                 }
                             }
                     )
                     .padding(.horizontal)
                     .padding(.top, !self.options.notResizeable && !self.options.noDragIndicator ? 0 : 20)
-                    .padding(.bottom, self.isBottomPosition ? geometry.safeAreaInsets.bottom + 25 : self.headerContent == nil ? 20 : 0)
+                    .padding(.bottom, self.headerContentPadding(geometry: geometry))
                 }
                 
                 
@@ -129,11 +127,9 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                             }
                                         }
                                         .onEnded { value in
-                                            withAnimation(self.options.animation) {
-                                                if !(!self.options.notResizeable && self.options.appleScrollBehavior && self.isTopPosition) {
-                                                    let height: CGFloat = value.translation.height / geometry.size.height
-                                                    self.switchPosition(with: height)
-                                                }
+                                            if !(!self.options.notResizeable && self.options.appleScrollBehavior && self.isTopPosition) {
+                                                let height: CGFloat = value.translation.height / geometry.size.height
+                                                self.switchPosition(with: height)
                                             }
                                         }
                                 )
@@ -168,19 +164,15 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                 }
                             }
                             .onEnded { value in
-                                withAnimation(self.options.animation) {
-                                    if !self.options.notResizeable {
-                                        let height: CGFloat = value.translation.height / geometry.size.height
-                                        self.switchPosition(with: height)
-                                    }
+                                if !self.options.notResizeable {
+                                    let height: CGFloat = value.translation.height / geometry.size.height
+                                    self.switchPosition(with: height)
                                 }
                             }
                     )
             )
-            .frame(width: geometry.size.width, height: self.frameValue(geometry: geometry), alignment: .top)
-            //.animation(self.options.animation, value: self.frameValue(geometry: geometry))
-            .offset(y: self.offsetValue(geometry: geometry))
-            //.animation(self.options.animation, value: self.offsetValue(geometry: geometry))
+            .frame(width: geometry.size.width, height: self.frameHeightValue(geometry: geometry), alignment: .top)
+            .offset(y: self.offsetYValue(geometry: geometry))
             .transition(.move(edge: .bottom))
         }
     }
@@ -199,7 +191,19 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
         }
     }
     
-    private func frameValue(geometry: GeometryProxy) -> Double {
+    private func headerContentPadding(geometry: GeometryProxy) -> CGFloat {
+        withAnimation(self.options.animation) {
+            if self.isBottomPosition {
+                return geometry.safeAreaInsets.bottom + 25
+            } else if self.headerContent == nil {
+                return 20
+            } else {
+                return 0
+            }
+        }
+    }
+    
+    private func frameHeightValue(geometry: GeometryProxy) -> Double {
         withAnimation(self.options.animation) {
             if self.options.absolutePositionValue {
                 return min(max(self.bottomSheetPosition.rawValue - self.translation, 0), geometry.size.height * 1.05)
@@ -209,7 +213,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
         }
     }
     
-    private func offsetValue(geometry: GeometryProxy) -> Double {
+    private func offsetYValue(geometry: GeometryProxy) -> Double {
         withAnimation(self.options.animation) {
             if self.isHiddenPosition {
                 return max(geometry.size.height + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
@@ -230,25 +234,19 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     }
     
     private func endEditing() -> Void {
-        withAnimation(self.options.animation) {
-            UIApplication.shared.endEditing()
-        }
+        UIApplication.shared.endEditing()
     }
     
     private func tapToDismiss() -> Void {
-        withAnimation(self.options.animation) {
-            if self.options.tapToDismiss {
-                self.closeSheet()
-            }
+        if self.options.tapToDismiss {
+            self.closeSheet()
         }
     }
     
     private func closeButton() -> Void {
-        withAnimation(self.options.animation) {
-            self.options.closeAction()
-            
-            self.closeSheet()
-        }
+        self.options.closeAction()
+        
+        self.closeSheet()
     }
     
     private func closeSheet() -> Void {
