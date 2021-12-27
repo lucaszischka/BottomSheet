@@ -44,13 +44,13 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
         GeometryReader { geometry in
             if (self.options.backgroundBlur || self.options.tapToDismiss) && !self.isHiddenPosition {
                 EffectView(effect: self.options.backgroundBlurEffect)
+                    .opacity(self.opacityValue(geometry: geometry))
                     .edgesIgnoringSafeArea(.all)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .contentShape(Rectangle())
                     //.allowsHitTesting(self.options.tapToDismiss)
                     .onTapGesture(perform: self.tapToDismiss)
                     .transition(.opacity)
-                    .opacity(self.opacityValue(geometry: geometry))
             }
             VStack(spacing: 0) {
                 if !self.options.notResizeable && !self.options.noDragIndicator {
