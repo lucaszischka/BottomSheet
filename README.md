@@ -175,10 +175,6 @@ struct ContentView: View {
 
 ## Custom States
 
- The default BottomSheetPosition; it has the following cases and values: `top = 0.975`,  `middle = 0.4`,  `bottom = 0.125`,  `hidden = 0`.
- 
-  For absolute values in pixels, see BottomSheetPositionAbsolute.
- 
 You can create your own custom BottomSheetPosition enum:
    - The enum must be conforming to `CGFloat` and `CaseIterable`
    - The case and enum name doesnt matter
