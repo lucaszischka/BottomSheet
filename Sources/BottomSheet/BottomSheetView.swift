@@ -49,8 +49,8 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .contentShape(Rectangle())
                     //.allowsHitTesting(self.options.tapToDismiss)
                     .onTapGesture(perform: self.tapToDismiss)
-                    .opacity(self.opacityValue(geometry: geometry))
                     .transition(.opacity)
+                    .opacity(self.opacityValue(geometry: geometry))
             }
             VStack(spacing: 0) {
                 if !self.options.notResizeable && !self.options.noDragIndicator {
