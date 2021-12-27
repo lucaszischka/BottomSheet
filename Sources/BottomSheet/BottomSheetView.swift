@@ -110,9 +110,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                         ScrollView {
                                             self.mainContent
                                         }
-                                        .allowsHitTesting(true)
                                         .disabled(!self.isTopPosition)
-                                        .allowsHitTesting(true)
                                     } else {
                                         self.mainContent
                                     }
