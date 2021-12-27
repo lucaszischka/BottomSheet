@@ -49,7 +49,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .contentShape(Rectangle())
                     //.allowsHitTesting(self.options.tapToDismiss)
                     .onTapGesture(perform: self.tapToDismiss)
-                    //.opacity(self.opacityValue(geometry: geometry))
+                    .opacity(self.opacityValue(geometry: geometry))
                     .transition(.opacity)
             }
             VStack(spacing: 0) {
