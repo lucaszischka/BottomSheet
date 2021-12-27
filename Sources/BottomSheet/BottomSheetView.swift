@@ -47,6 +47,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .edgesIgnoringSafeArea(.all)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
 //                    .contentShape(Rectangle())
+                    .allowsHitTesting(self.options.tapToDismiss)
                     .onTapGesture(perform: self.tapToDismiss)
                     .opacity(self.opacityValue(geometry: geometry))
                     .transition(.opacity)
