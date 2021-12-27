@@ -48,7 +48,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .contentShape(Rectangle())
                     .opacity(self.opacityValue(geometry: geometry))
-                    .animation(.linear, value: self.opacityValue(geometry: geometry))
+                //.animation(.linear, value: self.opacityValue(geometry: geometry))
                     .onTapGesture(perform: self.tapToDismiss)
                     .transition(.opacity)
             }
@@ -167,47 +167,53 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     )
             )
             .frame(width: geometry.size.width, height: self.frameValue(geometry: geometry), alignment: .top)
-            .animation(self.options.animation, value: self.frameValue(geometry: geometry))
+            //.animation(self.options.animation, value: self.frameValue(geometry: geometry))
             .offset(y: self.offsetValue(geometry: geometry))
-            .animation(self.options.animation, value: self.offsetValue(geometry: geometry))
+            //.animation(self.options.animation, value: self.offsetValue(geometry: geometry))
             .transition(.move(edge: .bottom))
         }
     }
     
     private func opacityValue(geometry: GeometryProxy) -> Double {
-        if self.options.backgroundBlur {
-            if self.options.absolutePositionValue {
-                return Double((self.bottomSheetPosition.rawValue - self.translation) / geometry.size.height)
+        withAnimation(.linear) {
+            if self.options.backgroundBlur {
+                if self.options.absolutePositionValue {
+                    return Double((self.bottomSheetPosition.rawValue - self.translation) / geometry.size.height)
+                } else {
+                    return Double((self.bottomSheetPosition.rawValue * geometry.size.height - self.translation) / geometry.size.height)
+                }
             } else {
-                return Double((self.bottomSheetPosition.rawValue * geometry.size.height - self.translation) / geometry.size.height)
+                return 0
             }
-        } else {
-            return 0
         }
     }
     
     private func frameValue(geometry: GeometryProxy) -> Double {
-        if self.options.absolutePositionValue {
-            return min(max(self.bottomSheetPosition.rawValue - self.translation, 0), geometry.size.height * 1.05)
-        } else {
-            return min(max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), geometry.size.height * 1.05)
+        withAnimation(self.options.animation) {
+            if self.options.absolutePositionValue {
+                return min(max(self.bottomSheetPosition.rawValue - self.translation, 0), geometry.size.height * 1.05)
+            } else {
+                return min(max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), geometry.size.height * 1.05)
+            }
         }
     }
     
     private func offsetValue(geometry: GeometryProxy) -> Double {
-        if self.isHiddenPosition {
-            return max(geometry.size.height + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
-        } else if self.isBottomPosition {
-            if self.options.absolutePositionValue {
-                return max(geometry.size.height - self.bottomSheetPosition.rawValue + self.translation + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+        withAnimation(self.options.animation) {
+            if self.isHiddenPosition {
+                return max(geometry.size.height + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+            } else if self.isBottomPosition {
+                if self.options.absolutePositionValue {
+                    return max(geometry.size.height - self.bottomSheetPosition.rawValue + self.translation + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+                } else {
+                    return max(geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+                }
             } else {
-                return max(geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
-            }
-        } else {
-            if self.options.absolutePositionValue {
-                return max(geometry.size.height - self.bottomSheetPosition.rawValue + self.translation, geometry.size.height * -0.05)
-            } else {
-                return max(geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation, geometry.size.height * -0.05)
+                if self.options.absolutePositionValue {
+                    return max(geometry.size.height - self.bottomSheetPosition.rawValue + self.translation, geometry.size.height * -0.05)
+                } else {
+                    return max(geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation, geometry.size.height * -0.05)
+                }
             }
         }
     }
@@ -298,7 +304,7 @@ internal extension BottomSheetView where hContent == ModifiedContent<ModifiedCon
             self.init(bottomSheetPosition: bottomSheetPosition, options: options, headerContent: { return nil }, mainContent: content)
         } else {
             self.init(bottomSheetPosition: bottomSheetPosition, options: options, headerContent: { return Text(title!)
-                        .font(.title).bold().lineLimit(1).padding(.bottom) as? hContent }, mainContent: content)
+                .font(.title).bold().lineLimit(1).padding(.bottom) as? hContent }, mainContent: content)
         }
     }
 }
