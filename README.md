@@ -204,6 +204,7 @@ It also uses a custom `enum` for the states, since only the states `.middle`, `.
 
 <details>
 <summary>Source Code</summary>
+
 ```swift
 import SwiftUI
 import BottomSheet
@@ -293,6 +294,7 @@ The higher the BottomSheet is dragged, the more blurry the background becomes (w
 
 <details>
 <summary>Source Code</summary>
+
 ```swift
 import SwiftUI
 import BottomSheet
@@ -352,6 +354,7 @@ It has a custom animation and color for the drag indicator and the background, a
 
 <details>
 <summary>Source Code</summary>
+
 ```swift
 import SwiftUI
 import BottomSheet
