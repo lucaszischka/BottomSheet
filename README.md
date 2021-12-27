@@ -136,6 +136,8 @@ struct ContentView: View {
 
 ### Options
 
+`.absolutePositionValue` Allows absolute values in pixels to be used as BottomSheetPosition values.
+
 `.allowContentDrag` Allows the BottomSheet to move when dragging the mainContent.
 
 - Do not use if the mainContent is packed into a ScrollView.
@@ -173,20 +175,31 @@ struct ContentView: View {
 
 ## Custom States
 
+ The default BottomSheetPosition; it has the following cases and values: `top = 0.975`,  `middle = 0.4`,  `bottom = 0.125`,  `hidden = 0`.
+ 
+  For absolute values in pixels, see BottomSheetPositionAbsolute.
  
 You can create your own custom BottomSheetPosition enum:
    - The enum must be conforming to `CGFloat` and `CaseIterable`
    - The case and enum name doesnt matter
    - The case/state with `rawValue == 0` is hiding the BottomSheet
-   - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`)
-   - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`)
+   - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`) or anything above `0` (`x >= 0`) when using the`.absolutePositionValue` option
+   - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`) or the height of the BottomSheet in pixel (`1 == 1px`) when using the`.absolutePositionValue` option
    - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
 
+This BottomSheetPosition uses relative values.
 ```swift
 import SwiftUI
 
 enum CustomBottomSheetPosition: CGFloat, CaseIterable {
     case top = 0.975, topMiddle = 0.7, middle = 0.4, middleBottom = 0.3, bottom = 0.125, hidden = 0
+}
+```
+
+This BottomSheetPositionAbsolute uses absolute values and requires the the`.absolutePositionValue` option. 
+```swift
+public enum BottomSheetPositionAbsolute: CGFloat, CaseIterable {
+    case top = 750, middle = 300, bottom = 100, hidden = 0
 }
 ```
 
