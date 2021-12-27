@@ -48,7 +48,6 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .edgesIgnoringSafeArea(.all)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .contentShape(Rectangle())
-                    //.allowsHitTesting(self.options.tapToDismiss)
                     .onTapGesture(perform: self.tapToDismiss)
                     .transition(.opacity)
             }
@@ -111,7 +110,9 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                         ScrollView {
                                             self.mainContent
                                         }
+                                        .allowsHitTesting(true)
                                         .disabled(!self.isTopPosition)
+                                        .allowsHitTesting(true)
                                     } else {
                                         self.mainContent
                                     }
