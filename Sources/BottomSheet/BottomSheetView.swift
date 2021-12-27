@@ -48,7 +48,6 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .contentShape(Rectangle())
                     .opacity(self.opacityValue(geometry: geometry))
-                //.animation(.linear, value: self.opacityValue(geometry: geometry))
                     .onTapGesture(perform: self.tapToDismiss)
                     .transition(.opacity)
             }
@@ -81,16 +80,20 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                if !self.options.notResizeable {
-                                    self.translation = value.translation.height
-                                    
-                                    self.endEditing()
+                                withAnimation(self.options.animation) {
+                                    if !self.options.notResizeable {
+                                        self.translation = value.translation.height
+                                        
+                                        self.endEditing()
+                                    }
                                 }
                             }
                             .onEnded { value in
-                                if !self.options.notResizeable {
-                                    let height: CGFloat = value.translation.height / geometry.size.height
-                                    self.switchPosition(with: height)
+                                withAnimation(self.options.animation) {
+                                    if !self.options.notResizeable {
+                                        let height: CGFloat = value.translation.height / geometry.size.height
+                                        self.switchPosition(with: height)
+                                    }
                                 }
                             }
                     )
@@ -117,16 +120,20 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                 .gesture(
                                     DragGesture()
                                         .onChanged { value in
-                                            if !(!self.options.notResizeable && self.options.appleScrollBehavior && self.isTopPosition) {
-                                                self.translation = value.translation.height
-                                                
-                                                self.endEditing()
+                                            withAnimation(self.options.animation) {
+                                                if !(!self.options.notResizeable && self.options.appleScrollBehavior && self.isTopPosition) {
+                                                    self.translation = value.translation.height
+                                                    
+                                                    self.endEditing()
+                                                }
                                             }
                                         }
                                         .onEnded { value in
-                                            if !(!self.options.notResizeable && self.options.appleScrollBehavior && self.isTopPosition) {
-                                                let height: CGFloat = value.translation.height / geometry.size.height
-                                                self.switchPosition(with: height)
+                                            withAnimation(self.options.animation) {
+                                                if !(!self.options.notResizeable && self.options.appleScrollBehavior && self.isTopPosition) {
+                                                    let height: CGFloat = value.translation.height / geometry.size.height
+                                                    self.switchPosition(with: height)
+                                                }
                                             }
                                         }
                                 )
@@ -152,16 +159,20 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                if !self.options.notResizeable {
-                                    self.translation = value.translation.height
-                                    
-                                    self.endEditing()
+                                withAnimation(self.options.animation) {
+                                    if !self.options.notResizeable {
+                                        self.translation = value.translation.height
+                                        
+                                        self.endEditing()
+                                    }
                                 }
                             }
                             .onEnded { value in
-                                if !self.options.notResizeable {
-                                    let height: CGFloat = value.translation.height / geometry.size.height
-                                    self.switchPosition(with: height)
+                                withAnimation(self.options.animation) {
+                                    if !self.options.notResizeable {
+                                        let height: CGFloat = value.translation.height / geometry.size.height
+                                        self.switchPosition(with: height)
+                                    }
                                 }
                             }
                     )
@@ -219,74 +230,86 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     }
     
     private func endEditing() -> Void {
-        UIApplication.shared.endEditing()
+        withAnimation(self.options.animation) {
+            UIApplication.shared.endEditing()
+        }
     }
     
     private func tapToDismiss() -> Void {
-        if self.options.tapToDismiss {
-            self.closeSheet()
+        withAnimation(self.options.animation) {
+            if self.options.tapToDismiss {
+                self.closeSheet()
+            }
         }
     }
     
     private func closeButton() -> Void {
-        self.options.closeAction()
-        
-        self.closeSheet()
+        withAnimation(self.options.animation) {
+            self.options.closeAction()
+            
+            self.closeSheet()
+        }
     }
     
     private func closeSheet() -> Void {
-        if let hiddenPosition = bottomSheetPositionEnum(rawValue: 0) {
-            self.bottomSheetPosition = hiddenPosition
+        withAnimation(self.options.animation) {
+            if let hiddenPosition = bottomSheetPositionEnum(rawValue: 0) {
+                self.bottomSheetPosition = hiddenPosition
+            }
+            
+            self.endEditing()
         }
-        
-        self.endEditing()
     }
     
     private func switchPositionIndicator() -> Void {
-        if !self.isHiddenPosition {
-            
-            if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }), self.allCases.count > 1 {
-                if currentIndex == self.allCases.endIndex - 1 {
-                    if self.allCases[currentIndex - 1].rawValue != 0 {
-                        self.bottomSheetPosition = self.allCases[currentIndex - 1]
+        withAnimation(self.options.animation) {
+            if !self.isHiddenPosition {
+                
+                if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }), self.allCases.count > 1 {
+                    if currentIndex == self.allCases.endIndex - 1 {
+                        if self.allCases[currentIndex - 1].rawValue != 0 {
+                            self.bottomSheetPosition = self.allCases[currentIndex - 1]
+                        }
+                    } else {
+                        self.bottomSheetPosition = self.allCases[currentIndex + 1]
                     }
-                } else {
-                    self.bottomSheetPosition = self.allCases[currentIndex + 1]
                 }
+                
             }
             
+            self.endEditing()
         }
-        
-        self.endEditing()
     }
     
     private func switchPosition(with height: CGFloat) -> Void {
-        if !self.isHiddenPosition {
-            
-            if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }), self.allCases.count > 1 {
-                if height <= -0.1 && height > -0.3 {
-                    if currentIndex < self.allCases.endIndex - 1 {
-                        self.bottomSheetPosition = self.allCases[currentIndex + 1]
-                    }
-                } else if height <= -0.3 {
-                    self.bottomSheetPosition = self.allCases[self.allCases.endIndex - 1]
-                } else if height >= 0.1 && height < 0.3 {
-                    if currentIndex > self.allCases.startIndex && (self.allCases[currentIndex - 1].rawValue != 0 || (self.allCases[currentIndex - 1].rawValue == 0 && self.options.swipeToDismiss))  {
-                        self.bottomSheetPosition = self.allCases[currentIndex - 1]
-                    }
-                } else if height >= 0.3 {
-                    if (self.allCases[self.allCases.startIndex].rawValue == 0 && self.options.swipeToDismiss) || self.allCases[self.allCases.startIndex].rawValue != 0 {
-                        self.bottomSheetPosition = self.allCases[self.allCases.startIndex]
-                    } else {
-                        self.bottomSheetPosition = self.allCases[self.allCases.startIndex + 1]
+        withAnimation(self.options.animation) {
+            if !self.isHiddenPosition {
+                
+                if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }), self.allCases.count > 1 {
+                    if height <= -0.1 && height > -0.3 {
+                        if currentIndex < self.allCases.endIndex - 1 {
+                            self.bottomSheetPosition = self.allCases[currentIndex + 1]
+                        }
+                    } else if height <= -0.3 {
+                        self.bottomSheetPosition = self.allCases[self.allCases.endIndex - 1]
+                    } else if height >= 0.1 && height < 0.3 {
+                        if currentIndex > self.allCases.startIndex && (self.allCases[currentIndex - 1].rawValue != 0 || (self.allCases[currentIndex - 1].rawValue == 0 && self.options.swipeToDismiss))  {
+                            self.bottomSheetPosition = self.allCases[currentIndex - 1]
+                        }
+                    } else if height >= 0.3 {
+                        if (self.allCases[self.allCases.startIndex].rawValue == 0 && self.options.swipeToDismiss) || self.allCases[self.allCases.startIndex].rawValue != 0 {
+                            self.bottomSheetPosition = self.allCases[self.allCases.startIndex]
+                        } else {
+                            self.bottomSheetPosition = self.allCases[self.allCases.startIndex + 1]
+                        }
                     }
                 }
+                
             }
             
+            self.translation = 0
+            self.endEditing()
         }
-        
-        self.translation = 0
-        self.endEditing()
     }
     
     
