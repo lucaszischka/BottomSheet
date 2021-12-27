@@ -2,12 +2,11 @@
 //  BottomSheetView.swift
 //
 //  Created by Lucas Zischka.
-//  Copyright © 2021 Lucas Zischka. All rights reserved.
+//  Copyright © 2021-2022 Lucas Zischka. All rights reserved.
 //
 
 import SwiftUI
 
-@available(iOSApplicationExtension, unavailable)
 internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
     
     @State private var translation: CGFloat = 0
@@ -45,13 +44,13 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
         GeometryReader { geometry in
             if (self.options.backgroundBlur || self.options.tapToDismiss) && !self.isHiddenPosition {
                 EffectView(effect: self.options.backgroundBlurEffect)
-                    .opacity(self.options.backgroundBlur ? Double((self.bottomSheetPosition.rawValue * geometry.size.height - self.translation) / geometry.size.height) : 0)
                     .edgesIgnoringSafeArea(.all)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .contentShape(Rectangle())
-                    .transition(.opacity)
-                    .animation(.linear)
+                    .opacity(self.opacityValue(geometry: geometry))
+                    .animation(.linear, value: self.opacityValue(geometry: geometry))
                     .onTapGesture(perform: self.tapToDismiss)
+                    .transition(.opacity)
             }
             VStack(spacing: 0) {
                 if !self.options.notResizeable && !self.options.noDragIndicator {
@@ -167,15 +166,54 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             }
                     )
             )
-            .frame(width: geometry.size.width, height: min(max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), geometry.size.height * 1.05), alignment: .top)
-            .offset(y: max(self.isHiddenPosition ? geometry.size.height + geometry.safeAreaInsets.bottom : self.isBottomPosition ? geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom : geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation, geometry.size.height * -0.05))
+            .frame(width: geometry.size.width, height: self.frameValue(geometry: geometry), alignment: .top)
+            .animation(self.options.animation, value: self.frameValue(geometry: geometry))
+            .offset(y: self.offsetValue(geometry: geometry))
+            .animation(self.options.animation, value: self.offsetValue(geometry: geometry))
             .transition(.move(edge: .bottom))
-            .animation(self.options.animation)
+        }
+    }
+    
+    private func opacityValue(geometry: GeometryProxy) -> Double {
+        if self.options.backgroundBlur {
+            if self.options.absolutePositionValue {
+                return Double((self.bottomSheetPosition.rawValue - self.translation) / geometry.size.height)
+            } else {
+                return Double((self.bottomSheetPosition.rawValue * geometry.size.height - self.translation) / geometry.size.height)
+            }
+        } else {
+            return 0
+        }
+    }
+    
+    private func frameValue(geometry: GeometryProxy) -> Double {
+        if self.options.absolutePositionValue {
+            return min(max(self.bottomSheetPosition.rawValue - self.translation, 0), geometry.size.height * 1.05)
+        } else {
+            return min(max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), geometry.size.height * 1.05)
+        }
+    }
+    
+    private func offsetValue(geometry: GeometryProxy) -> Double {
+        if self.isHiddenPosition {
+            return max(geometry.size.height + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+        } else if self.isBottomPosition {
+            if self.options.absolutePositionValue {
+                return max(geometry.size.height - self.bottomSheetPosition.rawValue + self.translation + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+            } else {
+                return max(geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+            }
+        } else {
+            if self.options.absolutePositionValue {
+                return max(geometry.size.height - self.bottomSheetPosition.rawValue + self.translation, geometry.size.height * -0.05)
+            } else {
+                return max(geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation, geometry.size.height * -0.05)
+            }
         }
     }
     
     private func endEditing() -> Void {
-        UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.endEditing(true)
+        UIApplication.shared.endEditing()
     }
     
     private func tapToDismiss() -> Void {
@@ -254,7 +292,6 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     }
 }
 
-@available(iOSApplicationExtension, unavailable)
 internal extension BottomSheetView where hContent == ModifiedContent<ModifiedContent<Text, _EnvironmentKeyWritingModifier<Optional<Int>>>, _PaddingLayout> {
     init(bottomSheetPosition: Binding<bottomSheetPositionEnum>, options: [BottomSheet.Options], title: String?, @ViewBuilder content: () -> mContent) {
         if title == nil {

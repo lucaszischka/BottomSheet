@@ -2,12 +2,11 @@
 //  ViewExtension.swift
 //
 //  Created by Lucas Zischka.
-//  Copyright © 2021 Lucas Zischka. All rights reserved.
+//  Copyright © 2021-2022 Lucas Zischka. All rights reserved.
 //
 
 import SwiftUI
 
-@available(iOSApplicationExtension, unavailable)
 public extension View {
     /**
      A modifer to add a BottomSheet to your view.
