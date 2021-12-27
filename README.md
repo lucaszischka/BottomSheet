@@ -202,6 +202,8 @@ It also uses a custom `enum` for the states, since only the states `.middle`, `.
 
 <img src="https://user-images.githubusercontent.com/63545066/132514316-c0d723c6-37fc-4104-b04c-6cf7bbcb0899.gif" height="600">
 
+<details>
+<summary>Source Code</summary>
 ```swift
 import SwiftUI
 import BottomSheet
@@ -279,6 +281,7 @@ struct BookButton: ButtonStyle {
     }
 }
 ```
+</details>
 
 ### Word Search View
 
@@ -288,6 +291,8 @@ The higher the BottomSheet is dragged, the more blurry the background becomes (w
 
 <img src="https://user-images.githubusercontent.com/63545066/132514347-57c5397b-ec03-4716-8e01-4e693082e844.gif" height="600">
 
+<details>
+<summary>Source Code</summary>
 ```swift
 import SwiftUI
 import BottomSheet
@@ -336,6 +341,7 @@ struct WordSearchView: View {
     }
 }
 ```
+</details>
 
 ### Artist Songs View
 
@@ -344,6 +350,8 @@ It has a custom animation and color for the drag indicator and the background, a
 
 <img src="https://user-images.githubusercontent.com/63545066/132514283-b14b2977-c5d1-4b49-96b1-19995cd5a41f.gif" height="600">
 
+<details>
+<summary>Source Code</summary>
 ```swift
 import SwiftUI
 import BottomSheet
@@ -374,6 +382,7 @@ struct ArtistSongsView: View {
     }
 }
 ```
+</details>
 
 ## Contributing
 
