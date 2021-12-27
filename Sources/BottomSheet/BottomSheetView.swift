@@ -46,9 +46,9 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                 EffectView(effect: self.options.backgroundBlurEffect)
                     .edgesIgnoringSafeArea(.all)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .contentShape(Rectangle())
-                    .opacity(self.opacityValue(geometry: geometry))
+//                    .contentShape(Rectangle())
                     .onTapGesture(perform: self.tapToDismiss)
+                    .opacity(self.opacityValue(geometry: geometry))
                     .transition(.opacity)
             }
             VStack(spacing: 0) {
