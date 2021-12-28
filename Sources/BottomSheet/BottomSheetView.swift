@@ -10,7 +10,17 @@ import SwiftUI
 internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
     
     @State private var translation: CGFloat = 0
-    @Binding private var bottomSheetPosition: bottomSheetPositionEnum
+    @State private var offset: CGFloat = 0
+    @State private var isScrollEnabled: Bool = true
+    @Binding private var bottomSheetPosition: bottomSheetPositionEnum {
+        didSet {
+            if self.isTopPosition {
+                self.isScrollEnabled = true
+            } else {
+                self.isScrollEnabled = false
+            }
+        }
+    }
     
     private let options: [BottomSheet.Options]
     private let headerContent: hContent?
@@ -107,7 +117,9 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             if self.options.allowContentDrag || self.options.appleScrollBehavior {
                                 Group {
                                     if self.options.appleScrollBehavior {
-                                        ScrollView {
+                                        BSScrollView(isScrollEnabled: self.$isScrollEnabled, onOffsetChange: { offset in
+                                            self.offset = offset.y
+                                        }) {
                                             self.mainContent
                                         }
                                         .disabled(self.isTopPosition)
