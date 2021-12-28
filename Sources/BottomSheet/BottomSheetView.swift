@@ -109,7 +109,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                     if self.options.appleScrollBehavior {
                                         ScrollViewOffset(onOffsetChange: { offset in
                                             withAnimation(self.options.animation) {
-                                                if offset > 0 {
+                                                if !self.isTopPosition {
                                                     self.translation = offset
                                                     
                                                     self.endEditing()
