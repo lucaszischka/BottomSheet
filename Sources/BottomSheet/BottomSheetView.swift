@@ -110,10 +110,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                 Group {
                                     if self.options.appleScrollBehavior {
                                         BSScrollView(isScrollEnabled: self.$isScrollEnabled, onOffsetChange: { offset in
-                                            withAnimation(.linear) {
-                                                if (self.isTopPosition && offset.y > 0) {
-                                                    self.isScrollEnabled = true
-                                                    
+                                                if self.isTopPosition && offset.y > 0 {
                                                     withAnimation(self.options.animation) {
                                                         self.translation = offset.y - offset.y / 50
                                                         self.endEditing()
@@ -121,13 +118,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                                     
                                                     let height: CGFloat = self.translation / geometry.size.height
                                                     self.switchPosition(with: height)
-                                                    
-                                                } else if !self.isTopPosition {
-                                                    self.isScrollEnabled = false
-                                                } else {
-                                                    self.isScrollEnabled = true
                                                 }
-                                            }
                                         }) {
                                             self.mainContent
                                         }
@@ -196,10 +187,10 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             .transition(.move(edge: .bottom))
             .onReceive(Just(self.bottomSheetPosition), perform: { _ in
                 withAnimation(.linear) {
-                    if (self.isTopPosition && self.translation > 0) || !self.isTopPosition {
-                        self.isScrollEnabled = false
-                    } else {
+                    if self.isTopPosition {
                         self.isScrollEnabled = true
+                    } else {
+                        self.isScrollEnabled = false
                     }
                 }
             })
