@@ -113,6 +113,12 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                         }
                                         .introspectScrollView { scrollView in
                                             scrollView.isScrollEnabled = self.isTopPosition
+                                            
+                                            if self.isTopPosition && scrollView.contentOffset.y > 0 {
+                                                self.translation = scrollView.contentOffset.y
+                                                
+                                                self.endEditing()
+                                            }
                                         }
                                     } else {
                                         self.mainContent
