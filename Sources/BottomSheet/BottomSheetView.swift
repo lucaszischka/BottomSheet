@@ -114,7 +114,6 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                         }) {
                                             self.mainContent
                                         }
-                                        .disabled(self.isTopPosition)
                                     } else {
                                         self.mainContent
                                     }
@@ -321,7 +320,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
         self.headerContent = headerContent()
         self.mainContent = mainContent()
         
-        self._bottomSheetPosition = self.$bottomSheetPosition.didSet({ [self] (newValue, oldValue) in
+        self._bottomSheetPosition = self.$bottomSheetPosition.didSet({ [self] (_, _) in
             if self.isTopPosition {
                 self.isScrollEnabled = true
             } else {
