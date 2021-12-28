@@ -107,16 +107,33 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             if self.options.allowContentDrag || self.options.appleScrollBehavior {
                                 Group {
                                     if self.options.appleScrollBehavior {
-                                        ScrollViewOffset(onOffsetChange: { offset in
-                                            withAnimation(self.options.animation) {
-                                                if !self.isTopPosition {
-                                                    self.translation = offset
-                                                    
-                                                    self.endEditing()
+                                        if #available(iOS 14.0, *) {
+                                            ScrollViewReader{ proxy in
+                                                ScrollViewOffset(onOffsetChange: { offset in
+                                                    withAnimation(self.options.animation) {
+                                                        if !self.isTopPosition {
+                                                            proxy.scrollTo("top", anchor: UnitPoint(x: 0, y: 0))
+                                                            self.translation = offset
+                                                            
+                                                            self.endEditing()
+                                                        }
+                                                    }
+                                                }) {
+                                                    self.mainContent
                                                 }
                                             }
-                                        }) {
-                                            self.mainContent
+                                        } else {
+                                            ScrollViewOffset(onOffsetChange: { offset in
+                                                withAnimation(self.options.animation) {
+                                                    if !self.isTopPosition {
+                                                        self.translation = offset
+                                                        
+                                                        self.endEditing()
+                                                    }
+                                                }
+                                            }) {
+                                                self.mainContent
+                                            }
                                         }
                                         //.disabled(!self.isTopPosition)
                                     } else {
