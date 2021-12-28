@@ -113,7 +113,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                             if (self.isTopPosition && offset.y > 0) {
                                                 self.isScrollEnabled = true
                                                 
-                                                self.translation = offset.y - 2
+                                                self.translation = offset.y - offset.y / 10
                                                 self.endEditing()
                                                 
                                                 let height: CGFloat = self.translation / geometry.size.height
