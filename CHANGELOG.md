@@ -1,6 +1,17 @@
 BottomSheet Changelog
 ==================
 
+#### v2.5.0
+- Update Copyright
+- Update swift-tools-version
+- Update deprecated code (real fix for #19, replaces #20)
+- Add `.absolutePositionValue` option #37
+- Add `BottomSheetPositionAbsolute`
+- Use explicit animations #31
+- Hide examples in ReadMe
+- Update and fix `.appleScrollBehavior` #37
+- Code clean up
+
 #### v2.4.0
 - Add option to enable shadow
 - Add pod install
