@@ -111,12 +111,11 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                     if self.options.appleScrollBehavior {
                                         ScrollViewOffset(onOffsetChange: { offset in
                                             self.offset = offset
-                                            print(offset)
                                         }) {
                                             self.mainContent
                                         }
                                         .introspectScrollView { scrollView in
-                                            if self.isTopPosition && self.offset <= 0 {
+                                            if self.isTopPosition && self.offset < 10 {
                                                 scrollView.isScrollEnabled = true
                                             } else {
                                                 scrollView.isScrollEnabled = false
@@ -130,7 +129,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                     DragGesture()
                                         .onChanged { value in
                                             withAnimation(self.options.animation) {
-                                                if !self.options.notResizeable && ((self.options.appleScrollBehavior && !self.isTopPosition) || !self.options.appleScrollBehavior) {
+                                                if !self.options.notResizeable && ((self.options.appleScrollBehavior && (!self.isTopPosition || (self.isTopPosition && self.offset >= 10))) || !self.options.appleScrollBehavior) {
                                                     self.translation = value.translation.height
                                                     
                                                     self.endEditing()
@@ -138,7 +137,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                             }
                                         }
                                         .onEnded { value in
-                                            if !self.options.notResizeable && ((self.options.appleScrollBehavior && !self.isTopPosition) || !self.options.appleScrollBehavior) {
+                                            if !self.options.notResizeable && ((self.options.appleScrollBehavior && (!self.isTopPosition || (self.isTopPosition && self.offset >= 10))) || !self.options.appleScrollBehavior) {
                                                 let height: CGFloat = value.translation.height / geometry.size.height
                                                 self.switchPosition(with: height)
                                             }
