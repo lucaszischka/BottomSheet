@@ -115,7 +115,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                                 
                                                 print(self.translation, offset.y, self.translation + offset.y)
                                                 
-                                                self.translation += offset.y
+                                                self.translation = offset.y * 2
                                                 self.endEditing()
                                                 
                                                 let height: CGFloat = self.translation / geometry.size.height
