@@ -112,7 +112,10 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                         ScrollViewOffset(onOffsetChange: { offset in
                                             self.offset = offset
                                         }) {
-                                            self.mainContent
+                                            VStack {
+                                                Text("offset: \(self.offset), isScrollEnabled: \(self.isTopPosition && self.offset < 10 ? "true" : "false"), dragGesture: \(!self.options.notResizeable && ((self.options.appleScrollBehavior && (!self.isTopPosition || (self.isTopPosition && self.offset >= 10))) || !self.options.appleScrollBehavior) ? "true" : "false")")
+                                                self.mainContent
+                                            }
                                         }
                                         .introspectScrollView { scrollView in
                                             if self.isTopPosition && self.offset < 10 {
