@@ -11,7 +11,6 @@ import Combine
 internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
     
     @State private var translation: CGFloat = 0
-    @State private var offset: CGFloat = 0
     @State private var isScrollEnabled: Bool = true
     @Binding private var bottomSheetPosition: bottomSheetPositionEnum
     
@@ -111,12 +110,18 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                 Group {
                                     if self.options.appleScrollBehavior {
                                         BSScrollView(isScrollEnabled: self.$isScrollEnabled, onOffsetChange: { offset in
-                                            self.offset = offset.y
-                                            
-                                            if (self.isTopPosition && self.offset > 0) || !self.isTopPosition {
+                                            if (self.isTopPosition && offset.y > 0) || !self.isTopPosition {
                                                 self.isScrollEnabled = false
                                             } else {
                                                 self.isScrollEnabled = true
+                                            }
+                                            
+                                            if self.isTopPosition {
+                                                self.translation = offset.y
+                                                self.endEditing()
+                                                
+                                                let height: CGFloat = offset.y / geometry.size.height
+                                                self.switchPosition(with: height)
                                             }
                                         }) {
                                             self.mainContent
@@ -129,7 +134,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                     DragGesture()
                                         .onChanged { value in
                                             withAnimation(self.options.animation) {
-                                                if !self.options.notResizeable && (!self.options.appleScrollBehavior || (self.options.appleScrollBehavior && (!self.isTopPosition || self.offset >= 0))) {
+                                                if !self.options.notResizeable && (!self.options.appleScrollBehavior || (self.options.appleScrollBehavior && !self.isTopPosition)) {
                                                     self.translation = value.translation.height
                                                     
                                                     self.endEditing()
@@ -137,7 +142,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                             }
                                         }
                                         .onEnded { value in
-                                            if !self.options.notResizeable && (!self.options.appleScrollBehavior || (self.options.appleScrollBehavior && (!self.isTopPosition || self.offset >= 0))) {
+                                            if !self.options.notResizeable && (!self.options.appleScrollBehavior || (self.options.appleScrollBehavior && !self.isTopPosition)) {
                                                 let height: CGFloat = value.translation.height / geometry.size.height
                                                 self.switchPosition(with: height)
                                             }
@@ -186,7 +191,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             .transition(.move(edge: .bottom))
             .onReceive(Just(self.bottomSheetPosition), perform: { _ in
                 withAnimation(.linear) {
-                    if (self.isTopPosition && self.offset > 0) || !self.isTopPosition {
+                    if (self.isTopPosition && self.translation > 0) || !self.isTopPosition {
                         self.isScrollEnabled = false
                     } else {
                         self.isScrollEnabled = true
