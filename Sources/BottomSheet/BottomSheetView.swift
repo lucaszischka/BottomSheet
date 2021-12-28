@@ -11,6 +11,7 @@ import Introspect
 internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
     
     @State private var translation: CGFloat = 0
+    @State private var offset: CGFloat = 0
     @Binding private var bottomSheetPosition: bottomSheetPositionEnum
     
     private let options: [BottomSheet.Options]
@@ -108,20 +109,18 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             if self.options.allowContentDrag || self.options.appleScrollBehavior {
                                 Group {
                                     if self.options.appleScrollBehavior {
-                                        ScrollView {
+                                        ScrollViewOffset(onOffsetChange: { offset in
+                                            self.offset = offset
+                                            print(offset)
+                                        }) {
                                             self.mainContent
                                         }
                                         .introspectScrollView { scrollView in
-                                            print(scrollView.contentOffset)
-//                                            if self.isTopPosition && scrollView.contentOffset.y < 40
-//
-//                                            scrollView.isScrollEnabled = self.isTopPosition
-//
-//                                            if self.isTopPosition && scrollView.contentOffset.y < 0 {
-//                                                scrollView.isScrollEnabled = false
-//                                            } else {
-//                                                scrollView.isScrollEnabled = true
-//                                            }
+                                            if self.isTopPosition && self.offset > 0 {
+                                                scrollView.isScrollEnabled = true
+                                            } else {
+                                                scrollView.isScrollEnabled = false
+                                            }
                                         }
                                     } else {
                                         self.mainContent
