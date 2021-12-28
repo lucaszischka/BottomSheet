@@ -111,7 +111,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                     if self.options.appleScrollBehavior {
                                         BSScrollView(isScrollEnabled: self.$isScrollEnabled, onOffsetChange: { offset in
                                             if self.isTopPosition && offset.y > 0 {
-                                                self.translation = offset.y - offset.y / 50
+                                                self.translation = offset.y * 2
                                                 self.endEditing()
                                                 
                                                 let height: CGFloat = (self.translation * 2) / geometry.size.height
