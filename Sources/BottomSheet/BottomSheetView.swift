@@ -12,15 +12,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     @State private var translation: CGFloat = 0
     @State private var offset: CGFloat = 0
     @State private var isScrollEnabled: Bool = true
-    @Binding private var bottomSheetPosition: bottomSheetPositionEnum {
-        didSet {
-            if self.isTopPosition {
-                self.isScrollEnabled = true
-            } else {
-                self.isScrollEnabled = false
-            }
-        }
-    }
+    @Binding private var bottomSheetPosition: bottomSheetPositionEnum
     
     private let options: [BottomSheet.Options]
     private let headerContent: hContent?
@@ -328,6 +320,14 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
         self.options = options
         self.headerContent = headerContent()
         self.mainContent = mainContent()
+        
+        self._bottomSheetPosition = self.$bottomSheetPosition.didSet({ [self] (newValue, oldValue) in
+            if self.isTopPosition {
+                self.isScrollEnabled = true
+            } else {
+                self.isScrollEnabled = false
+            }
+        })
     }
 }
 
