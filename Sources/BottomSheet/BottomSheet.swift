@@ -2,7 +2,7 @@
 //  BottomSheet.swift
 //
 //  Created by Lucas Zischka.
-//  Copyright © 2021 Lucas Zischka. All rights reserved.
+//  Copyright © 2021-2022 Lucas Zischka. All rights reserved.
 //
 
 import SwiftUI
@@ -14,6 +14,8 @@ public struct BottomSheet {
             return lhs.rawValue == rhs.rawValue
         }
         
+        ///Allows absolute values in pixels to be used as BottomSheetPosition values.
+        case absolutePositionValue
         ///Allows the BottomSheet to move when dragging the mainContent. Do not use if the mainContent is packed into a ScrollView.
         case allowContentDrag
         ///Sets the animation for opening and closing the BottomSheet.
@@ -62,6 +64,8 @@ public struct BottomSheet {
          */
         public var rawValue: String {
             switch self {
+            case .absolutePositionValue:
+                return "absolutePositionValue"
             case .allowContentDrag:
                 return "allowContentDrag"
             case .animation:

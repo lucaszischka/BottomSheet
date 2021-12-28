@@ -136,6 +136,8 @@ struct ContentView: View {
 
 ### Options
 
+`.absolutePositionValue` Allows absolute values in pixels to be used as BottomSheetPosition values.
+
 `.allowContentDrag` Allows the BottomSheet to move when dragging the mainContent.
 
 - Do not use if the mainContent is packed into a ScrollView.
@@ -173,20 +175,27 @@ struct ContentView: View {
 
 ## Custom States
 
- 
 You can create your own custom BottomSheetPosition enum:
    - The enum must be conforming to `CGFloat` and `CaseIterable`
    - The case and enum name doesnt matter
    - The case/state with `rawValue == 0` is hiding the BottomSheet
-   - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`)
-   - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`)
+   - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`) or anything above `0` (`x >= 0`) when using the`.absolutePositionValue` option
+   - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`) or the height of the BottomSheet in pixel (`1 == 1px`) when using the`.absolutePositionValue` option
    - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
 
+This BottomSheetPosition uses relative values.
 ```swift
 import SwiftUI
 
 enum CustomBottomSheetPosition: CGFloat, CaseIterable {
     case top = 0.975, topMiddle = 0.7, middle = 0.4, middleBottom = 0.3, bottom = 0.125, hidden = 0
+}
+```
+
+This BottomSheetPositionAbsolute uses absolute values and requires the the`.absolutePositionValue` option. 
+```swift
+public enum BottomSheetPositionAbsolute: CGFloat, CaseIterable {
+    case top = 750, middle = 300, bottom = 100, hidden = 0
 }
 ```
 
@@ -198,22 +207,26 @@ enum CustomBottomSheetPosition: CGFloat, CaseIterable {
 
 This BottomSheet shows additional information about a book.
 You can close it by swiping it away, by tapping on the background or the close button.
-It also uses a custom `enum` for the states, since only the states `.middle`, `.bottom` and `.hidden` should exist.
+The drag indicator is hidden.
+It uses a custom `enum` for the states with absolute values, since only the states `.middle`, `.bottom` and `.hidden` should exist with a predefined absolute height.
 
 <img src="https://user-images.githubusercontent.com/63545066/132514316-c0d723c6-37fc-4104-b04c-6cf7bbcb0899.gif" height="600">
+
+<details>
+<summary>Source Code</summary>
 
 ```swift
 import SwiftUI
 import BottomSheet
 
-//The custom BottomSheetPosition enum.
+//The custom BottomSheetPosition enum with absolute values.
 enum BookBottomSheetPosition: CGFloat, CaseIterable {
-    case middle = 0.4, bottom = 0.125, hidden = 0
+    case middle = 300, bottom = 100, hidden = 0
 }
 
 struct BookDetailView: View {
     
-    @State private var bottomSheetPosition: BookBottomSheetPosition = .middle
+    @State var bottomSheetPosition: BookBottomSheetPosition = .middle
     
     let backgroundColors: [Color] = [Color(red: 0.2, green: 0.85, blue: 0.7), Color(red: 0.13, green: 0.55, blue: 0.45)]
     let readMoreColors: [Color] = [Color(red: 0.70, green: 0.22, blue: 0.22), Color(red: 1, green: 0.32, blue: 0.32)]
@@ -224,7 +237,7 @@ struct BookDetailView: View {
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
             
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.allowContentDrag, .showCloseButton(), .swipeToDismiss, .tapToDissmiss], headerContent: {
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.noDragIndicator, .allowContentDrag, .showCloseButton(), .swipeToDismiss, .tapToDissmiss, .absolutePositionValue], headerContent: {
                 //The name of the book as the heading and the author as the subtitle with a divider.
                 VStack(alignment: .leading) {
                     Text("Wuthering Heights")
@@ -279,14 +292,18 @@ struct BookButton: ButtonStyle {
     }
 }
 ```
+</details>
 
 ### Word Search View
 
 This BottomSheet shows nouns which can be filtered by searching.
-It adopts the scrolling behavior of apple, so that you can only scroll the  `ScrollView` in the  `.top` position.
+It adopts the scrolling behavior of apple, so that you can only scroll the `ScrollView` in the `.top` position.
 The higher the BottomSheet is dragged, the more blurry the background becomes (with the BlurEffect .dark) to move the focus to the BottomSheet.
 
 <img src="https://user-images.githubusercontent.com/63545066/132514347-57c5397b-ec03-4716-8e01-4e693082e844.gif" height="600">
+
+<details>
+<summary>Source Code</summary>
 
 ```swift
 import SwiftUI
@@ -294,11 +311,16 @@ import BottomSheet
 
 struct WordSearchView: View {
     
-    @State private var bottomSheetPosition: BottomSheetPosition = .middle
+    @State var bottomSheetPosition: BottomSheetPosition = .middle
+    @State var searchText: String = ""
     
-    @State private var searchText: String = ""
     let backgroundColors: [Color] = [Color(red: 0.28, green: 0.28, blue: 0.53), Color(red: 1, green: 0.69, blue: 0.26)]
     let words: [String] = ["birthday", "pancake", "expansion", "brick", "bushes", "coal", "calendar", "home", "pig", "bath", "reading", "cellar", "knot", "year", "ink"]
+    
+    var filteredWords: [String] {
+        self.words.filter({ $0.contains(self.searchText.lowercased()) || self.searchText.isEmpty })
+    }
+    
     
     var body: some View {
         //A green gradient as a background that ignores the safe area.
@@ -322,7 +344,7 @@ struct WordSearchView: View {
                 }
             }) {
             //The list of nouns that will be filtered by the searchText.
-                ForEach(self.words.filter({ $0.contains(self.searchText.lowercased()) || self.searchText.isEmpty}), id: \.self) { word in
+                ForEach(self.filteredWords, id: \.self) { word in
                     Text(word)
                         .font(.title)
                         .padding([.leading, .bottom])
@@ -330,12 +352,13 @@ struct WordSearchView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .transition(.opacity)
-                .animation(.easeInOut)
+                .animation(.easeInOut, value: self.filteredWords)
                 .padding(.top)
             }
     }
 }
 ```
+</details>
 
 ### Artist Songs View
 
@@ -344,13 +367,16 @@ It has a custom animation and color for the drag indicator and the background, a
 
 <img src="https://user-images.githubusercontent.com/63545066/132514283-b14b2977-c5d1-4b49-96b1-19995cd5a41f.gif" height="600">
 
+<details>
+<summary>Source Code</summary>
+
 ```swift
 import SwiftUI
 import BottomSheet
 
 struct ArtistSongsView: View {
     
-    @State private var bottomSheetPosition: BottomSheetPosition = .middle
+    @State var bottomSheetPosition: BottomSheetPosition = .middle
     
     let backgroundColors: [Color] = [Color(red: 0.17, green: 0.17, blue: 0.33), Color(red: 0.80, green: 0.38, blue: 0.2)]
     let songs: [String] = ["One Dance (feat. Wizkid & Kyla)", "God's Plan", "SICKO MODE", "In My Feelings", "Work (feat. Drake)", "Nice For What", "Hotline Bling", "Too Good (feat. Rihanna)", "Life Is Good (feat. Drake)"]
@@ -374,6 +400,7 @@ struct ArtistSongsView: View {
     }
 }
 ```
+</details>
 
 ## Contributing
 

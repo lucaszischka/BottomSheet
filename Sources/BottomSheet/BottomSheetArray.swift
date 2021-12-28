@@ -2,12 +2,16 @@
 //  BottomSheetArray.swift
 //
 //  Created by Lucas Zischka.
-//  Copyright © 2021 Lucas Zischka. All rights reserved.
+//  Copyright © 2021-2022 Lucas Zischka. All rights reserved.
 //
 
 import SwiftUI
 
 internal extension Array where Element == BottomSheet.Options {
+    var absolutePositionValue: Bool {
+        return self.contains(BottomSheet.Options.absolutePositionValue)
+    }
+    
     var allowContentDrag: Bool {
         return self.contains(BottomSheet.Options.allowContentDrag)
     }
