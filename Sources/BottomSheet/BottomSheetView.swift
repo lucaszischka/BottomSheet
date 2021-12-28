@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Introspect
 
 internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
     
@@ -107,35 +108,12 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             if self.options.allowContentDrag || self.options.appleScrollBehavior {
                                 Group {
                                     if self.options.appleScrollBehavior {
-                                        if #available(iOS 14.0, *) {
-                                            ScrollViewReader{ proxy in
-                                                ScrollViewOffset(onOffsetChange: { offset in
-                                                    withAnimation(self.options.animation) {
-                                                        if !self.isTopPosition {
-                                                            proxy.scrollTo("top", anchor: UnitPoint(x: 0, y: 0))
-                                                            self.translation = offset
-                                                            
-                                                            self.endEditing()
-                                                        }
-                                                    }
-                                                }) {
-                                                    self.mainContent
-                                                }
-                                            }
-                                        } else {
-                                            ScrollViewOffset(onOffsetChange: { offset in
-                                                withAnimation(self.options.animation) {
-                                                    if !self.isTopPosition {
-                                                        self.translation = offset
-                                                        
-                                                        self.endEditing()
-                                                    }
-                                                }
-                                            }) {
-                                                self.mainContent
-                                            }
+                                        ScrollView {
+                                            self.mainContent
                                         }
-                                        //.disabled(!self.isTopPosition)
+                                        .introspectScrollView { scrollView in
+                                            scrollView.isScrollEnabled = self.isTopPosition
+                                        }
                                     } else {
                                         self.mainContent
                                     }
