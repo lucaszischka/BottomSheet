@@ -116,7 +116,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                             self.mainContent
                                         }
                                         .introspectScrollView { scrollView in
-                                            if self.isTopPosition && self.offset < 0 {
+                                            if self.isTopPosition && self.offset =< 0 {
                                                 scrollView.isScrollEnabled = true
                                             } else {
                                                 scrollView.isScrollEnabled = false
