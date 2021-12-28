@@ -179,10 +179,12 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             .offset(y: self.offsetYValue(geometry: geometry))
             .transition(.move(edge: .bottom))
             .onReceive(Just(self.bottomSheetPosition), perform: { _ in
-                if self.isTopPosition {
-                    self.isScrollEnabled = true
-                } else {
-                    self.isScrollEnabled = false
+                withAnimation(.linear) {
+                    if self.isTopPosition {
+                        self.isScrollEnabled = true
+                    } else {
+                        self.isScrollEnabled = false
+                    }
                 }
             })
         }
