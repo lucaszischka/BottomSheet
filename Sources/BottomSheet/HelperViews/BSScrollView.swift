@@ -53,11 +53,9 @@ private struct ScrollOffsetPreferenceKey: PreferenceKey {
     static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {}
 }
 
-struct SwiftUIView_Previews: PreviewProvider {
-    @State private static var isScrollEnabled: Bool = true
-    
+struct BSScrollView_Previews: PreviewProvider {
     static var previews: some View {
-        ScrollView {
+        BSScrollView {
             ForEach(0...100, id: \.self) { i in
                 Text("\(i)")
             }
