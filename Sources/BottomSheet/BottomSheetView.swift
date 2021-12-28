@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
     
@@ -177,6 +178,13 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             .frame(width: geometry.size.width, height: self.frameHeightValue(geometry: geometry), alignment: .top)
             .offset(y: self.offsetYValue(geometry: geometry))
             .transition(.move(edge: .bottom))
+            .onReceive(Just(self.bottomSheetPosition), perform: { _ in
+                if self.isTopPosition {
+                    self.isScrollEnabled = true
+                } else {
+                    self.isScrollEnabled = false
+                }
+            })
         }
     }
     
@@ -319,14 +327,6 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
         self.options = options
         self.headerContent = headerContent()
         self.mainContent = mainContent()
-        
-        self._bottomSheetPosition = self.$bottomSheetPosition.didSet({ [self] (_, _) in
-            if self.isTopPosition {
-                self.isScrollEnabled = true
-            } else {
-                self.isScrollEnabled = false
-            }
-        })
     }
 }
 
