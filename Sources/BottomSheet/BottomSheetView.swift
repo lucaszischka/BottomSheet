@@ -107,10 +107,18 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             if self.options.allowContentDrag || self.options.appleScrollBehavior {
                                 Group {
                                     if self.options.appleScrollBehavior {
-                                        ScrollView {
+                                        ScrollViewOffset(onOffsetChange: { offset in
+                                            withAnimation(self.options.animation) {
+                                                if offset > 0 {
+                                                    self.translation = offset
+                                                    
+                                                    self.endEditing()
+                                                }
+                                            }
+                                        }) {
                                             self.mainContent
                                         }
-                                        .disabled(!self.isTopPosition)
+                                        //.disabled(!self.isTopPosition)
                                     } else {
                                         self.mainContent
                                     }
