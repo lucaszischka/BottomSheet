@@ -112,6 +112,12 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                     if self.options.appleScrollBehavior {
                                         BSScrollView(isScrollEnabled: self.$isScrollEnabled, onOffsetChange: { offset in
                                             self.offset = offset.y
+                                            
+                                            if (self.isTopPosition && self.offset >= 0) || !self.isTopPosition {
+                                                self.isScrollEnabled = false
+                                            } else {
+                                                self.isScrollEnabled = true
+                                            }
                                         }) {
                                             self.mainContent
                                         }
