@@ -180,7 +180,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             .transition(.move(edge: .bottom))
             .onReceive(Just(self.bottomSheetPosition), perform: { _ in
                 withAnimation(.linear) {
-                    if (self.isTopPosition && self.offset > 0) || !self.isTopPosition {
+                    if (self.isTopPosition && self.offset >= 0) || !self.isTopPosition {
                         self.isScrollEnabled = false
                     } else {
                         self.isScrollEnabled = true
