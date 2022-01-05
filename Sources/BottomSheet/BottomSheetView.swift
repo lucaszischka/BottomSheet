@@ -116,6 +116,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                                     
                                                     self.endEditing()
                                                 }
+                                                self.isScrollEnabled = self.isTopPosition && value.translation.height >= 0
                                             }
                                         }, onEnded: { (value) in
                                             if self.isTopPosition && value.translation.height >= 0 {
