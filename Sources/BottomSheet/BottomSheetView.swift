@@ -124,6 +124,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                             }
                                         }) {
                                             self.mainContent
+                                                .frame(alignment: .top)
                                         }
                                     } else {
                                         self.mainContent
