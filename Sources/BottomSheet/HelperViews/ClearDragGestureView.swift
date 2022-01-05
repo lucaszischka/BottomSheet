@@ -46,7 +46,7 @@ struct ClearDragGestureView: UIViewRepresentable {
         
         private func estimatedTranslation(fromVelocity velocity: CGFloat) -> CGFloat {
             //This is a guess. I couldn't find any documentation anywhere on what this should be
-            let acceleration: CGFloat = 250
+            let acceleration: CGFloat = 500
             let timeToStop = velocity / acceleration
             return velocity * timeToStop / 2
         }
