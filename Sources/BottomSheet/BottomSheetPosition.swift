@@ -13,12 +13,12 @@ import SwiftUI
  This BottomSheetPosition uses relative values. For absolute values in pixels, see BottomSheetPositionAbsolute.
  
  You can create your own custom BottomSheetPosition enum:
-    - The enum must be conforming to `CGFloat` and `CaseIterable`
-    - The case and enum name doesnt matter
-    - The case/state with `rawValue == 0` is hiding the BottomSheet
-    - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`) or anything above `0` (`x >= 0`) when using the`.absolutePositionValue` option
-    - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`) or the height of the BottomSheet in pixel (`1 == 1px`) when using the`.absolutePositionValue` option
-    - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
+ - The enum must be conforming to `CGFloat` and `CaseIterable`
+ - The case and enum name doesnt matter
+ - The case/state with `rawValue == 0` is hiding the BottomSheet
+ - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`) or anything above `0` (`x >= 0`) when using the`.absolutePositionValue` option
+ - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`) or the height of the BottomSheet in pixel (`1 == 1px`) when using the`.absolutePositionValue` option
+ - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
  */
 public enum BottomSheetPosition: CGFloat, CaseIterable {
     ///The state where the height of the BottomSheet is 97.5%
@@ -37,12 +37,12 @@ public enum BottomSheetPosition: CGFloat, CaseIterable {
  This BottomSheetPositionAbsolute uses absolute values and requires the the`.absolutePositionValue` option. For relative values in pixels, see BottomSheetPosition.
  
  You can create your own custom BottomSheetPosition enum:
-    - The enum must be conforming to `CGFloat` and `CaseIterable`
-    - The case and enum name doesnt matter
-    - The case/state with `rawValue == 0` is hiding the BottomSheet
-    - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`) or anything above `0` (`x >= 0`) when using the`.absolutePositionValue` option
-    - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`) or the height of the BottomSheet in pixel (`1 == 1px`) when using the`.absolutePositionValue` option
-    - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
+ - The enum must be conforming to `CGFloat` and `CaseIterable`
+ - The case and enum name doesnt matter
+ - The case/state with `rawValue == 0` is hiding the BottomSheet
+ - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`) or anything above `0` (`x >= 0`) when using the`.absolutePositionValue` option
+ - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`) or the height of the BottomSheet in pixel (`1 == 1px`) when using the`.absolutePositionValue` option
+ - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
  */
 public enum BottomSheetPositionAbsolute: CGFloat, CaseIterable {
     ///The state where the height of the BottomSheet is 750px

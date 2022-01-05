@@ -2,7 +2,7 @@
 //  BSScrollView.swift
 //
 //  Created by Lucas Zischka.
-//  Copyright © 2021 Lucas Zischka. All rights reserved.
+//  Copyright © 2021-2022 Lucas Zischka. All rights reserved.
 //
 
 import SwiftUI
@@ -13,8 +13,8 @@ internal struct BSScrollView<Content: View>: View {
     
     private let defaultAxes: Axis.Set
     private let showsIndicators: Bool
-    private let onChanged: (ClearDragGestureView.Value) -> Void
-    private let onEnded: (ClearDragGestureView.Value) -> Void
+    private let onChanged: (DragGestureView.Value) -> Void
+    private let onEnded: (DragGestureView.Value) -> Void
     private let content: Content
     
     private var axes: Axis.Set {
@@ -22,17 +22,15 @@ internal struct BSScrollView<Content: View>: View {
     }
     
     
-    internal var body: some View {
+    var body: some View {
         ScrollView(self.axes, showsIndicators: self.showsIndicators) {
             self.content
-                .overlay(
-                    ClearDragGestureView(onChanged: self.onChanged, onEnded: self.onEnded)
-                )
+                .dragGesture(onChanged: self.onChanged, onEnded: self.onEnded)
         }
     }
     
     
-    internal init(axes: Axis.Set = .vertical, showsIndicators: Bool = true, isScrollEnabled: Binding<Bool> = .constant(true), onChanged: @escaping (ClearDragGestureView.Value) -> Void = { _ in}, onEnded: @escaping (ClearDragGestureView.Value) -> Void = { _ in}, @ViewBuilder content: () -> Content) {
+    init(axes: Axis.Set = .vertical, showsIndicators: Bool = true, isScrollEnabled: Binding<Bool> = .constant(true), onChanged: @escaping (DragGestureView.Value) -> Void = { _ in}, onEnded: @escaping (DragGestureView.Value) -> Void = { _ in}, @ViewBuilder content: () -> Content) {
         self._isScrollEnabled = isScrollEnabled
         
         self.defaultAxes = axes

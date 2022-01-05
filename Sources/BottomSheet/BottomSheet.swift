@@ -62,7 +62,7 @@ public struct BottomSheet {
          // Prints "true"
          ```
          */
-        public var rawValue: String {
+        var rawValue: String {
             switch self {
             case .absolutePositionValue:
                 return "absolutePositionValue"
