@@ -118,7 +118,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                                 let height: CGFloat = (offset.y * 2) / geometry.size.height
                                                 self.switchPosition(with: height)
                                                 
-                                                self.translation = oldTranslation + offset.y
+                                                self.translation = max(oldTranslation + offset.y - 10, 0)
                                             }
                                         }) {
                                             self.mainContent
