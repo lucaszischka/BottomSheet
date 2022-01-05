@@ -115,17 +115,22 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                                     self.translation = value.translation.height
                                                     
                                                     self.endEditing()
-                                                    
+                                                }
+                                                
+                                                if self.isTopPosition && value.translation.height >= 1 {
                                                     self.isScrollEnabled = false
                                                 } else if self.isTopPosition {
                                                     self.isScrollEnabled = true
                                                 }
+                                                
                                             }
                                         }, onEnded: { (value) in
                                             if self.isTopPosition && value.translation.height >= 0 {
                                                 let height: CGFloat = value.translation.height / geometry.size.height
                                                 self.switchPosition(with: height)
-                                                
+                                            }
+                                            
+                                            if self.isTopPosition && value.translation.height >= 1 {
                                                 self.isScrollEnabled = false
                                             } else if self.isTopPosition {
                                                 self.isScrollEnabled = true
