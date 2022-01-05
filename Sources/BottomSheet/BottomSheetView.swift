@@ -109,16 +109,18 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             if self.options.allowContentDrag || self.options.appleScrollBehavior {
                                 Group {
                                     if self.options.appleScrollBehavior {
-                                        BSScrollView(isScrollEnabled: self.$isScrollEnabled, onOffsetChange: { offset in
-                                            if self.isTopPosition && offset.y > 0 {
-                                                self.endEditing()
-                                                
-                                                let oldTranslation = self.translation
-                                                
-                                                let height: CGFloat = (offset.y * 2) / geometry.size.height
+                                        BSScrollView(isScrollEnabled: self.$isScrollEnabled, onChanged: { (value) in
+                                            withAnimation(self.options.animation) {
+                                                if self.isTopPosition && value.translation.height >= 0 {
+                                                    self.translation = value.translation.height
+                                                    
+                                                    self.endEditing()
+                                                }
+                                            }
+                                        }, onEnded: { (value) in
+                                            if self.isTopPosition && value.translation.height >= 0 {
+                                                let height: CGFloat = value.translation.height / geometry.size.height
                                                 self.switchPosition(with: height)
-                                                
-                                                self.translation = max(oldTranslation + offset.y - 10, 0)
                                             }
                                         }) {
                                             self.mainContent
