@@ -117,8 +117,9 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                                     self.endEditing()
                                                     
                                                     self.isScrollEnabled = false
+                                                } else if self.isTopPosition {
+                                                    self.isScrollEnabled = true
                                                 }
-                                                self.isScrollEnabled = true
                                             }
                                         }, onEnded: { (value) in
                                             if self.isTopPosition && value.translation.height >= 0 {
@@ -126,8 +127,9 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                                 self.switchPosition(with: height)
                                                 
                                                 self.isScrollEnabled = false
+                                            } else if self.isTopPosition {
+                                                self.isScrollEnabled = true
                                             }
-                                            self.isScrollEnabled = true
                                         }) {
                                             self.mainContent
                                                 .frame(alignment: .top)
