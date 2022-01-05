@@ -111,11 +111,14 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                     if self.options.appleScrollBehavior {
                                         BSScrollView(isScrollEnabled: self.$isScrollEnabled, onOffsetChange: { offset in
                                             if self.isTopPosition && offset.y > 0 {
-                                                self.translation = offset.y
+                                                let newTranslation = self.translation + offset.y
+                                                self.translation = newTranslation
                                                 self.endEditing()
                                                 
                                                 let height: CGFloat = (self.translation * 2) / geometry.size.height
                                                 self.switchPosition(with: height)
+                                                
+                                                self.translation = newTranslation
                                             }
                                         }) {
                                             self.mainContent
