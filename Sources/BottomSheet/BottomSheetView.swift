@@ -109,16 +109,35 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             if self.options.allowContentDrag || self.options.appleScrollBehavior {
                                 Group {
                                     if self.options.appleScrollBehavior {
-                                        BSScrollView(isScrollEnabled: self.$isScrollEnabled, onOffsetChange: { offset in
-                                            if self.isTopPosition && offset.y > 0 {
-                                                self.translation = offset.y
-                                                self.endEditing()
+                                        BSScrollView(isScrollEnabled: self.$isScrollEnabled, onChanged: { (value) in
+                                            withAnimation(self.options.animation) {
+                                                if self.isTopPosition && value.translation.height >= 0 {
+                                                    self.translation = value.translation.height
+                                                    
+                                                    self.endEditing()
+                                                }
                                                 
-                                                let height: CGFloat = (self.translation * 2) / geometry.size.height
+                                                if self.isTopPosition && value.translation.height >= 1 {
+                                                    self.isScrollEnabled = false
+                                                } else if self.isTopPosition {
+                                                    self.isScrollEnabled = true
+                                                }
+                                                
+                                            }
+                                        }, onEnded: { (value) in
+                                            if self.isTopPosition && value.translation.height >= 0 {
+                                                let height: CGFloat = value.translation.height / geometry.size.height
                                                 self.switchPosition(with: height)
+                                            }
+                                            
+                                            if self.isTopPosition && value.translation.height >= 1 {
+                                                self.isScrollEnabled = false
+                                            } else if self.isTopPosition {
+                                                self.isScrollEnabled = true
                                             }
                                         }) {
                                             self.mainContent
+                                                .frame(alignment: .top)
                                         }
                                     } else {
                                         self.mainContent

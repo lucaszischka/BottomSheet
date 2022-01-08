@@ -183,19 +183,24 @@ You can create your own custom BottomSheetPosition enum:
    - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`) or the height of the BottomSheet in pixel (`1 == 1px`) when using the`.absolutePositionValue` option
    - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
 
-This BottomSheetPosition uses relative values.
+This BottomSheetPosition is provided and uses relative values:
 ```swift
-import SwiftUI
-
-enum CustomBottomSheetPosition: CGFloat, CaseIterable {
-    case top = 0.975, topMiddle = 0.7, middle = 0.4, middleBottom = 0.3, bottom = 0.125, hidden = 0
+public enum BottomSheetPosition: CGFloat, CaseIterable {
+    case top = 0.975, middle = 0.4, bottom = 0.125, hidden = 0
 }
 ```
 
-This BottomSheetPositionAbsolute uses absolute values and requires the the`.absolutePositionValue` option. 
+This BottomSheetPositionAbsolute is provided and uses absolute values and requires the the`.absolutePositionValue` option:
 ```swift
 public enum BottomSheetPositionAbsolute: CGFloat, CaseIterable {
     case top = 750, middle = 300, bottom = 100, hidden = 0
+}
+```
+
+This CustomBottomSheetPosition is an example for a custom BottomSheetPosition with relative values:
+```swift
+public enum CustomBottomSheetPosition: CGFloat, CaseIterable {
+    case middle = 0.5, hidden = 0
 }
 ```
 

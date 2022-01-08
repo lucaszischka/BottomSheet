@@ -2,7 +2,7 @@
 //  BSScrollView.swift
 //
 //  Created by Lucas Zischka.
-//  Copyright © 2021 Lucas Zischka. All rights reserved.
+//  Copyright © 2021-2022 Lucas Zischka. All rights reserved.
 //
 
 import SwiftUI
@@ -13,7 +13,8 @@ internal struct BSScrollView<Content: View>: View {
     
     private let defaultAxes: Axis.Set
     private let showsIndicators: Bool
-    private let onOffsetChange: (CGPoint) -> Void
+    private let onChanged: (DragGestureView.Value) -> Void
+    private let onEnded: (DragGestureView.Value) -> Void
     private let content: Content
     
     private var axes: Axis.Set {
@@ -21,36 +22,23 @@ internal struct BSScrollView<Content: View>: View {
     }
     
     
-    internal var body: some View {
+    var body: some View {
         ScrollView(self.axes, showsIndicators: self.showsIndicators) {
-            GeometryReader { geometry in
-                Color.clear
-                    .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scrollView")).origin
-                    )
-            }
-            .frame(width: 0, height: 0)
             self.content
-                //.padding(.top, -8)
-                .frame(maxWidth: .infinity, alignment: .top)
+                .dragGesture(onChanged: self.onChanged, onEnded: self.onEnded)
         }
-        .coordinateSpace(name: "scrollView")
-        .onPreferenceChange(ScrollOffsetPreferenceKey.self, perform: self.onOffsetChange)
     }
     
     
-    internal init(axes: Axis.Set = .vertical, showsIndicators: Bool = true, isScrollEnabled: Binding<Bool> = .constant(true), onOffsetChange: @escaping (CGPoint) -> Void = { _ in }, @ViewBuilder content: () -> Content) {
+    init(axes: Axis.Set = .vertical, showsIndicators: Bool = true, isScrollEnabled: Binding<Bool> = .constant(true), onChanged: @escaping (DragGestureView.Value) -> Void = { _ in}, onEnded: @escaping (DragGestureView.Value) -> Void = { _ in}, @ViewBuilder content: () -> Content) {
+        self._isScrollEnabled = isScrollEnabled
+        
         self.defaultAxes = axes
         self.showsIndicators = showsIndicators
-        self._isScrollEnabled = isScrollEnabled
-        self.onOffsetChange = onOffsetChange
+        self.onChanged = onChanged
+        self.onEnded = onEnded
         self.content = content()
     }
-}
-
-private struct ScrollOffsetPreferenceKey: PreferenceKey {
-    static var defaultValue: CGPoint = .zero
-    
-    static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {}
 }
 
 struct BSScrollView_Previews: PreviewProvider {
@@ -60,6 +48,5 @@ struct BSScrollView_Previews: PreviewProvider {
                 Text("\(i)")
             }
         }
-
     }
 }
