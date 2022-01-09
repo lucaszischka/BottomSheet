@@ -26,7 +26,7 @@ public struct BottomSheet {
         case background(AnyView)
         ///Enables and sets the blur effect of the background when pulling up the BottomSheet.
         case backgroundBlur(effect: UIBlurEffect.Style = .systemThinMaterial)
-        ///Changes the corener radius of the BottomSheet.
+        ///Changes the corner radius of the BottomSheet.
         case cornerRadius(Double)
         ///Changes the color of the drag indicator.
         case dragIndicatorColor(Color)
