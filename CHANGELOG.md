@@ -1,9 +1,6 @@
 BottomSheet Changelog
 ==================
 
-#### v2.5.1
-- Renamed tapToDissmiss option tapToDismiss
-
 #### v2.5.0
 - Update Copyright
 - Update swift-tools-version
