@@ -1,6 +1,13 @@
 BottomSheet Changelog
 ==================
 
+#### v2.6.0
+- Fix critical bug with `.appleScrollBehavior` #40
+- Update codestyle
+- Remove not used file
+- Update Readme
+- Renamed tapToDissmiss option tapToDismiss #43
+
 #### v2.5.0
 - Update Copyright
 - Update swift-tools-version
