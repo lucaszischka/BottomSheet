@@ -165,6 +165,6 @@ internal extension Array where Element == BottomSheet.Options {
     }
     
     var tapToDismiss: Bool {
-        return self.contains(BottomSheet.Options.tapToDissmiss)
+        return self.contains(BottomSheet.Options.tapToDismiss)
     }
 }

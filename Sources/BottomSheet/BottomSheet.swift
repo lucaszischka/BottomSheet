@@ -43,7 +43,7 @@ public struct BottomSheet {
         ///Dismisses the BottomSheet when swiped down.
         case swipeToDismiss
         ///Dismisses the BottomSheet when the background is tapped.
-        case tapToDissmiss
+        case tapToDismiss
         
         /**
          The corresponding value of the raw type.
@@ -92,8 +92,8 @@ public struct BottomSheet {
                 return "showCloseButton"
             case .swipeToDismiss:
                 return "swipeToDismiss"
-            case .tapToDissmiss:
-                return "tapToDissmiss"
+            case .tapToDismiss:
+                return "tapToDismiss"
             }
         }
     }

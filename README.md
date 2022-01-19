@@ -171,7 +171,7 @@ struct ContentView: View {
  
  `.swipeToDismiss` Dismisses the BottomSheet when swiped down.
  
- `.tapToDissmiss` Dismisses the BottomSheet when the background is tapped.
+ `.tapToDismiss` Dismisses the BottomSheet when the background is tapped.
 
 ## Custom States
 
@@ -242,7 +242,7 @@ struct BookDetailView: View {
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
             
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.noDragIndicator, .allowContentDrag, .showCloseButton(), .swipeToDismiss, .tapToDissmiss, .absolutePositionValue], headerContent: {
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.noDragIndicator, .allowContentDrag, .showCloseButton(), .swipeToDismiss, .tapToDismiss, .absolutePositionValue], headerContent: {
                 //The name of the book as the heading and the author as the subtitle with a divider.
                 VStack(alignment: .leading) {
                     Text("Wuthering Heights")
