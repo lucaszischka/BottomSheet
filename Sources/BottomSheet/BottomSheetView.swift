@@ -13,7 +13,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     @Binding private var bottomSheetPosition: bottomSheetPositionEnum
     
     @State private var translation: CGFloat = 0
-    @State private var isScrollEnabled: Bool = true
+    @State private var isScrollEnabled: Bool = false
     @State private var offset: CGPoint = .zero
     
     private let options: [BottomSheet.Options]
@@ -64,6 +64,24 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             .frame(width: 36, height: 5)
                             .padding(.top, 5)
                             .padding(.bottom, 7)
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        withAnimation(self.options.animation) {
+                                            if !self.options.notResizeable {
+                                                self.translation = value.translation.height
+                                                
+                                                self.endEditing()
+                                            }
+                                        }
+                                    }
+                                    .onEnded { value in
+                                        if !self.options.notResizeable {
+                                            let height: CGFloat = value.translation.height / geometry.size.height
+                                            self.switchPosition(with: height)
+                                        }
+                                    }
+                            )
                     })
                 }
                 
@@ -118,7 +136,6 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                                 .onChanged { value in
                                                     withAnimation(self.options.animation) {
                                                         if value.translation.height < 0 && self.isTopPosition {
-                                                            self.isScrollEnabled = true
                                                             self.offset.y = value.predictedEndLocation.y
                                                         } else {
                                                             self.translation = value.translation.height
@@ -131,15 +148,6 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                                                     self.switchPosition(with: height)
                                                 }
                                         )
-                                        .onReceive(Just(self.offset), perform: { offset in
-                                            withAnimation(self.options.animation) {
-                                                if offset.y <= 0 {
-                                                    self.isScrollEnabled = false
-                                                } else {
-                                                    self.isScrollEnabled = true
-                                                }
-                                            }
-                                        })
                                 }
                             } else if self.options.allowContentDrag && !self.options.notResizeable {
                                 self.mainContent
