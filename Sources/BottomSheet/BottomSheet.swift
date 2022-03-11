@@ -23,7 +23,7 @@ public struct BottomSheet {
         ///The mainView is packed into a ScrollView, which can only scrolled at the .top position.
         case appleScrollBehavior
         ///Changes the background of the BottomSheet. Must be erased to AnyView.
-        case background(AnyView)
+        case background(() -> AnyView)
         ///Enables and sets the blur effect of the background when pulling up the BottomSheet.
         case backgroundBlur(effect: UIBlurEffect.Style = .systemThinMaterial)
         ///Changes the corner radius of the BottomSheet.

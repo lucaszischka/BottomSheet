@@ -10,9 +10,11 @@ import Combine
 
 internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable {
     
+    @Binding private var bottomSheetPosition: bottomSheetPositionEnum
+    
     @State private var translation: CGFloat = 0
     @State private var isScrollEnabled: Bool = true
-    @Binding private var bottomSheetPosition: bottomSheetPositionEnum
+    @State private var offset: CGPoint = .zero
     
     private let options: [BottomSheet.Options]
     private let headerContent: hContent?
@@ -53,6 +55,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .onTapGesture(perform: self.tapToDismiss)
                     .transition(.opacity)
             }
+            
             VStack(spacing: 0) {
                 if !self.options.notResizeable && !self.options.noDragIndicator {
                     Button(action: self.switchPositionIndicator, label: {
@@ -63,6 +66,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             .padding(.bottom, 7)
                     })
                 }
+                
                 if self.headerContent != nil || self.options.showCloseButton {
                     HStack(alignment: .top, spacing: 0) {
                         if self.headerContent != nil {
@@ -102,65 +106,56 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                     .padding(.bottom, self.headerContentPadding(geometry: geometry))
                 }
                 
-                
                 Group {
                     if !self.isBottomPosition {
                         Group {
-                            if self.options.allowContentDrag || self.options.appleScrollBehavior {
-                                Group {
-                                    if self.options.appleScrollBehavior {
-                                        BSScrollView(isScrollEnabled: self.$isScrollEnabled, onChanged: { (value) in
-                                            withAnimation(self.options.animation) {
-                                                if self.isTopPosition && value.translation.height >= 0 {
-                                                    self.translation = value.translation.height
-                                                    
-                                                    self.endEditing()
+                            if self.options.appleScrollBehavior && !self.options.notResizeable {
+                                UIScrollViewWrapper(offset: self.$offset, isScrollEnabled: self.$isScrollEnabled) {
+                                    self.mainContent
+                                        .gesture(
+                                            self.isScrollEnabled ? nil :
+                                                DragGesture()
+                                                .onChanged { value in
+                                                    withAnimation(self.options.animation) {
+                                                        if value.translation.height < 0 && self.isTopPosition {
+                                                            self.isScrollEnabled = true
+                                                            self.offset.y = value.predictedEndLocation.y
+                                                        } else {
+                                                            self.translation = value.translation.height
+                                                        }
+                                                        self.endEditing()
+                                                    }
                                                 }
-                                                
-                                                if self.isTopPosition && value.translation.height >= 1 {
+                                                .onEnded { value in
+                                                    let height: CGFloat = value.translation.height / geometry.size.height
+                                                    self.switchPosition(with: height)
+                                                }
+                                        )
+                                        .onReceive(Just(self.offset), perform: { offset in
+                                            withAnimation(self.options.animation) {
+                                                if offset.y <= 0 {
                                                     self.isScrollEnabled = false
-                                                } else if self.isTopPosition {
+                                                } else {
                                                     self.isScrollEnabled = true
                                                 }
-                                                
                                             }
-                                        }, onEnded: { (value) in
-                                            if self.isTopPosition && value.translation.height >= 0 {
-                                                let height: CGFloat = value.translation.height / geometry.size.height
-                                                self.switchPosition(with: height)
-                                            }
-                                            
-                                            if self.isTopPosition && value.translation.height >= 1 {
-                                                self.isScrollEnabled = false
-                                            } else if self.isTopPosition {
-                                                self.isScrollEnabled = true
-                                            }
-                                        }) {
-                                            self.mainContent
-                                                .frame(alignment: .top)
-                                        }
-                                    } else {
-                                        self.mainContent
-                                    }
+                                        })
                                 }
-                                .gesture(
-                                    DragGesture()
-                                        .onChanged { value in
-                                            withAnimation(self.options.animation) {
-                                                if !self.options.notResizeable && (!self.options.appleScrollBehavior || (self.options.appleScrollBehavior && !self.isTopPosition)) {
+                            } else if self.options.allowContentDrag && !self.options.notResizeable {
+                                self.mainContent
+                                    .gesture(
+                                        DragGesture()
+                                            .onChanged { value in
+                                                withAnimation(self.options.animation) {
                                                     self.translation = value.translation.height
-                                                    
                                                     self.endEditing()
                                                 }
                                             }
-                                        }
-                                        .onEnded { value in
-                                            if !self.options.notResizeable && (!self.options.appleScrollBehavior || (self.options.appleScrollBehavior && !self.isTopPosition)) {
+                                            .onEnded { value in
                                                 let height: CGFloat = value.translation.height / geometry.size.height
                                                 self.switchPosition(with: height)
                                             }
-                                        }
-                                )
+                                    )
                             } else {
                                 self.mainContent
                             }
@@ -202,20 +197,11 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             .frame(width: geometry.size.width, height: self.frameHeightValue(geometry: geometry), alignment: .top)
             .offset(y: self.offsetYValue(geometry: geometry))
             .transition(.move(edge: .bottom))
-            .onReceive(Just(self.bottomSheetPosition), perform: { _ in
-                withAnimation(.linear) {
-                    if self.isTopPosition {
-                        self.isScrollEnabled = true
-                    } else {
-                        self.isScrollEnabled = false
-                    }
-                }
-            })
         }
     }
     
     private func opacityValue(geometry: GeometryProxy) -> Double {
-        withAnimation(.linear) {
+        withAnimation(self.options.animation) {
             if self.options.backgroundBlur {
                 if self.options.absolutePositionValue {
                     return Double((self.bottomSheetPosition.rawValue - self.translation) / geometry.size.height)

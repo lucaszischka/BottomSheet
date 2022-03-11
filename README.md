@@ -1,11 +1,11 @@
 # BottomSheet
 
 [![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
-[![GitHub version](https://img.shields.io/github/v/release/LucasMucGH/BottomSheet?sort=semver)](https://github.com/LucasMucGH/BottomSheet/releases)
+[![GitHub version](https://img.shields.io/github/v/release/lucaszischka/BottomSheet?sort=semver)](https://github.com/lucaszischka/BottomSheet/releases)
 [![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-brightgreen)](http://cocoapods.org/)
 [![CocoaPods version](https://img.shields.io/cocoapods/v/BottomSheetSwiftUI.svg)](https://cocoapods.org/pods/BottomSheetSwiftUI)
-[![License](https://img.shields.io/github/license/LucasMucGH/BottomSheet)](https://github.com/LucasMucGH/BottomSheet/blob/main/LICENSE.txt)
-[![Issues](https://img.shields.io/github/issues/LucasMucGH/BottomSheet)](https://github.com/LucasMucGH/BottomSheet/issues)
+[![License](https://img.shields.io/github/license/lucaszischka/BottomSheet)](https://github.com/lucaszischka/BottomSheet/blob/main/LICENSE.txt)
+[![Issues](https://img.shields.io/github/issues/lucaszischka/BottomSheet)](https://github.com/lucaszischka/BottomSheet/issues)
 
 A sliding Sheet from the bottom of the Screen with 3 States build with SwiftUI.
 
@@ -42,7 +42,7 @@ The preferred way of installing BottomSheet is via the [Swift Package Manager](h
 >Xcode 11 integrates with libSwiftPM to provide support for iOS, watchOS, and tvOS platforms.
 
 1. In Xcode, open your project and navigate to **File** → **Swift Packages** → **Add Package Dependency...**
-2. Paste the repository URL (`https://github.com/LucasMucGH/BottomSheet`) and click **Next**.
+2. Paste the repository URL (`https://github.com/lucaszischka/BottomSheet`) and click **Next**.
 3. For **Rules**, select **Branch** (with branch set to `main`).
 4. Click **Finish**.
 
@@ -417,4 +417,4 @@ BottomSheet is available under the MIT license. See [the LICENSE file](LICENSE.t
 
 ## Credits
 
-BottomSheet is a project of [@LucasMucGH](https://github.com/LucasMucGH).
+BottomSheet is a project of [@lucaszischka](https://github.com/lucaszischka).

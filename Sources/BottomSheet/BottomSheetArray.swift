@@ -37,7 +37,7 @@ internal extension Array where Element == BottomSheet.Options {
         
         self.forEach { item in
             if case .background(let customBackground) = item {
-                background = customBackground
+                background = customBackground()
             }
         }
         
