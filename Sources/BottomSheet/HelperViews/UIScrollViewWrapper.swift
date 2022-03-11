@@ -39,7 +39,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(offset: self.$offset)
+        Coordinator(offset: self.$offset, isScrollEnabled: self.$isScrollEnabled)
     }
     
     
@@ -53,17 +53,42 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     final class Coordinator: NSObject, UIScrollViewDelegate {
         
         @Binding var offset: CGPoint
+        @Binding var isScrollEnabled: Bool
         
+        func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+            DispatchQueue.main.async {
+                self.isScrollEnabled = true
+            }
+        }
+        
+        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+            self.updateScroll(for: scrollView.contentOffset)
+        }
         
         func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            self.updateScroll(for: scrollView.contentOffset)
+        }
+        
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
             DispatchQueue.main.async {
                 self.offset = scrollView.contentOffset
             }
         }
         
+        private func updateScroll(for offset: CGPoint) {
+            DispatchQueue.main.async {
+                if offset.y <= 0 {
+                    self.isScrollEnabled = false
+                } else {
+                    self.isScrollEnabled = true
+                }
+            }
+        }
         
-        init(offset: Binding<CGPoint>) {
+        
+        init(offset: Binding<CGPoint>, isScrollEnabled: Binding<Bool>) {
             self._offset = offset
+            self._isScrollEnabled = isScrollEnabled
         }
     }
 }
