@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/github/license/lucaszischka/BottomSheet)](https://github.com/lucaszischka/BottomSheet/blob/main/LICENSE.txt)
 [![Issues](https://img.shields.io/github/issues/lucaszischka/BottomSheet)](https://github.com/lucaszischka/BottomSheet/issues)
 
-A sliding Sheet from the bottom of the Screen with 3 States build with SwiftUI.
+A sliding sheet from the bottom of the screen with custom states build with SwiftUI.
 
 ## Why
 
@@ -30,7 +30,7 @@ There are also many implementations out there that **only have 2 states** - **no
 ## Requirements 
 
 - iOS 13
-- Swift 5.3
+- Swift 5.1
 - Xcode 12
 
 ## Installation
@@ -75,9 +75,9 @@ struct ContentView: View {
 ```
 
 `//1` The current State of the BottomSheet.
-- This is any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
+- This is any `enum` that conforms to `CGFloat`, `CaseIterable` and `Equatable`. For more information about custom enums see [Custom States](#custom-states).
 - The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
-- If you don't want the state to be changed, you can use `.constant(.middle)` (with the `.notResizeable` or `.noDragIndicator` option).
+- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
 
 `//2` The view which the BottomSheet overlays.
 
@@ -97,7 +97,7 @@ struct ContentView: View {
 ```
 
 `bottomSheetPosition`: A binding that saves the current state of the BottomSheet.
-- This can be any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
+- This can be any `enum` that conforms to `CGFloat`, `CaseIterable` and `Equatable`. For more information about custom enums see [Custom States](#custom-states).
 - The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
 - If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
 
@@ -121,7 +121,7 @@ struct ContentView: View {
 ```
 
 `bottomSheetPosition`: A binding that saves the current state of the BottomSheet.
-- This can be any `enum` that conforms to `CGFloat` and `CaseIterable`. For more information about custom enums see [Custom States](#custom-states).
+- This can be any `enum` that conforms to `CGFloat`, `CaseIterable` and `Equatable`. For more information about custom enums see [Custom States](#custom-states).
 - The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
 - If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
 
@@ -142,11 +142,11 @@ struct ContentView: View {
 
 - Do not use if the mainContent is packed into a ScrollView.
 
-`.animation(Animation)` Sets the animation for opening and closing the BottomSheet.
+`.animation(Animation)` Sets the animation for the BottomSheet.
 
 `.appleScrollBehavior` The mainView is packed into a ScrollView, which can only scrolled at the .top position.
 
-`.background(AnyView)` Changes the background of the BottomSheet.
+`.background(() -> AnyView)` Changes the background of the BottomSheet.
 - Must be erased to AnyView.
 
 `.backgroundBlur(UIBlurEffect.Style = .systemThinMaterial)` Enables and sets the blur effect of the background when pulling up the BottomSheet.
@@ -176,8 +176,8 @@ struct ContentView: View {
 ## Custom States
 
 You can create your own custom BottomSheetPosition enum:
-   - The enum must be conforming to `CGFloat` and `CaseIterable`
-   - The case and enum name doesnt matter
+   - The enum must be conforming to `CGFloat`, `CaseIterable` and `Equatable`
+   - The enum and case names doesnt matter
    - The case/state with `rawValue == 0` is hiding the BottomSheet
    - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`) or anything above `0` (`x >= 0`) when using the`.absolutePositionValue` option
    - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`) or the height of the BottomSheet in pixel (`1 == 1px`) when using the`.absolutePositionValue` option
@@ -226,7 +226,7 @@ import BottomSheet
 
 //The custom BottomSheetPosition enum with absolute values.
 enum BookBottomSheetPosition: CGFloat, CaseIterable {
-    case middle = 300, bottom = 100, hidden = 0
+    case middle = 325, bottom = 125, hidden = 0
 }
 
 struct BookDetailView: View {
@@ -391,7 +391,7 @@ struct ArtistSongsView: View {
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
             
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.animation(.linear.speed(0.4)), .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33)), .background(AnyView(Color.black)), .noBottomPosition, .cornerRadius(30), .shadow(color: .white)], title: "Drake") {
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.animation(.linear.speed(0.4)), .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33)), .background({ AnyView(Color.black) }), .noBottomPosition, .cornerRadius(30), .shadow(color: .white)], title: "Drake") {
                 //The list of the most popular songs of the artist.
                 ScrollView {
                     ForEach(self.songs, id: \.self) { song in
