@@ -1,6 +1,12 @@
 BottomSheet Changelog
 ==================
 
+#### v2.7.0
+- Fix drag indicator not draggable #45
+- Fix content not responding to tap gestures #51
+- Reworked `.appleScrollBehavior` to fix #46, #47 (also closes #53)
+- Redo explicit animation #59, #55
+
 #### v2.6.0
 - Fix critical bug with `.appleScrollBehavior` #40
 - Update codestyle
