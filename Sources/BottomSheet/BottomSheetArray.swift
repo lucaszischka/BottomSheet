@@ -72,6 +72,14 @@ internal extension Array where Element == BottomSheet.Options {
         return cornerRadius
     }
     
+    var disableBottomSafeAreaInsets: Bool {
+        return self.contains(BottomSheet.Options.disableBottomSafeAreaInsets)
+    }
+    
+    var disableFlickThrough: Bool {
+        return self.contains(BottomSheet.Options.disableFlickThrough)
+    }
+    
     var dragIndicatorColor: Color {
         var dragIndicatorColor: Color = Color(UIColor.tertiaryLabel)
         

@@ -153,6 +153,10 @@ struct ContentView: View {
 
 `.cornerRadius(Double)` Changes the corener radius of the BottomSheet.
 
+`.disableBottomSafeAreaInsets` Disables the bottom safeAreaInsets.
+
+`.disableFlickThrough` Disables the flick through feature.
+
 `.dragIndicatorColor(Color)` Changes the color of the drag indicator.
 
  `.noBottomPosition` Prevents the lowest value (above 0) from being the bottom position and hiding the mainContent.

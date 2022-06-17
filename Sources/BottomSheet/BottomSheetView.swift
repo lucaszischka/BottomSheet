@@ -173,7 +173,7 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             }
                         }
                         .transition(.move(edge: .bottom))
-                        .padding(.bottom, geometry.safeAreaInsets.bottom)
+                        .padding(.bottom, self.options.disableBottomSafeAreaInsets ? nil : geometry.safeAreaInsets.bottom)
                     } else {
                         Color.clear
                     }
@@ -303,21 +303,33 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     fileprivate func switchPosition(with height: CGFloat) -> Void {
         if !self.isHiddenPosition {
             if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }), self.allCases.count > 1 {
-                if height <= -0.1 && height > -0.3 {
-                    if currentIndex < self.allCases.endIndex - 1 {
-                        self.bottomSheetPosition = self.allCases[currentIndex + 1]
+                if self.options.disableFlickThrough {
+                    if height <= -0.1 {
+                        if currentIndex < self.allCases.endIndex - 1 {
+                            self.bottomSheetPosition = self.allCases[currentIndex + 1]
+                        }
+                    } else if height >= 0.1 {
+                        if currentIndex > self.allCases.startIndex && (self.allCases[currentIndex - 1].rawValue != 0 || (self.allCases[currentIndex - 1].rawValue == 0 && self.options.swipeToDismiss))  {
+                            self.bottomSheetPosition = self.allCases[currentIndex - 1]
+                        }
                     }
-                } else if height <= -0.3 {
-                    self.bottomSheetPosition = self.allCases[self.allCases.endIndex - 1]
-                } else if height >= 0.1 && height < 0.3 {
-                    if currentIndex > self.allCases.startIndex && (self.allCases[currentIndex - 1].rawValue != 0 || (self.allCases[currentIndex - 1].rawValue == 0 && self.options.swipeToDismiss))  {
-                        self.bottomSheetPosition = self.allCases[currentIndex - 1]
-                    }
-                } else if height >= 0.3 {
-                    if (self.allCases[self.allCases.startIndex].rawValue == 0 && self.options.swipeToDismiss) || self.allCases[self.allCases.startIndex].rawValue != 0 {
-                        self.bottomSheetPosition = self.allCases[self.allCases.startIndex]
-                    } else {
-                        self.bottomSheetPosition = self.allCases[self.allCases.startIndex + 1]
+                } else {
+                    if height <= -0.1 && height > -0.3 {
+                        if currentIndex < self.allCases.endIndex - 1 {
+                            self.bottomSheetPosition = self.allCases[currentIndex + 1]
+                        }
+                    } else if height <= -0.3 {
+                        self.bottomSheetPosition = self.allCases[self.allCases.endIndex - 1]
+                    } else if height >= 0.1 && height < 0.3 {
+                        if currentIndex > self.allCases.startIndex && (self.allCases[currentIndex - 1].rawValue != 0 || (self.allCases[currentIndex - 1].rawValue == 0 && self.options.swipeToDismiss))  {
+                            self.bottomSheetPosition = self.allCases[currentIndex - 1]
+                        }
+                    } else if height >= 0.3 {
+                        if (self.allCases[self.allCases.startIndex].rawValue == 0 && self.options.swipeToDismiss) || self.allCases[self.allCases.startIndex].rawValue != 0 {
+                            self.bottomSheetPosition = self.allCases[self.allCases.startIndex]
+                        } else {
+                            self.bottomSheetPosition = self.allCases[self.allCases.startIndex + 1]
+                        }
                     }
                 }
             }

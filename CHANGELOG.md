@@ -1,6 +1,10 @@
 BottomSheet Changelog
 ==================
 
+#### v2.8.0
+- Add `disableBottomSafeAreaInsets` option #63
+- Add `disableFlickThrough` option #61
+
 #### v2.7.0
 - Fix drag indicator not draggable #45
 - Fix content not responding to tap gestures #51

@@ -14,35 +14,39 @@ public struct BottomSheet {
             return lhs.rawValue == rhs.rawValue
         }
         
-        ///Allows absolute values in pixels to be used as BottomSheetPosition values.
+        /// Allows absolute values in pixels to be used as BottomSheetPosition values.
         case absolutePositionValue
-        ///Allows the BottomSheet to move when dragging the mainContent. Do not use if the mainContent is packed into a ScrollView.
+        /// Allows the BottomSheet to move when dragging the mainContent. Do not use if the mainContent is packed into a ScrollView.
         case allowContentDrag
-        ///Sets the animation for opening and closing the BottomSheet.
+        /// Sets the animation for opening and closing the BottomSheet.
         case animation(Animation)
-        ///The mainView is packed into a ScrollView, which can only scrolled at the .top position.
+        /// The mainView is packed into a ScrollView, which can only scrolled at the .top position.
         case appleScrollBehavior
-        ///Changes the background of the BottomSheet. Must be erased to AnyView.
+        /// Changes the background of the BottomSheet. Must be erased to AnyView.
         case background(() -> AnyView)
-        ///Enables and sets the blur effect of the background when pulling up the BottomSheet.
+        /// Enables and sets the blur effect of the background when pulling up the BottomSheet.
         case backgroundBlur(effect: UIBlurEffect.Style = .systemThinMaterial)
-        ///Changes the corner radius of the BottomSheet.
+        /// Changes the corner radius of the BottomSheet.
         case cornerRadius(Double)
-        ///Changes the color of the drag indicator.
+        /// Disables the bottom safe area insets.
+        case disableBottomSafeAreaInsets
+        /// Disables the flick through feature.
+        case disableFlickThrough
+        /// Changes the color of the drag indicator.
         case dragIndicatorColor(Color)
-        ///Prevents the lowest value (above 0) from being the bottom position and hiding the mainContent.
+        /// Prevents the lowest value (above 0) from being the bottom position and hiding the mainContent.
         case noBottomPosition
-        ///Hides the drag indicator.
+        /// Hides the drag indicator.
         case noDragIndicator
-        ///Hides the drag indicator and prevents the BottomSheet from being dragged.
+        /// Hides the drag indicator and prevents the BottomSheet from being dragged.
         case notResizeable
-        ///Adds a shadow to the background of the BottomSheet.
+        /// Adds a shadow to the background of the BottomSheet.
         case shadow(color: Color = Color(.sRGBLinear, white: 0, opacity: 0.33), radius: CGFloat = 10, x: CGFloat = 0, y: CGFloat = 0)
-        ///Shows a close button and declares an action to be performed when tapped.
+        /// Shows a close button and declares an action to be performed when tapped.
         case showCloseButton(action: () -> Void = {})
-        ///Dismisses the BottomSheet when swiped down.
+        /// Dismisses the BottomSheet when swiped down.
         case swipeToDismiss
-        ///Dismisses the BottomSheet when the background is tapped.
+        /// Dismisses the BottomSheet when the background is tapped.
         case tapToDismiss
         
         /**
@@ -78,6 +82,10 @@ public struct BottomSheet {
                 return "backgroundBlur"
             case .cornerRadius:
                 return "cornerRadius"
+            case .disableBottomSafeAreaInsets:
+                return "disableBottomSafeAreaInsets"
+            case .disableFlickThrough:
+                return "disableFlickThrough"
             case .dragIndicatorColor:
                 return "dragIndicatorColor"
             case .noBottomPosition:
