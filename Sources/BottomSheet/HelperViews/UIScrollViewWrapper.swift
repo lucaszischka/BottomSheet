@@ -14,14 +14,15 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     @Binding fileprivate var dragState: DragGesture.DragState
     fileprivate var content: Content
     
-    
-    func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> UIScrollViewViewController<Content> {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<Self>)
+    -> UIScrollViewViewController<Content> {
         let viewController = UIScrollViewViewController(rootView: self.content)
         viewController.scrollView.delegate = context.coordinator
         return viewController
     }
     
-    func updateUIViewController(_ viewController: UIScrollViewViewController<Content>, context: UIViewControllerRepresentableContext<Self>) {
+    func updateUIViewController(_ viewController: UIScrollViewViewController<Content>,
+                                context: UIViewControllerRepresentableContext<Self>) {
         viewController.hostingController.rootView = content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
@@ -50,9 +51,15 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             
             let dims = viewController.scrollView.bounds.size.height
             
-            let clampedY: CGFloat = min(max(-value.translation.height, 0), viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height)
+            let clampedY: CGFloat = min(
+                max(
+                    -value.translation.height,
+                     0
+                ), viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
+            )
             let sign: CGFloat = clampedY > -value.translation.height ? -1 : 1
-            let result: CGFloat = clampedY + sign * ((1.0 - (1.0 / (abs(-value.translation.height - clampedY) * 0.55 / dims + 1.0))) * dims)
+            let result: CGFloat =
+            clampedY + sign * ((1.0 - (1.0 / (abs(-value.translation.height - clampedY) * 0.55 / dims + 1.0))) * dims)
             
             viewController.scrollView.contentOffset.y = result
         case .ended(value: let value):
@@ -60,7 +67,10 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                 self.dragState = .none
             }
             
-            let velocityY = (value.location.y - value.predictedEndLocation.y) / (UIScrollView.DecelerationRate.normal.rawValue / (1000.0 * (1.0 - UIScrollView.DecelerationRate.normal.rawValue)))
+            let velocityY =
+            (value.location.y - value.predictedEndLocation.y) /
+            (UIScrollView.DecelerationRate.normal.rawValue /
+             (1000.0 * (1.0 - UIScrollView.DecelerationRate.normal.rawValue)))
             self.completeGesture(with: velocityY, in: viewController)
         }
     }
@@ -70,24 +80,29 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     }
     
     fileprivate func completeGesture(with velocityY: CGFloat, in viewController: UIScrollViewViewController<Content>) {
-        if !(viewController.scrollView.contentOffset.y < 0 || viewController.scrollView.contentOffset.y > viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height) {
+        if !(viewController.scrollView.contentOffset.y < 0 ||
+             viewController.scrollView.contentOffset.y >
+             viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height) {
             self.startDeceleration(with: velocityY, in: viewController)
         } else {
             self.bounce(with: velocityY, in: viewController)
         }
     }
     
-    fileprivate func startDeceleration(with velocityY: CGFloat, in viewController: UIScrollViewViewController<Content>) {
+    fileprivate func startDeceleration(with velocityY: CGFloat,
+                                       in viewController: UIScrollViewViewController<Content>) {
         let initialValueY: CGFloat = viewController.scrollView.contentOffset.y
         let decelerationRate: CGFloat = UIScrollView.DecelerationRate.normal.rawValue
         let dCoeff = 1000 * log(decelerationRate)
-        let duration: TimeInterval = velocityY == 0 ? 0 : TimeInterval(log(-dCoeff * 0.5 / abs(velocityY)) / dCoeff) / 10
+        let duration: TimeInterval =
+        velocityY == 0 ? 0 : TimeInterval(log(-dCoeff * 0.5 / abs(velocityY)) / dCoeff) / 10
         
         DispatchQueue.main.async {
             self.contentOffsetAnimation = TimerAnimation(
                 duration: duration,
                 animations: { _, time in
-                    viewController.scrollView.contentOffset.y = initialValueY + (pow(decelerationRate, CGFloat(1000 * time)) - 1) / dCoeff * velocityY
+                    viewController.scrollView.contentOffset.y =
+                    initialValueY + (pow(decelerationRate, CGFloat(1000 * time)) - 1) / dCoeff * velocityY
                 },
                 completion: { finished in
                     guard finished else { return }
@@ -97,7 +112,13 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     }
     
     fileprivate func bounce(with velocityY: CGFloat, in viewController: UIScrollViewViewController<Content>) {
-        let restOffsetY = min(max(viewController.scrollView.contentOffset.y, 0), viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height)
+        let restOffsetY = min(
+            max(
+                viewController.scrollView.contentOffset.y,
+                0
+            ),
+            viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
+        )
         let displacementY = viewController.scrollView.contentOffset.y - restOffsetY
         let threshold = 0.5 / UIScreen.main.scale
         
@@ -106,15 +127,16 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                 return 0
             }
             
-            let t1 = 1 / 10 * log(2 * abs(displacementY) / threshold)
-            let t2 = 2 / 10 * log(4 * abs(velocityY + 10 * displacementY) / (CGFloat(M_E) * 10 * threshold))
+            let timeInterval1 = 1 / 10 * log(2 * abs(displacementY) / threshold)
+            let timeInterval2 = 2 / 10 * log(4 * abs(velocityY + 10 * displacementY) / (CGFloat(M_E) * 10 * threshold))
             
-            return TimeInterval(max(t1, t2))
+            return TimeInterval(max(timeInterval1, timeInterval2))
         }()
         
         DispatchQueue.main.async {
             self.contentOffsetAnimation = TimerAnimation(duration: duration, animations: { _, time in
-                viewController.scrollView.contentOffset.y = restOffsetY + (exp(-10 * time) * (displacementY + (velocityY + 10 * displacementY) * time))
+                viewController.scrollView.contentOffset.y =
+                restOffsetY + (exp(-10 * time) * (displacementY + (velocityY + 10 * displacementY) * time))
             })
         }
     }
@@ -149,15 +171,15 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             }
         }
         
-        
         init(contentOffsetAnimation: Binding<TimerAnimation?>, isScrollEnabled: Binding<Bool>) {
             self._contentOffsetAnimation = contentOffsetAnimation
             self._isScrollEnabled = isScrollEnabled
         }
     }
     
-    
-    init(isScrollEnabled: Binding<Bool>, dragState: Binding<DragGesture.DragState>, @ViewBuilder content: @escaping () -> Content) {
+    init(isScrollEnabled: Binding<Bool>,
+         dragState: Binding<DragGesture.DragState>,
+         @ViewBuilder content: @escaping () -> Content) {
         self._isScrollEnabled = isScrollEnabled
         self._dragState = dragState
         self.content = content()
@@ -182,7 +204,6 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         self.view.updateConstraintsIfNeeded()
         self.view.layoutIfNeeded()
     }
-    
     
     init(rootView: Content) {
         let scrollView = UIScrollView()

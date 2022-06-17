@@ -11,7 +11,6 @@ internal struct EffectView: UIViewRepresentable {
     
     var effect: UIVisualEffect
     
-    
     func makeUIView(context: Context) -> UIVisualEffectView {
         let effectView = UIVisualEffectView(effect: self.effect)
         

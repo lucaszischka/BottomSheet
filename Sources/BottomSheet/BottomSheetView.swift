@@ -8,21 +8,26 @@
 import SwiftUI
 import Combine
 
-internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPositionEnum: RawRepresentable>: View where bottomSheetPositionEnum.RawValue == CGFloat, bottomSheetPositionEnum: CaseIterable, bottomSheetPositionEnum: Equatable {
+internal struct BottomSheetView<HContent: View,
+                                MContent: View,
+                                BottomSheetPositionEnum: RawRepresentable>: View
+where BottomSheetPositionEnum.RawValue == CGFloat,
+      BottomSheetPositionEnum: CaseIterable,
+      BottomSheetPositionEnum: Equatable {
     
-    @Binding fileprivate var bottomSheetPosition: bottomSheetPositionEnum
+    @Binding fileprivate var bottomSheetPosition: BottomSheetPositionEnum
     
     @State fileprivate var translation: CGFloat = .zero
     @State fileprivate var isScrollEnabled: Bool = false
     @State fileprivate var dragState: DragGesture.DragState = .none
     
     fileprivate let options: [BottomSheet.Options]
-    fileprivate let headerContent: hContent?
-    fileprivate let mainContent: mContent
+    fileprivate let headerContent: HContent?
+    fileprivate let mainContent: MContent
     
-    fileprivate let allCases = bottomSheetPositionEnum.allCases.sorted(by: { $0.rawValue < $1.rawValue })
+    fileprivate let allCases = BottomSheetPositionEnum.allCases.sorted(by: { $0.rawValue < $1.rawValue })
     
-    
+    // Position
     fileprivate var isHiddenPosition: Bool {
         return self.bottomSheetPosition.rawValue == 0
     }
@@ -42,7 +47,6 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
             return false
         }
     }
-    
     
     var body: some View {
         GeometryReader { geometry in
@@ -125,7 +129,8 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                         Group {
                             if self.options.appleScrollBehavior && !self.options.notResizeable {
                                 // Content for .appleScrollBehavior
-                                UIScrollViewWrapper(isScrollEnabled: self.$isScrollEnabled, dragState: self.$dragState) {
+                                UIScrollViewWrapper(isScrollEnabled: self.$isScrollEnabled,
+                                                    dragState: self.$dragState) {
                                     self.mainContent
                                 }
                                 .gesture(
@@ -173,7 +178,8 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                             }
                         }
                         .transition(.move(edge: .bottom))
-                        .padding(.bottom, self.options.disableBottomSafeAreaInsets ? nil : geometry.safeAreaInsets.bottom)
+                        .padding(.bottom,
+                                 self.options.disableBottomSafeAreaInsets ? nil : geometry.safeAreaInsets.bottom)
                     } else {
                         Color.clear
                     }
@@ -187,7 +193,10 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                 self.options.background
                     .cornerRadius(self.options.cornerRadius, corners: [.topRight, .topLeft])
                     .edgesIgnoringSafeArea(.bottom)
-                    .shadow(color: self.options.shadowColor, radius: self.options.shadowRadius, x: self.options.shadowX, y: self.options.shadowY)
+                    .shadow(color: self.options.shadowColor,
+                            radius: self.options.shadowRadius,
+                            x: self.options.shadowX,
+                            y: self.options.shadowY)
                     .gesture(
                         DragGesture()
                             .onChanged { value in
@@ -214,13 +223,17 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
         .animation(self.options.animation, value: self.options)
     }
     
-    
+    // Functions
     fileprivate func opacityValue(geometry: GeometryProxy) -> Double {
         if self.options.backgroundBlur {
             if self.options.absolutePositionValue {
-                return Double((self.bottomSheetPosition.rawValue - self.translation) / geometry.size.height)
+                return Double(
+                    (self.bottomSheetPosition.rawValue - self.translation) / geometry.size.height
+                )
             } else {
-                return Double((self.bottomSheetPosition.rawValue * geometry.size.height - self.translation) / geometry.size.height)
+                return Double(
+                    (self.bottomSheetPosition.rawValue * geometry.size.height - self.translation) / geometry.size.height
+                )
             }
         } else {
             return 0
@@ -230,7 +243,8 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     fileprivate func headerContentPadding(geometry: GeometryProxy) -> CGFloat {
         if self.isBottomPosition {
             return geometry.safeAreaInsets.bottom + 25
-        } else if self.headerContent == nil && !self.options.showCloseButton {
+        } else if self.headerContent == nil &&
+                    !self.options.showCloseButton {
             return 20
         } else {
             return 0
@@ -239,54 +253,85 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     
     fileprivate func frameHeightValue(geometry: GeometryProxy) -> Double {
         if self.options.absolutePositionValue {
-            return min(max(self.bottomSheetPosition.rawValue - self.translation, 0), geometry.size.height * 1.05)
+            return min(
+                max(
+                    self.bottomSheetPosition.rawValue - self.translation,
+                    0
+                ),
+                geometry.size.height * 1.05
+            )
         } else {
-            return min(max((geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation, 0), geometry.size.height * 1.05)
+            return min(
+                max(
+                    (geometry.size.height * self.bottomSheetPosition.rawValue) - self.translation,
+                    0
+                ),
+                geometry.size.height * 1.05
+            )
         }
     }
     
     fileprivate func offsetYValue(geometry: GeometryProxy) -> Double {
         if self.isHiddenPosition {
-            return max(geometry.size.height + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+            return max(
+                geometry.size.height + geometry.safeAreaInsets.bottom,
+                geometry.size.height * -0.05
+            )
         } else if self.isBottomPosition {
             if self.options.absolutePositionValue {
-                return max(geometry.size.height - self.bottomSheetPosition.rawValue + self.translation + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+                return max(
+                    geometry.size.height - self.bottomSheetPosition.rawValue +
+                    self.translation + geometry.safeAreaInsets.bottom,
+                    geometry.size.height * -0.05
+                )
             } else {
-                return max(geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation + geometry.safeAreaInsets.bottom, geometry.size.height * -0.05)
+                return max(
+                    geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) +
+                    self.translation + geometry.safeAreaInsets.bottom,
+                    geometry.size.height * -0.05
+                )
             }
         } else {
             if self.options.absolutePositionValue {
-                return max(geometry.size.height - self.bottomSheetPosition.rawValue + self.translation, geometry.size.height * -0.05)
+                return max(
+                    geometry.size.height - self.bottomSheetPosition.rawValue + self.translation,
+                    geometry.size.height * -0.05
+                )
             } else {
-                return max(geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) + self.translation, geometry.size.height * -0.05)
+                return max(
+                    geometry.size.height - (geometry.size.height * self.bottomSheetPosition.rawValue) +
+                    self.translation,
+                    geometry.size.height * -0.05
+                )
             }
         }
     }
     
-    fileprivate func endEditing() -> Void {
+    fileprivate func endEditing() {
         UIApplication.shared.endEditing()
     }
     
-    fileprivate func tapToDismiss() -> Void {
+    fileprivate func tapToDismiss() {
         if self.options.tapToDismiss {
             self.closeSheet()
         }
     }
     
-    fileprivate func closeButton() -> Void {
+    fileprivate func closeButton() {
         self.options.closeAction()
         self.closeSheet()
     }
     
-    fileprivate func closeSheet() -> Void {
-        if let hiddenPosition = bottomSheetPositionEnum(rawValue: 0) {
+    fileprivate func closeSheet() {
+        if let hiddenPosition = BottomSheetPositionEnum(rawValue: 0) {
             self.bottomSheetPosition = hiddenPosition
         }
         self.endEditing()
     }
     
-    fileprivate func switchPositionIndicator() -> Void {
-        if !self.isHiddenPosition && self.allCases.count > 1 {
+    fileprivate func switchPositionIndicator() {
+        if !self.isHiddenPosition &&
+            self.allCases.count > 1 {
             if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }) {
                 if currentIndex == self.allCases.endIndex - 1 {
                     if self.allCases[currentIndex - 1].rawValue != 0 {
@@ -295,42 +340,20 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
                 } else {
                     self.bottomSheetPosition = self.allCases[currentIndex + 1]
                 }
+                
                 self.endEditing()
             }
         }
     }
     
-    fileprivate func switchPosition(with height: CGFloat) -> Void {
+    fileprivate func switchPosition(with height: CGFloat) {
         if !self.isHiddenPosition {
-            if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }), self.allCases.count > 1 {
+            if let currentIndex = self.allCases.firstIndex(where: { $0 == self.bottomSheetPosition }),
+               self.allCases.count > 1 {
                 if self.options.disableFlickThrough {
-                    if height <= -0.1 {
-                        if currentIndex < self.allCases.endIndex - 1 {
-                            self.bottomSheetPosition = self.allCases[currentIndex + 1]
-                        }
-                    } else if height >= 0.1 {
-                        if currentIndex > self.allCases.startIndex && (self.allCases[currentIndex - 1].rawValue != 0 || (self.allCases[currentIndex - 1].rawValue == 0 && self.options.swipeToDismiss))  {
-                            self.bottomSheetPosition = self.allCases[currentIndex - 1]
-                        }
-                    }
+                    self.switchPositonWithoutFlickThrough(with: height, currentIndex: currentIndex)
                 } else {
-                    if height <= -0.1 && height > -0.3 {
-                        if currentIndex < self.allCases.endIndex - 1 {
-                            self.bottomSheetPosition = self.allCases[currentIndex + 1]
-                        }
-                    } else if height <= -0.3 {
-                        self.bottomSheetPosition = self.allCases[self.allCases.endIndex - 1]
-                    } else if height >= 0.1 && height < 0.3 {
-                        if currentIndex > self.allCases.startIndex && (self.allCases[currentIndex - 1].rawValue != 0 || (self.allCases[currentIndex - 1].rawValue == 0 && self.options.swipeToDismiss))  {
-                            self.bottomSheetPosition = self.allCases[currentIndex - 1]
-                        }
-                    } else if height >= 0.3 {
-                        if (self.allCases[self.allCases.startIndex].rawValue == 0 && self.options.swipeToDismiss) || self.allCases[self.allCases.startIndex].rawValue != 0 {
-                            self.bottomSheetPosition = self.allCases[self.allCases.startIndex]
-                        } else {
-                            self.bottomSheetPosition = self.allCases[self.allCases.startIndex + 1]
-                        }
-                    }
+                    self.switchPositonWithFlickThrough(with: height, currentIndex: currentIndex)
                 }
             }
             
@@ -339,8 +362,53 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
         }
     }
     
+    fileprivate func switchPositonWithoutFlickThrough(with height: CGFloat, currentIndex: Int) {
+        if height <= -0.1 {
+            if currentIndex < self.allCases.endIndex - 1 {
+                self.bottomSheetPosition = self.allCases[currentIndex + 1]
+            }
+        } else if height >= 0.1 {
+            if currentIndex > self.allCases.startIndex &&
+                (self.allCases[currentIndex - 1].rawValue != 0 ||
+                 (self.allCases[currentIndex - 1].rawValue == 0 &&
+                  self.options.swipeToDismiss)
+                ) {
+                self.bottomSheetPosition = self.allCases[currentIndex - 1]
+            }
+        }
+    }
     
-    init(bottomSheetPosition: Binding<bottomSheetPositionEnum>, options: [BottomSheet.Options], @ViewBuilder headerContent: () -> hContent?, @ViewBuilder mainContent: () -> mContent) {
+    fileprivate func switchPositonWithFlickThrough(with height: CGFloat, currentIndex: Int) {
+        if height <= -0.1 && height > -0.3 {
+            if currentIndex < self.allCases.endIndex - 1 {
+                self.bottomSheetPosition = self.allCases[currentIndex + 1]
+            }
+        } else if height <= -0.3 {
+            self.bottomSheetPosition = self.allCases[self.allCases.endIndex - 1]
+        } else if height >= 0.1 && height < 0.3 {
+            if currentIndex > self.allCases.startIndex &&
+                (self.allCases[currentIndex - 1].rawValue != 0 ||
+                 (self.allCases[currentIndex - 1].rawValue == 0 &&
+                  self.options.swipeToDismiss)
+                ) {
+                self.bottomSheetPosition = self.allCases[currentIndex - 1]
+            }
+        } else if height >= 0.3 {
+            if (self.allCases[self.allCases.startIndex].rawValue == 0 &&
+                self.options.swipeToDismiss) ||
+                self.allCases[self.allCases.startIndex].rawValue != 0 {
+                self.bottomSheetPosition = self.allCases[self.allCases.startIndex]
+            } else {
+                self.bottomSheetPosition = self.allCases[self.allCases.startIndex + 1]
+            }
+        }
+    }
+    
+    // Initializer
+    init(bottomSheetPosition: Binding<BottomSheetPositionEnum>,
+         options: [BottomSheet.Options],
+         @ViewBuilder headerContent: () -> HContent?,
+         @ViewBuilder mainContent: () -> MContent) {
         self._bottomSheetPosition = bottomSheetPosition
         self.options = options
         self.headerContent = headerContent()
@@ -348,13 +416,23 @@ internal struct BottomSheetView<hContent: View, mContent: View, bottomSheetPosit
     }
 }
 
-internal extension BottomSheetView where hContent == ModifiedContent<ModifiedContent<Text, _EnvironmentKeyWritingModifier<Optional<Int>>>, _PaddingLayout> {
-    init(bottomSheetPosition: Binding<bottomSheetPositionEnum>, options: [BottomSheet.Options], title: String?, @ViewBuilder content: () -> mContent) {
+internal extension BottomSheetView
+where HContent == ModifiedContent<ModifiedContent<Text, _EnvironmentKeyWritingModifier<Int?>>, _PaddingLayout> {
+    init(bottomSheetPosition: Binding<BottomSheetPositionEnum>,
+         options: [BottomSheet.Options],
+         title: String?,
+         @ViewBuilder content: () -> MContent) {
         if title == nil {
-            self.init(bottomSheetPosition: bottomSheetPosition, options: options, headerContent: { return nil }, mainContent: content)
+            self.init(bottomSheetPosition: bottomSheetPosition,
+                      options: options,
+                      headerContent: { return nil },
+                      mainContent: content)
         } else {
-            self.init(bottomSheetPosition: bottomSheetPosition, options: options, headerContent: { return Text(title!)
-                .font(.title).bold().lineLimit(1).padding(.bottom) as? hContent }, mainContent: content)
+            let hContent = Text(title!).font(.title).bold().lineLimit(1).padding(.bottom) as? HContent
+            self.init(bottomSheetPosition: bottomSheetPosition,
+                      options: options,
+                      headerContent: { hContent },
+                      mainContent: content)
         }
     }
 }

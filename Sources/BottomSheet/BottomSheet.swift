@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct BottomSheet {
-    ///The options to adjust the behavior and the settings of the BottomSheet.
+    /// The options to adjust the behavior and the settings of the BottomSheet.
     public enum Options: Equatable {
         public static func == (lhs: BottomSheet.Options, rhs: BottomSheet.Options) -> Bool {
             return lhs.rawValue == rhs.rawValue
@@ -16,7 +16,8 @@ public struct BottomSheet {
         
         /// Allows absolute values in pixels to be used as BottomSheetPosition values.
         case absolutePositionValue
-        /// Allows the BottomSheet to move when dragging the mainContent. Do not use if the mainContent is packed into a ScrollView.
+        /// Allows the BottomSheet to move when dragging the mainContent.
+        /// Do not use if the mainContent is packed into a ScrollView.
         case allowContentDrag
         /// Sets the animation for opening and closing the BottomSheet.
         case animation(Animation)
@@ -41,7 +42,10 @@ public struct BottomSheet {
         /// Hides the drag indicator and prevents the BottomSheet from being dragged.
         case notResizeable
         /// Adds a shadow to the background of the BottomSheet.
-        case shadow(color: Color = Color(.sRGBLinear, white: 0, opacity: 0.33), radius: CGFloat = 10, x: CGFloat = 0, y: CGFloat = 0)
+        case shadow(color: Color = Color(.sRGBLinear, white: 0, opacity: 0.33),
+                    radius: CGFloat = 10,
+                    x: CGFloat = 0,
+                    y: CGFloat = 0)
         /// Shows a close button and declares an action to be performed when tapped.
         case showCloseButton(action: () -> Void = {})
         /// Dismisses the BottomSheet when swiped down.
