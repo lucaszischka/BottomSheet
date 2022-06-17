@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'BottomSheetSwiftUI'
-  s.version          = '2.7.0'
+  s.version          = '2.8.0'
   s.summary          = 'A sliding sheet from the bottom of the screen with custom states build with SwiftUI.'
 
   s.homepage         = 'https://github.com/lucaszischka/BottomSheet'
