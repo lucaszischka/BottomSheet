@@ -59,10 +59,8 @@ public enum BottomSheetPosition: Equatable {
         switch self {
         case .hidden:
             return 0
-        case .dynamic, .dynamicTop:
+        case .dynamic, .dynamicTop, .dynamicBottom:
             return nil
-        case .dynamicBottom:
-            return geometry.size.height * 0.125
         case .relative(let value), .relativeBottom(let value), .relativeTop(let value):
             return geometry.size.height * value
         case .absolute(let value), .absoluteBottom(let value), .absoluteTop(let value):
