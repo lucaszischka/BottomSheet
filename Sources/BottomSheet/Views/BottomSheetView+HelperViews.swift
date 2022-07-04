@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension BottomSheetView {
+internal extension BottomSheetView {
     
     // Gestures
     

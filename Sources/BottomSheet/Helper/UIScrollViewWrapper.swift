@@ -293,8 +293,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
 
 internal class UIScrollViewViewController<Content: View>: UIViewController {
     
-    let scrollView: UIScrollView
-    let hostingController: UIHostingController<Content>
+    fileprivate let scrollView: UIScrollView
+    fileprivate let hostingController: UIHostingController<Content>
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -320,7 +320,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         self.view.layoutIfNeeded()
     }
     
-    init(
+    fileprivate init(
         rootView: Content
     ) {
         let scrollView = UIScrollView()

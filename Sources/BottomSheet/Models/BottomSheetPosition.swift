@@ -26,7 +26,7 @@ public enum BottomSheetPosition: Equatable {
     // Height in pixel
     case absolute(CGFloat)
     
-    var isHidden: Bool {
+    internal var isHidden: Bool {
         switch self {
         case .hidden:
             return true
@@ -35,7 +35,7 @@ public enum BottomSheetPosition: Equatable {
         }
     }
     
-    var isBottom: Bool {
+    internal var isBottom: Bool {
         switch self {
         case .dynamicBottom, .relativeBottom, .absoluteBottom:
             return true
@@ -44,7 +44,7 @@ public enum BottomSheetPosition: Equatable {
         }
     }
     
-    var isTop: Bool {
+    internal var isTop: Bool {
         switch self {
         case .dynamicTop, .relativeTop, .absoluteTop:
             return true
@@ -53,7 +53,7 @@ public enum BottomSheetPosition: Equatable {
         }
     }
     
-    func asScreenHeight(
+    internal func asScreenHeight(
         with geometry: GeometryProxy
     ) -> CGFloat? {
         switch self {

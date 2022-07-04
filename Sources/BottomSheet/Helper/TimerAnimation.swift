@@ -8,7 +8,7 @@
 #if !os(macOS)
 import QuartzCore
 
-internal final class TimerAnimation {
+internal class TimerAnimation {
     
     typealias Animations = (
         _ progress: Double,
