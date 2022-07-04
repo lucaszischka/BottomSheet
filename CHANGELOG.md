@@ -1,6 +1,18 @@
 BottomSheet Changelog
 ==================
 
+#### v 3.0.0
+- Recoded the project
+- Added iPhone landscape support
+- Added iPad support
+- Added MacOS support
+- Changed from options to view modifiers
+- Cleaned up the code (swiftLint and spliting it up)
+- Added dynamic size support
+- Added onDissmis modifier
+- Added dragGesture listener
+- Changed customBackground to not rely on AnyView
+
 #### v2.8.0
 - Add `disableBottomSafeAreaInsets` option #63
 - Add `disableFlickThrough` option #61
