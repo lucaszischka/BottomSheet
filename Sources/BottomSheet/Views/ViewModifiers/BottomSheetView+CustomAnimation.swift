@@ -7,11 +7,10 @@
 
 import SwiftUI
 
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func customAnimation(
         _ animation: Animation
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.animation = animation
         return self
     }

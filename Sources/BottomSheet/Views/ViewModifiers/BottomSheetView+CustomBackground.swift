@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension BottomSheetView {
+extension BottomSheet {
     
     /// Layers the given view behind this view.
     ///
@@ -48,11 +48,10 @@ extension BottomSheetView {
     ///   - background: The view to draw behind this view.
     ///   - alignment: The alignment with a default value of
     ///     ``Alignment/center`` that you use to position the background view.
-    @inlinable
     func customBackground<Background>(
         _ background: Background,
         alignment: Alignment = .center
-    ) -> BottomSheetView where Background: View {
+    ) -> BottomSheet where Background: View {
         self.configuration.backgroundView = AnyView(
             background
         )
@@ -181,11 +180,10 @@ extension BottomSheetView {
     ///     The last view that you list appears at the front of the stack.
     ///
     /// - Returns: A view that uses the specified content as a background.
-    @inlinable
     func customBackground<V>(
         alignment: Alignment = .center,
         @ViewBuilder content: () -> V
-    ) -> BottomSheetView where V: View {
+    ) -> BottomSheet where V: View {
         self.configuration.backgroundView = AnyView(
             content()
         )
@@ -228,10 +226,9 @@ extension BottomSheetView {
     /// - Returns: A view with the ``ShapeStyle/background`` shape style
     ///   drawn behind it.
     @available(iOS 15, macOS 12, *)
-    @inlinable
     func customBackground(
         ignoresSafeAreaEdges edges: Edge.Set = .all
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         return self.customBackground(
             .background,
             ignoresSafeAreaEdges: edges
@@ -295,11 +292,10 @@ extension BottomSheetView {
     ///     Specify an empty set to respect safe area insets on all edges.
     ///
     /// - Returns: A view with the specified style drawn behind it.
-    @inlinable
     func customBackground<S>(
         _ style: S,
         ignoresSafeAreaEdges edges: Edge.Set = .all
-    ) -> BottomSheetView where S: ShapeStyle {
+    ) -> BottomSheet where S: ShapeStyle {
         self.configuration.backgroundView = AnyView(
             Rectangle()
                 .fill(
@@ -360,11 +356,10 @@ extension BottomSheetView {
     ///
     /// - Returns: A view with the specified shape drawn behind it.
     @available(iOS 15, macOS 12, *)
-    @inlinable
     func customBackground<S>(
         in shape: S,
         fillStyle: FillStyle = FillStyle()
-    ) -> BottomSheetView where S: Shape {
+    ) -> BottomSheet where S: Shape {
         return self.customBackground(
             .background,
             in: shape,
@@ -414,12 +409,11 @@ extension BottomSheetView {
     ///     antialiasing.
     ///
     /// - Returns: A view with the specified shape drawn behind it.
-    @inlinable
     func customBackground<S, T>(
         _ style: S,
         in shape: T,
         fillStyle: FillStyle = FillStyle()
-    ) -> BottomSheetView where S: ShapeStyle, T: Shape {
+    ) -> BottomSheet where S: ShapeStyle, T: Shape {
         self.configuration.backgroundView = AnyView(
             shape
                 .fill(
@@ -470,11 +464,10 @@ extension BottomSheetView {
     ///
     /// - Returns: A view with the specified insettable shape drawn behind it.
     @available(iOS 15, macOS 12, *)
-    @inlinable
     func customBackground<S>(
         in shape: S,
         fillStyle: FillStyle = FillStyle()
-    ) -> BottomSheetView where S: InsettableShape {
+    ) -> BottomSheet where S: InsettableShape {
         return self.customBackground(
             .background,
             in: shape,
@@ -516,12 +509,11 @@ extension BottomSheetView {
     ///     antialiasing.
     ///
     /// - Returns: A view with the specified insettable shape drawn behind it.
-    @inlinable
     func customBackground<S, T>(
         _ style: S,
         in shape: T,
         fillStyle: FillStyle = FillStyle()
-    ) -> BottomSheetView where S: ShapeStyle, T: InsettableShape {
+    ) -> BottomSheet where S: ShapeStyle, T: InsettableShape {
         self.configuration.backgroundView = AnyView(
             shape
                 .fill(

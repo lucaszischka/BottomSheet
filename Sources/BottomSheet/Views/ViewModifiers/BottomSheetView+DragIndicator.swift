@@ -7,19 +7,17 @@
 
 import SwiftUI
 
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func showDragIndicator(
         _ bool: Bool = true
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.isDragIndicatorShown = bool
         return self
     }
     
-    @inlinable
     func dragIndicatorColor(
         _ color: Color
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.dragIndicatorColor = color
         return self
     }

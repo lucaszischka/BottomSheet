@@ -7,11 +7,10 @@
 
 import Foundation
 
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func enableSwipeToDismiss(
         _ bool: Bool = true
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.isSwipeToDismissEnabled = bool
         return self
     }

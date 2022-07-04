@@ -7,11 +7,10 @@
 
 import Foundation
 
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func enableFlickThrough(
         _ bool: Bool = true
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.isFlickThroughEnabled = bool
         return self
     }

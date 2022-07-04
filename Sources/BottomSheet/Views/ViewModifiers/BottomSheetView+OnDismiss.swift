@@ -7,11 +7,10 @@
 
 import Foundation
 
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func onDismiss(
         _ perform: @escaping () -> Void
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.onDismiss = perform
         return self
     }

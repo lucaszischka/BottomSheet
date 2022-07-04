@@ -15,12 +15,12 @@ public extension View {
             return nil
         },
         @ViewBuilder mainContent: () -> MContent
-    ) -> BottomSheetView<HContent, MContent, Self> {
-        BottomSheetView(
+    ) -> BottomSheet<HContent, MContent, Self> {
+        BottomSheet(
             bottomSheetPosition: bottomSheetPosition,
             switchablePositions: switchablePositions,
-            headerContent: headerContent,
-            mainContent: mainContent,
+            headerContent: headerContent(),
+            mainContent: mainContent(),
             view: self
         )
     }
@@ -33,12 +33,12 @@ public extension View {
         switchablePositions: [BottomSheetPosition],
         title: String? = nil,
         @ViewBuilder content: () -> MContent
-    ) -> BottomSheetView<TitleContent, MContent, Self> {
-        BottomSheetView(
+    ) -> BottomSheet<TitleContent, MContent, Self> {
+        BottomSheet(
             bottomSheetPosition: bottomSheetPosition,
             switchablePositions: switchablePositions,
             title: title,
-            content: content,
+            content: content(),
             view: self
         )
     }

@@ -7,11 +7,10 @@
 
 import Foundation
 
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func enableTapToDismiss(
         _ bool: Bool = true
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.isTapToDismissEnabled = bool
         return self
     }

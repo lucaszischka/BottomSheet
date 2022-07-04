@@ -7,11 +7,10 @@
 
 import Foundation
 
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func showCloseButton(
         _ bool: Bool = true
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.isCloseButtonShown = bool
         return self
     }

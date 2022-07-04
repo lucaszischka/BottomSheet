@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct BottomSheetView<HContent: View, MContent: View, V: View>: View {
+internal struct BottomSheetView<HContent: View, MContent: View>: View {
     
     // For `landscape` and `iPad` support
 #if !os(macOS)
@@ -39,20 +39,15 @@ public struct BottomSheetView<HContent: View, MContent: View, V: View>: View {
 #endif
     
     // Views
-    let view: V
     let headerContent: HContent?
     let mainContent: MContent
     
     let switchablePositions: [BottomSheetPosition]
     
     // Configuration
-    public let configuration: Configuration = Configuration()
+    let configuration: BottomSheetConfiguration
     
-    public var body: some View {
-        // ZStack for creating the overlay on the original view
-        ZStack {
-            self.view
-            
+    var body: some View {
             // Full screen (via GeometryReader) ZStack for aligning content
             ZStack(
                 alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
@@ -113,53 +108,4 @@ public struct BottomSheetView<HContent: View, MContent: View, V: View>: View {
                 value: self.configuration
             )
         }
-    }
-    
-    // Initializers
-    init(
-        bottomSheetPosition: Binding<BottomSheetPosition>,
-        switchablePositions: [BottomSheetPosition],
-        headerContent: () -> HContent?,
-        mainContent: () -> MContent,
-        view: V
-    ) {
-        self._bottomSheetPosition = bottomSheetPosition
-        self.switchablePositions = switchablePositions
-        self.headerContent = headerContent()
-        self.mainContent = mainContent()
-        self.view = view
-    }
-    
-    init(
-        bottomSheetPosition: Binding<BottomSheetPosition>,
-        switchablePositions: [BottomSheetPosition],
-        title: String?,
-        content: () -> MContent,
-        view: V
-    ) {
-        self.init(
-            bottomSheetPosition: bottomSheetPosition,
-            switchablePositions: switchablePositions,
-            headerContent: {
-                if let title = title {
-                    return Text(title)
-                        .font(
-                            .title
-                        )
-                        .bold()
-                        .lineLimit(
-                            1
-                        )
-                        .padding(
-                            .bottom
-                        )
-                    as? HContent
-                } else {
-                    return nil
-                }
-            },
-            mainContent: content,
-            view: view
-        )
-    }
 }

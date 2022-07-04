@@ -8,11 +8,10 @@
 import Foundation
 
 #if !os(macOS)
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func enableAppleScrollBehavior(
         _ bool: Bool = true
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.isAppleScrollBehaviorEnabled = bool
         return self
     }

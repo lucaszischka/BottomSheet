@@ -7,19 +7,17 @@
 
 import SwiftUI
 
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func enableBackgroundBlur(
         _ bool: Bool = true
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.isBackgroundBlurEnabled = bool
         return self
     }
     
-    @inlinable
     func backgroundBlurMaterial(
         _ material: EffectView
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.backgroundBlurMaterial = material
         return self
     }

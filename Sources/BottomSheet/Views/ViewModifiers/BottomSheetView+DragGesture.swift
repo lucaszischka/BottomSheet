@@ -7,23 +7,21 @@
 
 import SwiftUI
 
-extension BottomSheetView {
-    @inlinable
+extension BottomSheet {
     func onDragChanged(
         _ perform: @escaping (
             DragGesture.Value
         ) -> Void
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.onDragChanged = perform
         return self
     }
     
-    @inlinable
     func onDragEnded(
         _ perform: @escaping (
             DragGesture.Value
         ) -> Void
-    ) -> BottomSheetView {
+    ) -> BottomSheet {
         self.configuration.onDragEnded = perform
         return self
     }
