@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension BottomSheet {
+public extension BottomSheet {
     func enableTapToDismiss(
         _ bool: Bool = true
     ) -> BottomSheet {

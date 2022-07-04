@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension BottomSheet {
+public extension BottomSheet {
     func enableSwipeToDismiss(
         _ bool: Bool = true
     ) -> BottomSheet {

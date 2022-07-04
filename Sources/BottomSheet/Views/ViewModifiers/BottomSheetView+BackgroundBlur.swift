@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension BottomSheet {
+public extension BottomSheet {
     func enableBackgroundBlur(
         _ bool: Bool = true
     ) -> BottomSheet {

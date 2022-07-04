@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension BottomSheet {
+public extension BottomSheet {
     func onDragChanged(
         _ perform: @escaping (
             DragGesture.Value

@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension BottomSheet {
+public extension BottomSheet {
     func enableFlickThrough(
         _ bool: Bool = true
     ) -> BottomSheet {

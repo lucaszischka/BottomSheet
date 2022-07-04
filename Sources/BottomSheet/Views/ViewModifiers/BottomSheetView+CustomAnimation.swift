@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension BottomSheet {
+public extension BottomSheet {
     func customAnimation(
         _ animation: Animation
     ) -> BottomSheet {

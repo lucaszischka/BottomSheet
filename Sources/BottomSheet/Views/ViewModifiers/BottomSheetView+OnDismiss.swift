@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension BottomSheet {
+public extension BottomSheet {
     func onDismiss(
         _ perform: @escaping () -> Void
     ) -> BottomSheet {

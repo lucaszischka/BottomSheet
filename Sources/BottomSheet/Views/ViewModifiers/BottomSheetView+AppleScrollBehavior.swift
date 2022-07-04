@@ -8,7 +8,7 @@
 import Foundation
 
 #if !os(macOS)
-extension BottomSheet {
+public extension BottomSheet {
     func enableAppleScrollBehavior(
         _ bool: Bool = true
     ) -> BottomSheet {

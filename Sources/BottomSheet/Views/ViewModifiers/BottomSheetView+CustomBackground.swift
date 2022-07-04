@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension BottomSheet {
+public extension BottomSheet {
     
     /// Layers the given view behind this view.
     ///

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension BottomSheet {
+public extension BottomSheet {
     func showDragIndicator(
         _ bool: Bool = true
     ) -> BottomSheet {
