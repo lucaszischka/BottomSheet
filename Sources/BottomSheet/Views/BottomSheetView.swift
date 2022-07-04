@@ -52,27 +52,25 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
         ZStack(
             alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
         ) {
-            if !self.bottomSheetPosition.isHidden {
-                GeometryReader { geometry in
-                    // Full sceen background used for `backgroundBlur` and `tapToDissmiss`
-                    if !self.bottomSheetPosition.isHidden && (
-                        self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled
-                    ) {
-                        self.fullScreenBackground(
-                            with: geometry
-                        )
-                    }
-                    
-                    // BottomSheet
-                    self.bottomSheet(
+            GeometryReader { geometry in
+                // Full sceen background used for `backgroundBlur` and `tapToDissmiss`
+                if !self.bottomSheetPosition.isHidden && (
+                    self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled
+                ) {
+                    self.fullScreenBackground(
                         with: geometry
                     )
-                        .clipped()
-                        .measureSize { size in
-                            self.contentHeight = size.height
-                        }
-                        .padding(self.isIPadOrMac ? 10 : 0)
                 }
+                
+                // BottomSheet
+                self.bottomSheet(
+                    with: geometry
+                )
+                    .clipped()
+                    .measureSize { size in
+                        self.contentHeight = size.height
+                    }
+                    .padding(self.isIPadOrMac ? 10 : 0)
             }
         }
 #if !os(macOS)

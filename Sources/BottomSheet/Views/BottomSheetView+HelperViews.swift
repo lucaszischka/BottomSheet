@@ -131,12 +131,12 @@ internal extension BottomSheetView {
             }
             
             // BottomSheet main content
-            if !self.bottomSheetPosition.isBottom {
+            if self.bottomSheetPosition.isBottom {
+                Color.clear
+            } else if self.bottomSheetPosition.isHidden {
                 self.bottomSheetContent(
                     with: geometry
                 )
-            } else {
-                Color.clear
             }
             
             // Drag indicator - iPad and Mac
