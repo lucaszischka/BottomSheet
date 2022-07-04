@@ -179,7 +179,7 @@ internal extension BottomSheetView {
         }
     }
     
-    // For `landscape`, `iPad`, `Mac` and `Tv` support
+    // For `landscape`, `iPad` and `Mac` support
     func width(
         with geometry: GeometryProxy
     ) -> CGFloat {

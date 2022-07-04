@@ -9,12 +9,13 @@ import SwiftUI
 
 public struct BottomSheetView<HContent: View, MContent: View, V: View>: View {
     
-    // For `landscape`, `iPad`, `Mac` and `Tv` support
+    // For `landscape` and `iPad` support
 #if !os(macOS)
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 #endif
     
+    // For `iPad and `Mac` support
     var isIPadOrMac: Bool {
 #if os(macOS)
         return true
@@ -31,9 +32,9 @@ public struct BottomSheetView<HContent: View, MContent: View, V: View>: View {
     @State var translation: CGFloat = 0
     @State var contentHeight: CGFloat = 0
     
+#if !os(macOS)
     // For `appleScrollBehaviour`
     @State var isScrollEnabled: Bool = false
-#if !os(macOS)
     @State var dragState: DragGesture.DragState = .none
 #endif
     
@@ -70,13 +71,21 @@ public struct BottomSheetView<HContent: View, MContent: View, V: View>: View {
                     self.bottomSheet(
                         with: geometry
                     )
+                        .clipped()
                         .measureSize { size in
                             self.contentHeight = size.height
                         }
                         .padding(self.isIPadOrMac ? 10 : 0)
-                        .clipped()
                 }
             }
+            .animation(
+                self.configuration.animation,
+                value: self.horizontalSizeClass
+            )
+            .animation(
+                self.configuration.animation,
+                value: self.verticalSizeClass
+            )
             .animation(
                 self.configuration.animation,
                 value: self.bottomSheetPosition
@@ -87,11 +96,21 @@ public struct BottomSheetView<HContent: View, MContent: View, V: View>: View {
             )
             .animation(
                 self.configuration.animation,
-                value: self.configuration
+                value: self.contentHeight
             )
+#if !os(macOS)
             .animation(
                 self.configuration.animation,
                 value: self.isScrollEnabled
+            )
+            .animation(
+                self.configuration.animation,
+                value: self.dragState
+            )
+#endif
+            .animation(
+                self.configuration.animation,
+                value: self.configuration
             )
         }
     }

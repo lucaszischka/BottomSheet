@@ -9,7 +9,7 @@
 import SwiftUI
 
 internal extension DragGesture {
-    enum DragState {
+    enum DragState: Equatable {
         case none
         case changed(
             value: DragGesture.Value

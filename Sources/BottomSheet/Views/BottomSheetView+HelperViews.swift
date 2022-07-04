@@ -116,7 +116,7 @@ extension BottomSheetView {
             alignment: .center,
             spacing: 0
         ) {
-            // Drag indicator - IPhone
+            // Drag indicator - iPhone
             if self.configuration.isResizeable && self.configuration.isDragIndicatorShown && !self.isIPadOrMac {
                 self.dragIndicator(
                     with: geometry
@@ -139,7 +139,7 @@ extension BottomSheetView {
                 Color.clear
             }
             
-            // Drag indicator - IPad
+            // Drag indicator - iPad and Mac
             if self.configuration.isResizeable && self.configuration.isDragIndicatorShown && self.isIPadOrMac {
                 self.dragIndicator(
                     with: geometry
@@ -276,16 +276,7 @@ extension BottomSheetView {
         with geometry: GeometryProxy
     ) -> some View {
         Group {
-#if os(macOS)
-            // Normal Content
-            self.mainContent
-                .gesture(
-                    self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
-                        with: geometry
-                    ) : nil
-                )
-#else
-            if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
+            if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable && !self.isIPadOrMac {
                 // Content for .appleScrollBehavior
                 self.appleScrollView(
                     with: geometry
@@ -299,7 +290,6 @@ extension BottomSheetView {
                         ) : nil
                     )
             }
-#endif
         }
         .transition(
             .move(
