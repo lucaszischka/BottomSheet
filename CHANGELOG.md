@@ -12,6 +12,7 @@ BottomSheet Changelog
 - Added onDissmis modifier
 - Added dragGesture listener
 - Changed customBackground to not rely on AnyView
+- Fixed onAppear only called once #65
 
 #### v2.8.0
 - Add `disableBottomSafeAreaInsets` option #63
