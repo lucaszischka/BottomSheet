@@ -7,7 +7,6 @@
 
 import Foundation
 
-#if !os(macOS)
 public extension BottomSheet {
     func enableAppleScrollBehavior(
         _ bool: Bool = true
@@ -16,4 +15,3 @@ public extension BottomSheet {
         return self
     }
 }
-#endif

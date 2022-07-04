@@ -277,13 +277,19 @@ internal extension BottomSheetView {
         with geometry: GeometryProxy
     ) -> some View {
         Group {
-            if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable && !self.isIPadOrMac {
+            if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
                 // Content for .appleScrollBehavior
+                if self.isIPadOrMac {
+                    ScrollView {
+                        self.mainContent
+                    }
+                } else {
 #if !os(macOS)
-                self.appleScrollView(
-                    with: geometry
-                )
+                    self.appleScrollView(
+                        with: geometry
+                    )
 #endif
+                }
             } else {
                 // Normal Content
                 self.mainContent
