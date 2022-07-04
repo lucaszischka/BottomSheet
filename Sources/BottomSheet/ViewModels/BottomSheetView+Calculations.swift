@@ -186,7 +186,6 @@ internal extension BottomSheetView {
 #if os(macOS)
         return geometry.size.width * 0.3
 #else
-        
         if self.horizontalSizeClass == .regular {
             return geometry.size.width * 0.3
         } else {

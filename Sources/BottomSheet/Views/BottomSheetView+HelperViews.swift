@@ -278,9 +278,11 @@ internal extension BottomSheetView {
         Group {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable && !self.isIPadOrMac {
                 // Content for .appleScrollBehavior
+#if !os(macOS)
                 self.appleScrollView(
                     with: geometry
                 )
+#endif
             } else {
                 // Normal Content
                 self.mainContent

@@ -73,6 +73,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                         .padding(self.isIPadOrMac ? 10 : 0)
                 }
             }
+#if !os(macOS)
             .animation(
                 self.configuration.animation,
                 value: self.horizontalSizeClass
@@ -81,6 +82,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 self.configuration.animation,
                 value: self.verticalSizeClass
             )
+#endif
             .animation(
                 self.configuration.animation,
                 value: self.bottomSheetPosition
