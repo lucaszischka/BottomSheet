@@ -263,7 +263,8 @@ internal extension BottomSheetView {
             action: self.closeSheet
         ) {
             Image(
-                "xmark.circle.fill"
+                "xmark.circle.fill",
+                bundle: Bundle.module
             )
         }
         .buttonStyle(.borderless)
