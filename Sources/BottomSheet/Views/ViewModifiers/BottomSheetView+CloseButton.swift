@@ -8,6 +8,15 @@
 import Foundation
 
 public extension BottomSheet {
+    
+    /// Adds a close button to the headerContent on the trailing side.
+    ///
+    /// To perform a custom action when the BottomSheet is closed, please use the `.onDismiss(action:)` option.
+    ///
+    /// - Parameters:
+    ///   - bool: A boolean whether the option is enabled.
+    ///
+    /// - Returns: A BottomSheet with a close button.
     func showCloseButton(
         _ bool: Bool = true
     ) -> BottomSheet {

@@ -8,6 +8,13 @@
 import Foundation
 
 public extension BottomSheet {
+    
+    /// Makes it possible to resize the BottomSheet.
+    ///
+    /// - Parameters:
+    ///   - bool: A boolean whether the option is enabled.
+    ///
+    /// - Returns: A BottomSheet that can be resized.
     func isResizeable(
         _ bool: Bool = true
     ) -> BottomSheet {
