@@ -28,11 +28,11 @@ internal class BottomSheetConfiguration: Equatable {
         dampingFraction: 0.75,
         blendDuration: 1
     )
-    var backgroundBlurMaterial: VisualEffect = .adaptive(.ultraThin)
+    var backgroundBlurMaterial: VisualEffect = .adaptive(.default)
 #if os(macOS)
     var backgroundView: AnyView = AnyView(
         VisualEffectView(
-            effect: .adaptive(.ultraThin)
+            effect: .adaptive(.default)
         )
             .cornerRadius(
                 10
@@ -41,7 +41,7 @@ internal class BottomSheetConfiguration: Equatable {
 #else
     var backgroundView: AnyView = AnyView(
         VisualEffectView(
-            effect: .adaptive(.ultraThin)
+            effect: .adaptive(.default)
         )
             .cornerRadius(
                 10,
