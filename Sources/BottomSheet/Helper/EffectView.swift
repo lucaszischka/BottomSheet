@@ -253,18 +253,17 @@ extension VisualEffect {
                 return .behindWindow
             case .titlebar:
                 return .withinWindow
-            case .contentBackground(let background),
-                    .headerView(let background),
-                    .behindPageBackground(let background):
-                return background ? .behindWindow : .withinWindow
+            case .contentBackground(let behindWindow),
+                    .headerView(let behindWindow),
+                    .behindPageBackground(let behindWindow):
+                return behindWindow ? .behindWindow : .withinWindow
             }
         }
     }
 }
 #endif
 
-@available(OSX 10.15, iOS 13.0, tvOS 13.0, macCatalyst 13.0, *)
-@available(watchOS, unavailable)
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, *)
 internal struct VisualEffectView: View {
     @State private var effect: VisualEffect?
     private let content: _PlatformVisualEffectView
@@ -338,10 +337,10 @@ internal struct VisualEffectView: View {
             let view = UIVisualEffectView(
                 effect: effect.parameters
             )
-            view.autoresizingMask = [
-                .flexibleWidth,
-                .flexibleHeight
-            ]
+//            view.autoresizingMask = [
+//                .flexibleWidth,
+//                .flexibleHeight
+//            ]
             return view
         }
         
@@ -350,7 +349,6 @@ internal struct VisualEffectView: View {
             context: Context
         ) {
             guard let effect = context.environment.visualEffect else {
-                // disable the effect
                 uiView.isHidden = true
                 return
             }
