@@ -23,7 +23,7 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled
     }
     
-    var animation: Animation = .spring(
+    var animation: Animation? = .spring(
         response: 0.5,
         dampingFraction: 0.75,
         blendDuration: 1
