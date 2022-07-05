@@ -82,7 +82,7 @@ internal extension BottomSheetView {
     func fullScreenBackground(
         with geometry: GeometryProxy
     ) -> some View {
-        VisualEffectView(effect: self.configuration.backgroundBlurMaterial)
+        self.configuration.backgroundBlurMaterial
             .opacity(
                 self.opacity(
                     with: geometry

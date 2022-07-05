@@ -33,7 +33,7 @@ public extension BottomSheet {
     ///
     /// - Returns: A view with a diffrent material used by the `.enableBackgroundBlur()` option.
     func backgroundBlurMaterial(
-        _ material: VisualEffect
+        _ material: EffectView
     ) -> BottomSheet {
         self.configuration.backgroundBlurMaterial = material
         return self
