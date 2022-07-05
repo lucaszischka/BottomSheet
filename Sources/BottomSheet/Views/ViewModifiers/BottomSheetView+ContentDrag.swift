@@ -11,7 +11,8 @@ public extension BottomSheet {
     
     /// Makes it possible to resize the BottomSheet by dragging the mainContent.
     ///
-    /// Due to imitations in the SwiftUI framework, this option has no effect if the mainContent is in a ScrollView or a List.
+    /// Due to imitations in the SwiftUI framework,
+    /// this option has no effect if the mainContent is in a ScrollView or a List.
     ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.
