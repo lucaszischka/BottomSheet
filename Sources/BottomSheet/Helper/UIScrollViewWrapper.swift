@@ -51,9 +51,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         switch self.dragState {
         case .none:
             return
-        case .changed(
-            value: let value
-        ):
+        case .changed(value: let value):
             DispatchQueue.main.async {
                 self.contentOffsetAnimation?.invalidate()
                 self.contentOffsetAnimation = nil
@@ -73,9 +71,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             ) * 0.55 / dims + 1.0))) * dims)
             
             viewController.scrollView.contentOffset.y = result
-        case .ended(
-            value: let value
-        ):
+        case .ended(value: let value):
             DispatchQueue.main.async {
                 self.dragState = .none
             }

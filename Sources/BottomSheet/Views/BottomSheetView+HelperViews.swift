@@ -132,7 +132,7 @@ internal extension BottomSheetView {
             
             // BottomSheet main content
             if self.bottomSheetPosition.isBottom {
-//                Color.clear
+                Color.clear
             } else if !self.bottomSheetPosition.isHidden {
                 self.bottomSheetContent(
                     with: geometry
