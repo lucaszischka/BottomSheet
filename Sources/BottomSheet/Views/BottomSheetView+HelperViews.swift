@@ -266,11 +266,11 @@ internal extension BottomSheetView {
                 "xmark.circle.fill",
                 bundle: Bundle.module
             )
+                .resizable()
+                .scaledToFit()
+                .frame(width: 30, height: 30)
         }
         .buttonStyle(.borderless)
-        .font(
-            .title
-        )
     }
     
     func bottomSheetContent(

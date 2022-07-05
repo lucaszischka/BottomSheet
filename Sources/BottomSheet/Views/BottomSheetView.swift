@@ -66,11 +66,13 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 self.bottomSheet(
                     with: geometry
                 )
+                // .clipped()
                     .measureSize { size in
                         self.contentHeight = size.height
                     }
-                    .padding(self.isIPadOrMac ? 10 : 0)
-                    .clipped()
+                    .padding(
+                        self.isIPadOrMac ? 10 : 0
+                    )
             }
         }
 #if !os(macOS)
