@@ -281,27 +281,29 @@ internal extension BottomSheetView {
     func bottomSheetContent(
         with geometry: GeometryProxy
     ) -> some View {
-        if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
-            // Content for .appleScrollBehavior
-            if self.isIPadOrMac {
-                ScrollView {
-                    self.mainContent
+        Group {
+            if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
+                // Content for .appleScrollBehavior
+                if self.isIPadOrMac {
+                    ScrollView {
+                        self.mainContent
+                    }
+                } else {
+#if !os(macOS)
+                    self.appleScrollView(
+                        with: geometry
+                    )
+#endif
                 }
             } else {
-#if !os(macOS)
-                self.appleScrollView(
-                    with: geometry
-                )
-#endif
+                // Normal Content
+                self.mainContent
+                    .gesture(
+                        self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
+                            with: geometry
+                        ) : nil
+                    )
             }
-        } else {
-            // Normal Content
-            self.mainContent
-                .gesture(
-                    self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
-                        with: geometry
-                    ) : nil
-                )
         }
     }
     
