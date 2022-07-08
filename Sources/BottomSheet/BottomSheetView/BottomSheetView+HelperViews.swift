@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// TODO: Check code
 internal extension BottomSheetView {
     
     // Gestures
@@ -132,9 +131,11 @@ internal extension BottomSheetView {
             }
             
             // BottomSheet main content
-            if self.bottomSheetPosition.isBottom && !self.bottomSheetPosition.isDynamic {
-                Spacer(minLength: 0)
-            } else if !self.bottomSheetPosition.isHidden {
+            if self.bottomSheetPosition.isBottom {
+                if !self.bottomSheetPosition.isDynamic {
+                    Spacer(minLength: 0)
+                }
+            } else {
                 self.bottomSheetContent(
                     with: geometry
                 )
@@ -171,6 +172,7 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
+        .clipped()
         .offset(
             y: self.offsetY(
                 with: geometry
@@ -247,10 +249,12 @@ internal extension BottomSheetView {
         .padding(
             .horizontal
         )
+        // Add top padding when an iPad or Mac or else when the drag indicator is not shown
         .padding(
             .top,
             self.configuration.isResizeable && self.configuration.isDragIndicatorShown && !self.isIPadOrMac ? 0 : 20
         )
+        // TODO: Needed?
         .padding(
             .bottom,
             self.headerContentPadding(
@@ -277,35 +281,28 @@ internal extension BottomSheetView {
     func bottomSheetContent(
         with geometry: GeometryProxy
     ) -> some View {
-        Group {
-            if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
-                // Content for .appleScrollBehavior
-                if self.isIPadOrMac {
-                    ScrollView {
-                        self.mainContent
-                    }
-                } else {
-#if !os(macOS)
-                    self.appleScrollView(
-                        with: geometry
-                    )
-#endif
+        if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
+            // Content for .appleScrollBehavior
+            if self.isIPadOrMac {
+                ScrollView {
+                    self.mainContent
                 }
             } else {
-                // Normal Content
-                self.mainContent
-                    .gesture(
-                        self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
-                            with: geometry
-                        ) : nil
-                    )
+#if !os(macOS)
+                self.appleScrollView(
+                    with: geometry
+                )
+#endif
             }
+        } else {
+            // Normal Content
+            self.mainContent
+                .gesture(
+                    self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
+                        with: geometry
+                    ) : nil
+                )
         }
-        .transition(
-            .move(
-                edge: self.isIPadOrMac ? .top : .bottom
-            )
-        )
     }
     
 #if !os(macOS)

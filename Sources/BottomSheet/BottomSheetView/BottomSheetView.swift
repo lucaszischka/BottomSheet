@@ -55,27 +55,16 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
         ) {
             GeometryReader { geometry in
                 // Full sceen background used for `backgroundBlur` and `tapToDissmiss`
-                if !self.bottomSheetPosition.isHidden && (
-                    self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled
-                ) {
+                if self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled {
                     self.fullScreenBackground(
                         with: geometry
                     )
                 }
                 
                 // BottomSheet
-                Group {
-                    if self.isIPadOrMac {
-                        self.bottomSheet(
-                            with: geometry
-                        )
-                            .clipped()
-                    } else {
-                        self.bottomSheet(
-                            with: geometry
-                        )
-                    }
-                }
+                self.bottomSheet(
+                    with: geometry
+                )
                 .measureSize { size in
                     self.contentHeight = size.height
                 }

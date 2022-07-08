@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// TODO: Hiding mainContent not animated (.hidden, ....Bottom) - for some reason it works with .default animation
+// TODO: Align header and mainContent to top on iPad and Mac
 public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
     
     @Binding private var bottomSheetPosition: BottomSheetPosition
@@ -26,13 +28,16 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
         ZStack {
             self.view
             
-            BottomSheetView(
-                bottomSheetPosition: self.$bottomSheetPosition,
-                headerContent: self.headerContent,
-                mainContent: self.mainContent,
-                switchablePositions: self.switchablePositions,
-                configuration: self.configuration
-            )
+            // Hide the hole BottomSheet when .hidden
+            if !self.bottomSheetPosition.isHidden {
+                BottomSheetView(
+                    bottomSheetPosition: self.$bottomSheetPosition,
+                    headerContent: self.headerContent,
+                    mainContent: self.mainContent,
+                    switchablePositions: self.switchablePositions,
+                    configuration: self.configuration
+                )
+            }
         }
     }
     

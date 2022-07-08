@@ -89,6 +89,8 @@ internal extension BottomSheetView {
                 switchablePositions: switchablePositions,
                 currentHeight: currentHeight
             )
+        } else if height >= 0.3 && self.configuration.isSwipeToDismissEnabled {
+            self.bottomSheetPosition = .hidden
         } else if height >= 0.3 {
             // Go down to lowest position
             switch self.bottomSheetPosition {
@@ -110,8 +112,6 @@ internal extension BottomSheetView {
                 if let lowestPosition = switchablePositions.first?.position, lowestPosition != self.bottomSheetPosition {
                     // 1. lowest position that is not the current one
                     self.bottomSheetPosition = lowestPosition
-                } else if self.configuration.isSwipeToDismissEnabled {
-                    self.bottomSheetPosition = .hidden
                 }
             }
         }
@@ -131,6 +131,8 @@ internal extension BottomSheetView {
                 switchablePositions: switchablePositions,
                 currentHeight: currentHeight
             )
+        } else if height >= 0.3 && self.configuration.isSwipeToDismissEnabled {
+            self.bottomSheetPosition = .hidden
         } else if height >= 0.1 {
             // Go down one position
             self.onePositionSwitchDown(
@@ -200,8 +202,6 @@ internal extension BottomSheetView {
             if let position = switchablePositions.last(where: { $0.height < currentHeight })?.position {
                 // 1. highest value that is lower than current height
                 self.bottomSheetPosition = position
-            } else if self.configuration.isSwipeToDismissEnabled {
-                self.bottomSheetPosition = .hidden
             }
         }
     }
