@@ -145,8 +145,8 @@ internal extension BottomSheetView {
             if let height = position.asScreenHeight(
                 with: geometry
             ) {
-                if position.isHidden {
-                    // Remove hidden position
+                if position.isHidden || position == self.bottomSheetPosition {
+                    // Remove hidden and current position
                     return nil
                 } else {
                     return (

@@ -14,7 +14,7 @@ internal extension BottomSheetView {
     func dragIndicatorAction(
         with geometry: GeometryProxy
     ) {
-        // An array with all switchablePositions sorted by height (low to high), excluding .dynamic... and .hidden
+        // An array with all switchablePositions sorted by height (low to high), excluding .dynamic..., .hidden and the current position
         let switchablePositions = self.getSwitchablePositions(
             with: geometry
         )
