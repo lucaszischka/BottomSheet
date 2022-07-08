@@ -1,5 +1,5 @@
 //
-//  BottomSheetView+SwipeToDismiss.swift
+//  BottomSheet+Resizeable.swift
 //
 //  Created by Lucas Zischka.
 //  Copyright © 2022 Lucas Zischka. All rights reserved.
@@ -9,16 +9,16 @@ import Foundation
 
 public extension BottomSheet {
     
-    /// Makes it possible to dismiss the BottomSheet by long swiping.
+    /// Makes it possible to resize the BottomSheet.
     ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.
     ///
-    /// - Returns: A BottomSheet that can be dismissed by long swiping.
-    func enableSwipeToDismiss(
+    /// - Returns: A BottomSheet that can be resized.
+    func isResizeable(
         _ bool: Bool = true
     ) -> BottomSheet {
-        self.configuration.isSwipeToDismissEnabled = bool
+        self.configuration.isResizeable = bool
         return self
     }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO: Add documentation, add/fix input value checks if possible
 public enum BottomSheetPosition: Equatable {
     // Hidden
     case hidden
@@ -47,6 +48,15 @@ public enum BottomSheetPosition: Equatable {
     internal var isTop: Bool {
         switch self {
         case .dynamicTop, .relativeTop, .absoluteTop:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    internal var isDynamic: Bool {
+        switch self {
+        case .dynamic, .dynamicBottom, .dynamicTop:
             return true
         default:
             return false

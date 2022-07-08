@@ -1,5 +1,5 @@
 //
-//  BottomSheetView+Configuration.swift
+//  BottomSheetConfiguration.swift
 //
 //  Created by Lucas Zischka.
 //  Copyright © 2022 Lucas Zischka. All rights reserved.
@@ -8,6 +8,7 @@
 import SwiftUI
 
 internal class BottomSheetConfiguration: Equatable {
+    // TODO: Fix Equatable
     static func == (
         lhs: BottomSheetConfiguration,
         rhs: BottomSheetConfiguration

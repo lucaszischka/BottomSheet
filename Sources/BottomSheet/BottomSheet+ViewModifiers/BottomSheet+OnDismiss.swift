@@ -1,5 +1,5 @@
 //
-//  BottomSheetView+OnDismiss.swift
+//  BottomSheet+OnDismiss.swift
 //
 //  Created by Lucas Zischka.
 //  Copyright © 2022 Lucas Zischka. All rights reserved.

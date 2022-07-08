@@ -1,5 +1,5 @@
 //
-//  BottomSheetView+CustomBackground.swift
+//  BottomSheet+CustomBackground.swift
 //
 //  Created by Lucas Zischka.
 //  Copyright © 2022 Lucas Zischka. All rights reserved.

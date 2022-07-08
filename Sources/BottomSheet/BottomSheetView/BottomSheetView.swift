@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO: Check code
 internal struct BottomSheetView<HContent: View, MContent: View>: View {
     
     // For `landscape` and `iPad` support

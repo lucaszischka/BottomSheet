@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO: Make EffectView cross platform (could remove a couple of os checks)
 #if os(macOS)
 import AppKit
 

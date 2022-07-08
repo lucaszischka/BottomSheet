@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO: Check code
 internal extension BottomSheetView {
     
     // Gestures
@@ -131,8 +132,8 @@ internal extension BottomSheetView {
             }
             
             // BottomSheet main content
-            if self.bottomSheetPosition.isBottom {
-//                Color.clear
+            if self.bottomSheetPosition.isBottom && !self.bottomSheetPosition.isDynamic {
+                Spacer(minLength: 0)
             } else if !self.bottomSheetPosition.isHidden {
                 self.bottomSheetContent(
                     with: geometry

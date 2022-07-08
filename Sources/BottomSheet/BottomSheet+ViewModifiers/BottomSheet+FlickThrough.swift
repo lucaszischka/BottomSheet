@@ -1,5 +1,5 @@
 //
-//  BottomSheetView+FlickThrough.swift
+//  BottomSheet+FlickThrough.swift
 //
 //  Created by Lucas Zischka.
 //  Copyright © 2022 Lucas Zischka. All rights reserved.
