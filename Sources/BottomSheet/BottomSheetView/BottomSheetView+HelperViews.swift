@@ -132,9 +132,8 @@ internal extension BottomSheetView {
             
             // BottomSheet main content
             if self.bottomSheetPosition.isBottom {
-                if !self.bottomSheetPosition.isDynamic {
-                    Spacer(minLength: 0)
-                }
+                Spacer(minLength: 0)
+                    .frame(height: self.bottomSheetPosition.isDynamic ? geometry.safeAreaInsets.bottom : nil)
             } else {
                 self.bottomSheetContent(
                     with: geometry
@@ -249,7 +248,7 @@ internal extension BottomSheetView {
         .padding(
             .horizontal
         )
-        // Add top padding when an iPad or Mac or else when the drag indicator is not shown
+        // Add top padding when on iPad or Mac or when the drag indicator is not shown
         .padding(
             .top,
             self.configuration.isResizeable && self.configuration.isDragIndicatorShown && !self.isIPadOrMac ? 0 : 20
