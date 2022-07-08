@@ -35,7 +35,7 @@ internal extension BottomSheetView {
                 switchablePositions: switchablePositions
             )
         case .dynamicTop:
-            self.dynamicBottomSwitch(
+            self.dynamicTopSwitch(
                 switchablePositions: switchablePositions
             )
         case .relativeBottom, .absoluteBottom:
