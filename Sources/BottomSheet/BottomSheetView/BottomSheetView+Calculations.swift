@@ -92,8 +92,8 @@ internal extension BottomSheetView {
                 geometry.size.height * 1.05
             )
         } else {
-            // Is .dynamic...
-            return self.contentHeight - self.translation
+            // Is .dynamic... so there is no fixed height
+            return nil
         }
     }
     
