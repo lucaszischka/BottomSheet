@@ -47,21 +47,17 @@ internal extension BottomSheetView {
         self.configuration.onDismiss()
     }
     
-    // TODO: Required?
     // For `headerContent
     func headerContentPadding(
         with geometry: GeometryProxy
     ) -> CGFloat {
-        if self.bottomSheetPosition.isDynamic {
+        if self.bottomSheetPosition.isBottom {
+            return 20
+        } else if self.bottomSheetPosition.isDynamic {
             // TODO: Reason?
             return 0
-        } else if self.bottomSheetPosition.isBottom {
-            // TODO: Reason?
-            return geometry.safeAreaInsets.bottom + 25
-        } else if self.headerContent == nil && !self.configuration.isCloseButtonShown {
-            // Don't squash mainContent to close to drag indicator or BottomSheet edges
-            return 20
         } else {
+            // TODO: Reason?
             return 0
         }
     }
@@ -96,8 +92,8 @@ internal extension BottomSheetView {
                 geometry.size.height * 1.05
             )
         } else {
-            // Is .dynamic... so there is no fixed height
-            return nil
+            // Is .dynamic...
+            return self.contentHeight - self.translation
         }
     }
     

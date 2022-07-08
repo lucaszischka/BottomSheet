@@ -133,7 +133,7 @@ internal extension BottomSheetView {
             // BottomSheet main content
             if self.bottomSheetPosition.isBottom {
                 Spacer(minLength: 0)
-                    .frame(height: self.bottomSheetPosition.isDynamic ? geometry.safeAreaInsets.bottom : nil)
+                    .frame(height: self.bottomSheetPosition.isDynamic ? geometry.safeAreaInsets.bottom - self.translation : nil)
             } else {
                 self.bottomSheetContent(
                     with: geometry
