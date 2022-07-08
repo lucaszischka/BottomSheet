@@ -39,6 +39,11 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
                 )
             }
         }
+        .transition(
+            .move(
+                edge: .bottom
+            )
+        )
     }
     
     // Initializers

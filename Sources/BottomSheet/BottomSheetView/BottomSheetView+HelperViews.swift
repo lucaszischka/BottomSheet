@@ -177,11 +177,6 @@ internal extension BottomSheetView {
                 with: geometry
             )
         )
-        .transition(
-            .move(
-                edge: self.isIPadOrMac ? .top : .bottom
-            )
-        )
     }
     
     func dragIndicator(

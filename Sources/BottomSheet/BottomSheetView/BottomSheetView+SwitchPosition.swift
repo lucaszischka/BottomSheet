@@ -90,7 +90,7 @@ internal extension BottomSheetView {
                 currentHeight: currentHeight
             )
         } else if height >= 0.3 && self.configuration.isSwipeToDismissEnabled {
-            self.bottomSheetPosition = .hidden
+            self.closeSheet()
         } else if height >= 0.3 {
             // Go down to lowest position
             switch self.bottomSheetPosition {
@@ -132,7 +132,7 @@ internal extension BottomSheetView {
                 currentHeight: currentHeight
             )
         } else if height >= 0.3 && self.configuration.isSwipeToDismissEnabled {
-            self.bottomSheetPosition = .hidden
+            self.closeSheet()
         } else if height >= 0.1 {
             // Go down one position
             self.onePositionSwitchDown(
