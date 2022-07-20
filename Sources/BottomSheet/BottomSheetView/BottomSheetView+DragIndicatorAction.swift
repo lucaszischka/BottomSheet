@@ -342,7 +342,7 @@ internal extension BottomSheetView {
         })?.position {
             // 8. highest value that is bottom
             self.bottomSheetPosition = position
-        }  else if let position = switchablePositions.first(where: {
+        } else if let position = switchablePositions.first(where: {
             $0.position.isTop
         })?.position {
             // 9. lowest value that is top
