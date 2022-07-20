@@ -80,8 +80,9 @@ internal extension BottomSheetView {
                 if self.switchablePositions.contains(.dynamicTop) {
                     // 1. dynamicTop
                     self.bottomSheetPosition = .dynamicTop
-                } else {
-                    fallthrough
+                } else if let highest = switchablePositions.last, highest.height > currentHeight {
+                    // 2. highest position
+                    self.bottomSheetPosition = highest.position
                 }
             default:
                 if let highest = switchablePositions.last, highest.height > currentHeight {
@@ -101,22 +102,27 @@ internal extension BottomSheetView {
             // Go down to lowest position
             switch self.bottomSheetPosition {
             case .dynamicTop:
-                if self.switchablePositions.contains(.dynamic) {
-                    // 1. dynamic
+                if self.switchablePositions.contains(.dynamicBottom) {
+                    // 1. dynamicBottom
+                    self.bottomSheetPosition = .dynamicBottom
+                } else if self.switchablePositions.contains(.dynamic) {
+                    // 2. dynamic
                     self.bottomSheetPosition = .dynamic
-                } else {
-                    fallthrough
+                } else if let lowest = switchablePositions.first, lowest.height < currentHeight {
+                    // 3. lowest position that is lower than the current one
+                    self.bottomSheetPosition = lowest.position
                 }
             case .dynamic:
                 if self.switchablePositions.contains(.dynamicBottom) {
                     // 1. dynamicBottom
                     self.bottomSheetPosition = .dynamicBottom
-                } else {
-                    fallthrough
+                } else if let lowest = switchablePositions.first, lowest.height < currentHeight {
+                    // 2. lowest position that is lower than the current one
+                    self.bottomSheetPosition = lowest.position
                 }
             default:
                 if let lowest = switchablePositions.first, lowest.height < currentHeight {
-                    // 1. lowest position that is not the current one
+                    // 1. lowest position that is lower than the current one
                     self.bottomSheetPosition = lowest.position
                 }
             }
