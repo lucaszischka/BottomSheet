@@ -1,7 +1,7 @@
 BottomSheet Changelog
 ==================
 
-#### v 3.0.0
+#### v3.0.0
 - Recoded the project
 - Added iPhone landscape support
 - Added iPad support
@@ -10,6 +10,8 @@ BottomSheet Changelog
 - Cleaned up the code (swiftLint and spliting it up)
 - Added dynamic size support
 - Added onDissmis modifier
+- Added dragIndicatorAction modifier
+- Added dragPositionSwitchAction modifier
 - Added dragGesture listener
 - Changed customBackground to not rely on AnyView
 - Fixed onAppear only called once #65

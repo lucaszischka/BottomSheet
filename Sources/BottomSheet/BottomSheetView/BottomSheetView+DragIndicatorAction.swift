@@ -14,51 +14,55 @@ internal extension BottomSheetView {
     func dragIndicatorAction(
         with geometry: GeometryProxy
     ) {
-        // An array with all switchablePositions sorted by height (low to high), excluding .dynamic..., .hidden and the current position
-        let switchablePositions = self.getSwitchablePositions(
-            with: geometry
-        )
-        
-        // The height of the currentBottomSheetPosition; nil if .dynamic...
-        let currentHeight = self.bottomSheetPosition.asScreenHeight(with: geometry) ?? self.contentHeight
-        
-        
-        switch self.bottomSheetPosition {
-        case .hidden:
-            return
-        case .dynamicBottom:
-            self.dynamicBottomSwitch(
-                switchablePositions: switchablePositions,
-                currentHeight: currentHeight
+        if let dragIndicatorAction = self.configuration.dragIndicatorAction {
+            dragIndicatorAction(geometry)
+        } else {
+            // An array with all switchablePositions sorted by height (low to high), excluding .dynamic..., .hidden and the current position
+            let switchablePositions = self.getSwitchablePositions(
+                with: geometry
             )
-        case .dynamic:
-            self.dynamicSwitch(
-                switchablePositions: switchablePositions,
-                currentHeight: currentHeight
-            )
-        case .dynamicTop:
-            self.dynamicTopSwitch(
-                switchablePositions: switchablePositions,
-                currentHeight: currentHeight
-            )
-        case .relativeBottom, .absoluteBottom:
-            self.valueBottomSwitch(
-                switchablePositions: switchablePositions,
-                currentHeight: currentHeight
-            )
-        case .relative, .absolute:
-            self.valueSwitch(
-                switchablePositions: switchablePositions,
-                currentHeight: currentHeight
-            )
-        case .relativeTop, .absoluteTop:
-            self.valueTopSwitch(
-                switchablePositions: switchablePositions,
-                currentHeight: currentHeight
-            )
+            
+            // The height of the currentBottomSheetPosition; nil if .dynamic...
+            let currentHeight = self.bottomSheetPosition.asScreenHeight(with: geometry) ?? self.contentHeight
+            
+            
+            switch self.bottomSheetPosition {
+            case .hidden:
+                return
+            case .dynamicBottom:
+                self.dynamicBottomSwitch(
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight
+                )
+            case .dynamic:
+                self.dynamicSwitch(
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight
+                )
+            case .dynamicTop:
+                self.dynamicTopSwitch(
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight
+                )
+            case .relativeBottom, .absoluteBottom:
+                self.valueBottomSwitch(
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight
+                )
+            case .relative, .absolute:
+                self.valueSwitch(
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight
+                )
+            case .relativeTop, .absoluteTop:
+                self.valueTopSwitch(
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight
+                )
+            }
+            
+            self.endEditing()
         }
-        
-        self.endEditing()
     }
     
     private func dynamicBottomSwitch(

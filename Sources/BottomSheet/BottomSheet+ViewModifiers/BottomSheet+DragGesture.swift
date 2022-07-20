@@ -40,4 +40,23 @@ public extension BottomSheet {
         self.configuration.onDragEnded = perform
         return self
     }
+    
+    /// A action that will be performed when the user drags the sheet down.
+    ///
+    /// The `GeometryProxy`and `DragGesture.Value` parameter can be used for calculations.
+    /// This replaces the default action. You need to switch the positons, account for the revesed drag direction on iPad and Mac and dismiss the keyboard yourself.
+    ///
+    /// - Parameters:
+    ///   - perform: The action to perform when the drag indicator is tapped.
+    ///
+    /// - Returns: A BottomSheet with a custom on drag indicator action.
+    func dragPositionSwitchAction(
+        _ action: @escaping (
+            GeometryProxy,
+            DragGesture.Value
+        ) -> Void
+    ) -> BottomSheet {
+        self.configuration.dragPositionSwitchAction = action
+        return self
+    }
 }

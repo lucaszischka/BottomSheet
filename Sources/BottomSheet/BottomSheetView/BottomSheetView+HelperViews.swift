@@ -28,9 +28,9 @@ internal extension BottomSheetView {
                     value
                 )
                 
-                self.switchPosition(
+                self.dragPositionSwitch(
                     with: geometry,
-                    translation: self.isIPadOrMac ? -value.translation.height : value.translation.height
+                    value: value
                 )
                 
                 self.translation = 0
@@ -64,9 +64,9 @@ internal extension BottomSheetView {
                     self.isScrollEnabled = true
                 } else {
                     self.dragState = .none
-                    self.switchPosition(
+                    self.dragPositionSwitch(
                         with: geometry,
-                        translation: self.isIPadOrMac ? -value.translation.height : value.translation.height
+                        value: value
                     )
                     
                     self.translation = 0

@@ -36,4 +36,22 @@ public extension BottomSheet {
         self.configuration.dragIndicatorColor = color
         return self
     }
+    
+    /// A action that will be performed when the drag indicator is tapped.
+    ///
+    /// The `GeometryProxy` parameter can be used for calculations.
+    /// This replaces the default action. You need to switch the positons and dismiss the keyboard yourself.
+    ///
+    /// - Parameters:
+    ///   - perform: The action to perform when the drag indicator is tapped.
+    ///
+    /// - Returns: A BottomSheet with a custom on drag indicator action.
+    func dragIndicatorAction(
+        _ action: @escaping (
+            GeometryProxy
+        ) -> Void
+    ) -> BottomSheet {
+        self.configuration.dragIndicatorAction = action
+        return self
+    }
 }

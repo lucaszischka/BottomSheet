@@ -11,34 +11,40 @@ internal extension BottomSheetView {
     
     // For `flickThrough`
     
-    func switchPosition(
+    func dragPositionSwitch(
         with geometry: GeometryProxy,
-        translation: CGFloat
+        value: DragGesture.Value
     ) {
-        // The height in percent relative to the screen height the user has dragged
-        let height: CGFloat = translation / geometry.size.height
-        
-        // An array with all switchablePositions sorted by height (low to high), excluding .dynamic..., .hidden and the current position
-        let switchablePositions = self.getSwitchablePositions(
-            with: geometry
-        )
-        
-        // The height of the currentBottomSheetPosition; nil if .dynamic...
-        let currentHeight = self.bottomSheetPosition.asScreenHeight(with: geometry)
-        
-        
-        if self.configuration.isFlickThroughEnabled {
-            self.switchPositonWithFlickThrough(
-                with: height,
-                switchablePositions: switchablePositions,
-                currentHeight: currentHeight ?? self.contentHeight
-            )
+        if let dragPositionSwitchAction = self.configuration.dragPositionSwitchAction {
+            dragPositionSwitchAction(geometry, value)
         } else {
-            self.switchPositonWithoutFlickThrough(
-                with: height,
-                switchablePositions: switchablePositions,
-                currentHeight: currentHeight ?? self.contentHeight
+            // On iPad and Mac the drag direction is reversed
+            let translationHeight: CGFloat = self.isIPadOrMac ? -value.translation.height : value.translation.height
+            // The height in percent relative to the screen height the user has dragged
+            let height: CGFloat = translationHeight / geometry.size.height
+            
+            // An array with all switchablePositions sorted by height (low to high), excluding .dynamic..., .hidden and the current position
+            let switchablePositions = self.getSwitchablePositions(
+                with: geometry
             )
+            
+            // The height of the currentBottomSheetPosition; nil if .dynamic...
+            let currentHeight = self.bottomSheetPosition.asScreenHeight(with: geometry)
+            
+            
+            if self.configuration.isFlickThroughEnabled {
+                self.switchPositonWithFlickThrough(
+                    with: height,
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight ?? self.contentHeight
+                )
+            } else {
+                self.switchPositonWithoutFlickThrough(
+                    with: height,
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight ?? self.contentHeight
+                )
+            }
         }
     }
     
