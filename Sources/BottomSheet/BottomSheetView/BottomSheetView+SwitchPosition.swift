@@ -208,6 +208,22 @@ internal extension BottomSheetView {
             if let position = switchablePositions.first(where: { $0.height > currentHeight })?.position {
                 // 1. lowest value that is higher than current height
                 self.bottomSheetPosition = position
+            } else if self.bottomSheetPosition.isBottom {
+                // 2. if currently bottom
+                
+                if self.switchablePositions.contains(.dynamic) {
+                    // 2.1 dynamic
+                    self.bottomSheetPosition = .dynamic
+                } else if self.switchablePositions.contains(where: .dynamicTop) {
+                    // 2.2 dynamicTop
+                    self.bottomSheetPosition = .dynamicTop
+                }
+            } else if !self.bottomSheetPosition.isTop {
+                // 3. if currently "medium"
+                if self.switchablePositions.contains(where: .dynamicTop) {
+                    // 3.1 dynamicTop
+                    self.bottomSheetPosition = .dynamicTop
+                }
             }
         }
     }
@@ -240,6 +256,22 @@ internal extension BottomSheetView {
             if let position = switchablePositions.last(where: { $0.height < currentHeight })?.position {
                 // 1. highest value that is lower than current height
                 self.bottomSheetPosition = position
+            } else if self.bottomSheetPosition.isTop {
+                // 2. if currently top
+                
+                if self.switchablePositions.contains(.dynamic) {
+                    // 2.1 dynamic
+                    self.bottomSheetPosition = .dynamic
+                } else if self.switchablePositions.contains(where: .dynamicBottom) {
+                    // 2.2 dynamicBottom
+                    self.bottomSheetPosition = .dynamicBottom
+                }
+            } else if !self.bottomSheetPosition.isBottom {
+                // 3. if currently "medium"
+                if self.switchablePositions.contains(where: .dynamicBottom) {
+                    // 3.1 dynamicTop
+                    self.bottomSheetPosition = .dynamicBottom
+                }
             }
         }
     }
