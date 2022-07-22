@@ -7,25 +7,47 @@
 
 import SwiftUI
 
-// TODO: Add documentation, add/fix input value checks if possible
 public enum BottomSheetPosition: Equatable {
-    // Hidden
+    /// The state where the BottomSheet is hidden
     case hidden
-    // Bottom - only show header content with dynamic size
+    
+    /// The state where only the headerContent is visible
     case dynamicBottom
-    // Bottom - only show header content with realtive size
-    case relativeBottom(CGFloat)
-    // Bottom - only show header content with absolute size
-    case absoluteBottom(CGFloat)
-    case dynamicTop
-    case relativeTop(CGFloat)
-    case absoluteTop(CGFloat)
-    // Height matching content size
+    
+    /// The state where the height of the BottomSheet is equal to its content size
+    /// Only makes sense for views that don't take all avaiable space (like ScrollVIew, Color, ...) 
     case dynamic
-    // Height as percent
+    
+    /// The state where the height of the BottomSheet is equal to its content size
+    /// It functions as top position for appleScrollBehaviour
+    /// Only makes sense for views that don't take all avaiable space (like ScrollVIew, Color, ...)
+    case dynamicTop
+    
+    /// The state where only the headerContent is visible. The height of the BottomSheet is x%
+    /// Only values between 0 and 1 make sense
+    case relativeBottom(CGFloat)
+    
+    /// The state where the height of the BottomSheet is equal to x%
+    /// Only values between 0 and 1 make sense
     case relative(CGFloat)
-    // Height in pixel
+    
+    /// The state where the height of the BottomSheet is equal to x%
+    /// It funtions as top position for appleScrollBehaviour
+    /// Only values between 0 and 1 make sense
+    case relativeTop(CGFloat)
+    
+    ///  The state where only the headerContent is visible. The height of the BottomSheet is x
+    /// Only values above 0 make sense
+    case absoluteBottom(CGFloat)
+    
+    /// The state where the height of the BottomSheet is equal to x
+    /// Only values above 0 make sense
     case absolute(CGFloat)
+    
+    /// The state where the height of the BottomSheet is equal to x
+    /// It funtions as top position for appleScrollBehaviour
+    /// Only values above 0 make sense
+    case absoluteTop(CGFloat)
     
     internal var isHidden: Bool {
         switch self {
@@ -75,32 +97,6 @@ public enum BottomSheetPosition: Equatable {
             return geometry.size.height * value
         case .absolute(let value), .absoluteBottom(let value), .absoluteTop(let value):
             return value
-        }
-    }
-    
-    init(
-        _ `case`: BottomSheetPosition
-    ) {
-        self = `case`
-        switch self {
-        case .hidden, .dynamic, .dynamicBottom, .dynamicTop:
-            return
-        case .relative(let value), .relativeBottom(let value), .relativeTop(let value):
-            if value < 0 || value > 1 {
-                fatalError(
-                    "[BottomSheetPosition] .relative: The value must be between or equal to 0 and 1."
-                )
-            } else {
-                return
-            }
-        case .absolute(let value), .absoluteBottom(let value), .absoluteTop(let value):
-            if value < 0 {
-                fatalError(
-                    "[BottomSheetPosition] .absolute: The value must be greater than 0."
-                )
-            } else {
-                return
-            }
         }
     }
 }

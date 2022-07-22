@@ -212,7 +212,6 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
-        // TODO: Redo dynamic?
         .measureSize { size in
             self.contentHeight = size.height
         }
