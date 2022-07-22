@@ -72,20 +72,17 @@ internal extension BottomSheetView {
     func height(
         with geometry: GeometryProxy
     ) -> CGFloat? {
-        if let height = self.bottomSheetPosition.asScreenHeight(
+        let height = self.bottomSheetPosition.asScreenHeight(
             with: geometry
-        ) {
-            return min(
-                max(
-                    height - self.translation,
-                    0
-                ),
-                geometry.size.height + geometry.safeAreaInsets.bottom + geometry.safeAreaInsets.top
-            )
-        } else {
-            // Is .dynamic... so there is no fixed height
-            return nil
-        }
+        ) ?? self.contentHeight
+        
+        return min(
+            max(
+                height - self.translation,
+                0
+            ),
+            geometry.size.height + geometry.safeAreaInsets.bottom + geometry.safeAreaInsets.top
+        )
     }
     
     // For position switching

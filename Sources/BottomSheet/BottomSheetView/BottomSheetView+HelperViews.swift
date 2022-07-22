@@ -212,8 +212,12 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
+        // Get dynamic content size
         .measureSize { size in
-            self.contentHeight = size.height
+            // Don't update on drag
+            if self.translation = 0 {
+                self.contentHeight = size.height
+            }
         }
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
