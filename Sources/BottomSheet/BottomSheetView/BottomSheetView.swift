@@ -50,6 +50,8 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
     var body: some View {
         // Full screen (via GeometryReader) ZStack for aligning content
         ZStack(
+            // On iPad and Mac the BottomSheet is aligned to the top left
+            // On iPhone it is aligned to the bottom, in horizontal mode to the bottom left
             alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
         ) {
             GeometryReader { geometry in
@@ -60,18 +62,14 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                     )
                 }
                 
-                // BottomSheet
-                self.bottomSheet(
-                    with: geometry
-                )
-                .measureSize { size in
-                    self.contentHeight = size.height
-                }
-                .padding(
-                    self.isIPadOrMac ? 10 : 0
-                )
+                Text("Where am i?")
+//                // The BottomSheet itself
+//                self.bottomSheet(
+//                    with: geometry
+//                )
             }
         }
+        // Animate value changes
 #if !os(macOS)
         .animation(
             self.configuration.animation,
