@@ -211,13 +211,6 @@ internal extension BottomSheetView {
                         with: geometry
                     ) : nil
                 )
-            
-        // Make the background transition via move
-            .transition(
-                AnyTransition.move(edge: .bottom).animation(.default)
-//                .move(
-//                    edge: self.isIPadOrMac ? .top : .bottom
-//                )
             )
         )
         // TODO: Redo dynamic?

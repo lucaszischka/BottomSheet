@@ -58,10 +58,10 @@ internal extension BottomSheetView {
         with geometry: GeometryProxy
     ) -> CGFloat {
 #if os(macOS)
-        return geometry.size.width * 0.3
+        return geometry.size.width * (4/9)
 #else
         if self.isIPadOrMac || UIDevice.current.orientation.isLandscape {
-            return geometry.size.width * 0.3
+            return geometry.size.width * (4/9)
         } else {
             return geometry.size.width
         }
