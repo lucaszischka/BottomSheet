@@ -198,6 +198,12 @@ internal extension BottomSheetView {
         )
         // Clip content to avoid that it leavs the BottomSheet
         .clipped()
+        // Make the BottomSheet transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
+        )
         .background(
             // BottomSheet background
             self.configuration.backgroundView
@@ -219,12 +225,6 @@ internal extension BottomSheetView {
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0
-        )
-        // Make the BottomSheet transition via move
-        .transition(
-            .move(
-                edge: self.isIPadOrMac ? .top : .bottom
-            )
         )
     }
     
