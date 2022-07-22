@@ -57,15 +57,11 @@ internal extension BottomSheetView {
     func width(
         with geometry: GeometryProxy
     ) -> CGFloat {
-#if os(macOS)
-        return geometry.size.width * 0.3
-#else
-        if self.horizontalSizeClass == .regular || UIDevice.current.orientation.isLandscape {
+        if self.isIPadOrMac || UIDevice.current.orientation.isLandscape {
             return geometry.size.width * 0.3
         } else {
             return geometry.size.width
         }
-#endif
     }
     
     // For `bottomSheetPosition`
