@@ -119,6 +119,12 @@ internal extension BottomSheetView {
                     with: geometry
                 )
             )
+        
+        // Make the background fill the whole screen
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity
+        )
             .edgesIgnoringSafeArea(
                 .all
             )
