@@ -38,6 +38,10 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
                 )
                 // zIndex ensures that the transition is visible on disappear
                     .zIndex(1)
+                    .frame(
+                        maxWidth: .infinity,
+                        maxHeight: .infinity
+                    )
             }
         }
     }
