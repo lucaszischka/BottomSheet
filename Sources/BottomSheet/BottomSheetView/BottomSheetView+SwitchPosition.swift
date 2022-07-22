@@ -29,21 +29,23 @@ internal extension BottomSheetView {
                 with: geometry
             )
             
-            // The height of the currentBottomSheetPosition; nil if .dynamic...
-            let currentHeight = self.bottomSheetPosition.asScreenHeight(with: geometry)
+            // The height of the currentBottomSheetPosition; if nil use content height
+            let currentHeight = self.bottomSheetPosition.asScreenHeight(with: geometry) ?? self.contentHeight
             
-            if self.configuration.isFlickThroughEnabled {
-                self.switchPositonWithFlickThrough(
-                    with: height,
-                    switchablePositions: switchablePositions,
-                    currentHeight: currentHeight ?? self.contentHeight
-                )
-            } else {
-                self.switchPositonWithoutFlickThrough(
-                    with: height,
-                    switchablePositions: switchablePositions,
-                    currentHeight: currentHeight ?? self.contentHeight
-                )
+            if let currentHeight = currentHeight {
+                if self.configuration.isFlickThroughEnabled {
+                    self.switchPositonWithFlickThrough(
+                        with: height,
+                        switchablePositions: switchablePositions,
+                        currentHeight: currentHeight
+                    )
+                } else {
+                    self.switchPositonWithoutFlickThrough(
+                        with: height,
+                        switchablePositions: switchablePositions,
+                        currentHeight: currentHeight
+                    )
+                }
             }
         }
     }

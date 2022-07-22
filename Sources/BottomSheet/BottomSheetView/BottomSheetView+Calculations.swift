@@ -19,11 +19,12 @@ internal extension BottomSheetView {
     func opacity(
         with geometry: GeometryProxy
     ) -> Double {
-        if self.configuration.isBackgroundBlurEnabled {
-            // Calculate background blur relative to BottomSheet height
-            let height = self.bottomSheetPosition.asScreenHeight(
-                with: geometry
-            ) ?? self.contentHeight
+        // Calculate background blur relative to BottomSheet height
+        let height = self.bottomSheetPosition.asScreenHeight(
+            with: geometry
+        ) ?? self.contentHeight
+        
+        if let height = height, self.configuration.isBackgroundBlurEnabled {
             return min(
                 max(
                     Double(
@@ -76,13 +77,17 @@ internal extension BottomSheetView {
             with: geometry
         ) ?? self.contentHeight
         
-        return min(
-            max(
-                height - self.translation,
-                0
-            ),
-            geometry.size.height + geometry.safeAreaInsets.bottom + geometry.safeAreaInsets.top
-        )
+        if let height = height {
+            return min(
+                max(
+                    height - self.translation,
+                    0
+                ),
+                geometry.size.height + geometry.safeAreaInsets.bottom + geometry.safeAreaInsets.top
+            )
+        } else {
+            return nil
+        }
     }
     
     // For position switching

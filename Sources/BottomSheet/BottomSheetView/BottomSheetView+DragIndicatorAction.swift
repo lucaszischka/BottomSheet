@@ -23,42 +23,44 @@ internal extension BottomSheetView {
                 with: geometry
             )
             
-            // The height of the currentBottomSheetPosition; nil if .dynamic...
+            // The height of the currentBottomSheetPosition; if nil use content height
             let currentHeight = self.bottomSheetPosition.asScreenHeight(with: geometry) ?? self.contentHeight
             
-            switch self.bottomSheetPosition {
-            case .hidden:
-                return
-            case .dynamicBottom:
-                self.dynamicBottomSwitch(
-                    switchablePositions: switchablePositions,
-                    currentHeight: currentHeight
-                )
-            case .dynamic:
-                self.dynamicSwitch(
-                    switchablePositions: switchablePositions,
-                    currentHeight: currentHeight
-                )
-            case .dynamicTop:
-                self.dynamicTopSwitch(
-                    switchablePositions: switchablePositions,
-                    currentHeight: currentHeight
-                )
-            case .relativeBottom, .absoluteBottom:
-                self.valueBottomSwitch(
-                    switchablePositions: switchablePositions,
-                    currentHeight: currentHeight
-                )
-            case .relative, .absolute:
-                self.valueSwitch(
-                    switchablePositions: switchablePositions,
-                    currentHeight: currentHeight
-                )
-            case .relativeTop, .absoluteTop:
-                self.valueTopSwitch(
-                    switchablePositions: switchablePositions,
-                    currentHeight: currentHeight
-                )
+            if let currentHeight = currentHeight {
+                switch self.bottomSheetPosition {
+                case .hidden:
+                    return
+                case .dynamicBottom:
+                    self.dynamicBottomSwitch(
+                        switchablePositions: switchablePositions,
+                        currentHeight: currentHeight
+                    )
+                case .dynamic:
+                    self.dynamicSwitch(
+                        switchablePositions: switchablePositions,
+                        currentHeight: currentHeight
+                    )
+                case .dynamicTop:
+                    self.dynamicTopSwitch(
+                        switchablePositions: switchablePositions,
+                        currentHeight: currentHeight
+                    )
+                case .relativeBottom, .absoluteBottom:
+                    self.valueBottomSwitch(
+                        switchablePositions: switchablePositions,
+                        currentHeight: currentHeight
+                    )
+                case .relative, .absolute:
+                    self.valueSwitch(
+                        switchablePositions: switchablePositions,
+                        currentHeight: currentHeight
+                    )
+                case .relativeTop, .absoluteTop:
+                    self.valueTopSwitch(
+                        switchablePositions: switchablePositions,
+                        currentHeight: currentHeight
+                    )
+                }
             }
             
             self.endEditing()
