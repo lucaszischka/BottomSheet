@@ -211,7 +211,6 @@ internal extension BottomSheetView {
                         with: geometry
                     ) : nil
                 )
-            )
         )
         // TODO: Redo dynamic?
         .measureSize { size in
