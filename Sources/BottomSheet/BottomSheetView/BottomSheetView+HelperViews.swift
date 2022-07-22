@@ -189,6 +189,8 @@ internal extension BottomSheetView {
             self.isIPadOrMac ? [] : .bottom
         )
         // Set the height and with to its calculated values
+        // The content should be aligned to the top on iPhone
+        // On iPad and Mac to the bottom
         .frame(
             width: self.width(
                 with: geometry
@@ -208,6 +210,8 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
+        // Clip content to avoid that it leavs the BottomSheet
+        .clipped()
         // TODO: Redo dynamic?
         .measureSize { size in
             self.contentHeight = size.height
@@ -344,8 +348,6 @@ internal extension BottomSheetView {
                     )
             }
         }
-        // Clip content to avoid that it leavs the BottomSheet
-        .clipped()
         // Make the main content transition via move
         .transition(
             .move(
