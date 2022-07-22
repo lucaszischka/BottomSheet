@@ -201,9 +201,12 @@ internal extension BottomSheetView {
             GeometryReader { geometry in
                 Color.clear
                     .onReceive(Just(self.bottomSheetPosition)) { _ in
+                        print("onReceive")
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
+                            print("update: \(geometry.size.height)")
                             self.contentHeight = geometry.size.height
                         } else {
+                            print("reset")
                             self.contentHeight = nil
                         }
                     }
