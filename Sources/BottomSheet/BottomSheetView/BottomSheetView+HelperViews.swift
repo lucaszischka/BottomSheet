@@ -214,8 +214,8 @@ internal extension BottomSheetView {
         )
         // Get dynamic content size
         .measureSize { size in
-            // Don't update on drag
-            if self.translation == 0 {
+            // Don't update on drag and when not dynamic
+            if self.translation == 0 && self.bottomSheetPosition.isDynamic {
                 self.contentHeight = size.height
             }
         }
