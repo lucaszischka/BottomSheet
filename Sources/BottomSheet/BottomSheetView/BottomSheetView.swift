@@ -65,8 +65,6 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 self.bottomSheet(
                     with: geometry
                 )
-                // zIndex ensures that the transition is visible on disappear
-                    .zIndex(1)
             }
             // Animate value changes
 #if !os(macOS)
