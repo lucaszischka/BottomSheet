@@ -15,7 +15,7 @@ public enum BottomSheetPosition: Equatable {
     case dynamicBottom
     
     /// The state where the height of the BottomSheet is equal to its content size
-    /// Only makes sense for views that don't take all avaiable space (like ScrollVIew, Color, ...) 
+    /// Only makes sense for views that don't take all avaiable space (like ScrollVIew, Color, ...)
     case dynamic
     
     /// The state where the height of the BottomSheet is equal to its content size

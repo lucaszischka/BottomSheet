@@ -14,14 +14,23 @@ internal class BottomSheetConfiguration: Equatable {
         rhs: BottomSheetConfiguration
     ) -> Bool {
         return lhs.animation == rhs.animation &&
+        // lhs.backgroundBlurMaterial == rhs.backgroundBlurMaterial &&
+        // lhs.backgroundView == rhs.backgroundView &&
+        // lhs.dragIndicatorAction == rhs.dragIndicatorAction &&
         lhs.dragIndicatorColor == rhs.dragIndicatorColor &&
+        // lhs.dragPositionSwitchAction == rhs.dragPositionSwitchAction &&
         lhs.isAppleScrollBehaviorEnabled == rhs.isAppleScrollBehaviorEnabled &&
         lhs.isBackgroundBlurEnabled == rhs.isBackgroundBlurEnabled &&
         lhs.isCloseButtonShown == rhs.isCloseButtonShown &&
         lhs.isContentDragEnabled == rhs.isContentDragEnabled &&
         lhs.isDragIndicatorShown == rhs.isDragIndicatorShown &&
+        lhs.isFlickThroughEnabled == rhs.isFlickThroughEnabled &&
         lhs.isResizeable == rhs.isResizeable &&
-        lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled
+        lhs.isSwipeToDismissEnabled && rhs.isSwipeToDismissEnabled &&
+        lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled // &&
+        // lhs.onDismiss == rhs.onDismiss &&
+        // lhs.onDragEnded == rhs.onDragEnded &&
+        // lhs.onDragChanged == rhs.onDragChanged
     }
     
     var animation: Animation? = .spring(
