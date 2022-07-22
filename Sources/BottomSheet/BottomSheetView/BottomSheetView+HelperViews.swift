@@ -294,7 +294,7 @@ internal extension BottomSheetView {
         // Add top padding when on iPad or Mac or when the drag indicator is not shown
         .padding(
             .top,
-            self.isIPadOrMac || (self.configuration.isResizeable && self.configuration.isDragIndicatorShown) ? 20 : 0
+            self.isIPadOrMac || !self.configuration.isDragIndicatorShown || !self.configuration.isResizeable ? 20 : 0
         )
         // Make the header dragable
         .gesture(
