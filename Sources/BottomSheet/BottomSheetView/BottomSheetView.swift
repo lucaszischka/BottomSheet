@@ -56,15 +56,18 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 // On iPhone it is aligned to the bottom, in horizontal mode to the bottom left
                 alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
             ) {
-                // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
-                self.fullScreenBackground(
-                    with: geometry
-                )
-                
-                // The BottomSheet itself
-                self.bottomSheet(
-                    with: geometry
-                )
+                // Hide the BottomSheet when .hidden
+                if !self.bottomSheetPosition.isHidden {
+                    // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
+                    self.fullScreenBackground(
+                        with: geometry
+                    )
+                    
+                    // The BottomSheet itself
+                    self.bottomSheet(
+                        with: geometry
+                    )
+                }
             }
             // Animate value changes
 #if !os(macOS)
@@ -77,6 +80,10 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 value: self.verticalSizeClass
             )
 #endif
+            .animation(
+                self.configuration.animation,
+                value: self.bottomSheetPosition
+            )
             .animation(
                 self.configuration.animation,
                 value: self.translation

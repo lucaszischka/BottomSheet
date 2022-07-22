@@ -47,22 +47,6 @@ internal extension BottomSheetView {
         self.configuration.onDismiss()
     }
     
-    // For `headerContent`
-    func headerContentPadding(
-        with geometry: GeometryProxy
-    ) -> CGFloat {
-        // If no header content (thus no padding) add it automatically
-        if self.headerContent == nil {
-            return 20
-        } else if self.bottomSheetPosition.isDynamic {
-            // TODO: Reason?
-            return 0
-        } else {
-            // TODO: Reason?
-            return 0
-        }
-    }
-    
     // For `landscape`, `iPad` and `Mac` support
     func width(
         with geometry: GeometryProxy

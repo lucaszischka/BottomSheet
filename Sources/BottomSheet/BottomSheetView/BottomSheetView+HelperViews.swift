@@ -239,6 +239,7 @@ internal extension BottomSheetView {
             },
             label: {
                 Capsule()
+                // Design of the drag indicator
                     .fill(
                         self.configuration.dragIndicatorColor
                     )
@@ -254,12 +255,14 @@ internal extension BottomSheetView {
                         .bottom,
                         7
                     )
+                // Make the drag indicator dragable
                     .gesture(
                         self.dragGesture(
                             with: geometry
                         )
                     )
             })
+        // Make it borderless for Mac
             .buttonStyle(.borderless)
     }
     
@@ -284,25 +287,20 @@ internal extension BottomSheetView {
                 self.closeButton
             }
         }
-        .gesture(
-            self.configuration.isResizeable ? self.dragGesture(
-                with: geometry
-            ) : nil
-        )
+        // Add horizontal padding
         .padding(
             .horizontal
         )
         // Add top padding when on iPad or Mac or when the drag indicator is not shown
         .padding(
             .top,
-            self.configuration.isResizeable && self.configuration.isDragIndicatorShown && !self.isIPadOrMac ? 0 : 20
+            self.isIPadOrMac || (self.configuration.isResizeable && self.configuration.isDragIndicatorShown) ? 20 : 0
         )
-        // TODO: Needed?
-        .padding(
-            .bottom,
-            self.headerContentPadding(
+        // Make the header dragable
+        .gesture(
+            self.configuration.isResizeable ? self.dragGesture(
                 with: geometry
-            )
+            ) : nil
         )
     }
     
@@ -318,6 +316,7 @@ internal extension BottomSheetView {
                 .scaledToFit()
                 .frame(width: 30, height: 30)
         }
+        // Make it borderless for Mac
         .buttonStyle(.borderless)
     }
     
@@ -341,6 +340,7 @@ internal extension BottomSheetView {
             } else {
                 // Normal Content
                 self.mainContent
+                // Make the main content dragable if content drag is enabled
                     .gesture(
                         self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
                             with: geometry
@@ -348,12 +348,6 @@ internal extension BottomSheetView {
                     )
             }
         }
-        // Make the main content transition via move
-        .transition(
-            .move(
-                edge: self.isIPadOrMac ? .top : .bottom
-            )
-        )
     }
     
 #if !os(macOS)
@@ -366,6 +360,7 @@ internal extension BottomSheetView {
         ) {
             self.mainContent
         }
+        // Make ScrollView dragable
         .gesture(
             self.isScrollEnabled ? nil : self.appleScrollViewDragGesture(
                 with: geometry

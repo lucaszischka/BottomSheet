@@ -27,24 +27,14 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
             // The original view
             self.view
             
-            // Hide the BottomSheet when .hidden
-            if !self.bottomSheetPosition.isHidden {
-                BottomSheetView(
-                    bottomSheetPosition: self.$bottomSheetPosition,
-                    headerContent: self.headerContent,
-                    mainContent: self.mainContent,
-                    switchablePositions: self.switchablePositions,
-                    configuration: self.configuration
-                )
-                // zIndex ensures that the transition is visible on disappear
-//                    .zIndex(1)
-            }
+            BottomSheetView(
+                bottomSheetPosition: self.$bottomSheetPosition,
+                headerContent: self.headerContent,
+                mainContent: self.mainContent,
+                switchablePositions: self.switchablePositions,
+                configuration: self.configuration
+            )
         }
-        // Animate value changes
-        .animation(
-            self.configuration.animation,
-            value: self.bottomSheetPosition
-        )
     }
     
     // Initializers
