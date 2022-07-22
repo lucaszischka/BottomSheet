@@ -215,7 +215,7 @@ internal extension BottomSheetView {
                 )
         )
         // Clip content to avoid that it leavs the BottomSheet
-        .clipped()
+//        .clipped()
         // TODO: Redo dynamic?
         .measureSize { size in
             self.contentHeight = size.height
