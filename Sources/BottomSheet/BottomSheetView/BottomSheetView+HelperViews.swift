@@ -184,10 +184,6 @@ internal extension BottomSheetView {
                 )
             }
         }
-        // Ignore bottom safe area on iPhone
-        .edgesIgnoringSafeArea(
-            self.isIPadOrMac ? [] : .bottom
-        )
         // Set the height and with to its calculated values
         // The content should be aligned to the top on iPhone
         // On iPad and Mac to the bottom
