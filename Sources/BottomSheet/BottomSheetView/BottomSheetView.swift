@@ -48,24 +48,25 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
     let configuration: BottomSheetConfiguration
     
     var body: some View {
-        // Full screen ZStack (via GeometryReader) for aligning content
+        // GeometryReader for calculations
         GeometryReader { geometry in
+            // ZStack for aligning content
             ZStack(
                 // On iPad and Mac the BottomSheet is aligned to the top left
                 // On iPhone it is aligned to the bottom, in horizontal mode to the bottom left
                 alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
             ) {
-                // Full sceen background used for `backgroundBlur` and `tapToDissmiss`
-                if self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled {
-                    self.fullScreenBackground(
-                        with: geometry
-                    )
-                }
+                // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
+                self.fullScreenBackground(
+                    with: geometry
+                )
                 
                 // The BottomSheet itself
                 self.bottomSheet(
                     with: geometry
                 )
+                // zIndex ensures that the transition is visible on disappear
+                    .zIndex(1)
             }
             // Animate value changes
 #if !os(macOS)

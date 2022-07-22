@@ -119,7 +119,6 @@ internal extension BottomSheetView {
                     with: geometry
                 )
             )
-        
         // Make the background fill the whole screen
             .frame(
                 maxWidth: .infinity,
@@ -190,40 +189,26 @@ internal extension BottomSheetView {
             self.isIPadOrMac ? [] : .bottom
         )
         // Set the height and with to its calculated values
-        // Align content to the bottom on iPad or Mac
-        // Align content to the top on iPhone
         .frame(
             width: self.width(
                 with: geometry
             ),
             height: self.height(
                 with: geometry
-            )/*,
+            )
+            // TODO: Needed?
+            /*,
             alignment: self.isIPadOrMac ? .bottom : .top*/
         )
         .background(
             // BottomSheet background
             self.configuration.backgroundView
-//                .edgesIgnoringSafeArea(
-//                    self.isIPadOrMac ? [] : .bottom
-//                )
             // Make the background dragable
                 .gesture(
                     self.configuration.isResizeable ? self.dragGesture(
                         with: geometry
                     ) : nil
                 )
-        )
-        // TODO: Continue
-//        .offset(
-//            y: self.offsetY(
-//                with: geometry
-//            )
-//        )
-        .transition(
-            .move(
-                edge: .bottom
-            )
         )
         // TODO: Redo dynamic?
         .measureSize { size in
@@ -232,6 +217,12 @@ internal extension BottomSheetView {
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0
+        )
+        // Make the BottomSheet transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
         )
     }
     
