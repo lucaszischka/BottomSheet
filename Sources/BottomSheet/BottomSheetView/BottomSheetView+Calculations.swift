@@ -102,6 +102,7 @@ internal extension BottomSheetView {
     func offsetY(
         with geometry: GeometryProxy
     ) -> Double {
+        return 0
         if self.isIPadOrMac {
             // No offset on Mac or iPad because it is dragged down not up
             return 0
