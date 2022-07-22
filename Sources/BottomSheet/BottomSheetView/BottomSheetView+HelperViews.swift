@@ -184,6 +184,13 @@ internal extension BottomSheetView {
                 )
             }
         }
+        
+    // Make the background transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
+        )
         // Set the height and with to its calculated values
         // The content should be aligned to the top on iPhone
         // On iPad and Mac to the bottom
@@ -196,37 +203,81 @@ internal extension BottomSheetView {
             ),
             alignment: self.isIPadOrMac ? .bottom : .top
         )
+        
+    // Make the background transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
+        )
         // Clip content to avoid that it leavs the BottomSheet
         .clipped()
+        
+    // Make the background transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
+        )
         .background(
             // BottomSheet background
             self.configuration.backgroundView
+            
+        // Make the background transition via move
+            .transition(
+                .move(
+                    edge: self.isIPadOrMac ? .top : .bottom
+                )
+            )
             // Make the background ignore bottom safe area on iPhone
                 .edgesIgnoringSafeArea(
                     self.isIPadOrMac ? [] : .bottom
                 )
-            // Make the background transition via move
-                .transition(
-                    .move(
-                        edge: self.isIPadOrMac ? .top : .bottom
-                    )
+            
+        // Make the background transition via move
+            .transition(
+                .move(
+                    edge: self.isIPadOrMac ? .top : .bottom
                 )
+            )
             // Make the background dragable
                 .gesture(
                     self.configuration.isResizeable ? self.dragGesture(
                         with: geometry
                     ) : nil
                 )
+            
+        // Make the background transition via move
+            .transition(
+                .move(
+                    edge: self.isIPadOrMac ? .top : .bottom
+                )
+            )
+        )
+        
+    // Make the background transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
         )
         // TODO: Redo dynamic?
         .measureSize { size in
             self.contentHeight = size.height
         }
+        
+    // Make the background transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
+        )
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0
         )
-        // Make the BottomSheet transition via move
+        
+    // Make the BottomSheet transition via move
         .transition(
             .move(
                 edge: self.isIPadOrMac ? .top : .bottom
