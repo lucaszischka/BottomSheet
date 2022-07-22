@@ -48,13 +48,13 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
     let configuration: BottomSheetConfiguration
     
     var body: some View {
-        // Full screen (via GeometryReader) ZStack for aligning content
-        ZStack(
-            // On iPad and Mac the BottomSheet is aligned to the top left
-            // On iPhone it is aligned to the bottom, in horizontal mode to the bottom left
-            alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
-        ) {
-            GeometryReader { geometry in
+        // Full screen ZStack (via GeometryReader) for aligning content
+        GeometryReader { geometry in
+            ZStack(
+                // On iPad and Mac the BottomSheet is aligned to the top left
+                // On iPhone it is aligned to the bottom, in horizontal mode to the bottom left
+                alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
+            ) {
                 // Full sceen background used for `backgroundBlur` and `tapToDissmiss`
                 if self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled {
                     self.fullScreenBackground(
@@ -62,49 +62,48 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                     )
                 }
                 
-                Text("Still wondering where i am")
-//                // The BottomSheet itself
-//                self.bottomSheet(
-//                    with: geometry
-//                )
+                // The BottomSheet itself
+                self.bottomSheet(
+                    with: geometry
+                )
             }
+            // Animate value changes
+#if !os(macOS)
+            .animation(
+                self.configuration.animation,
+                value: self.horizontalSizeClass
+            )
+            .animation(
+                self.configuration.animation,
+                value: self.verticalSizeClass
+            )
+#endif
+            .animation(
+                self.configuration.animation,
+                value: self.bottomSheetPosition
+            )
+            .animation(
+                self.configuration.animation,
+                value: self.translation
+            )
+            .animation(
+                self.configuration.animation,
+                value: self.contentHeight
+            )
+#if !os(macOS)
+            .animation(
+                self.configuration.animation,
+                value: self.isScrollEnabled
+            )
+            .animation(
+                self.configuration.animation,
+                value: self.dragState
+            )
+#endif
+            .animation(
+                self.configuration.animation,
+                value: self.configuration
+            )
         }
-        // Animate value changes
-#if !os(macOS)
-        .animation(
-            self.configuration.animation,
-            value: self.horizontalSizeClass
-        )
-        .animation(
-            self.configuration.animation,
-            value: self.verticalSizeClass
-        )
-#endif
-        .animation(
-            self.configuration.animation,
-            value: self.bottomSheetPosition
-        )
-        .animation(
-            self.configuration.animation,
-            value: self.translation
-        )
-        .animation(
-            self.configuration.animation,
-            value: self.contentHeight
-        )
-#if !os(macOS)
-        .animation(
-            self.configuration.animation,
-            value: self.isScrollEnabled
-        )
-        .animation(
-            self.configuration.animation,
-            value: self.dragState
-        )
-#endif
-        .animation(
-            self.configuration.animation,
-            value: self.configuration
-        )
     }
 }
