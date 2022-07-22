@@ -26,7 +26,6 @@ internal extension BottomSheetView {
             // The height of the currentBottomSheetPosition; nil if .dynamic...
             let currentHeight = self.bottomSheetPosition.asScreenHeight(with: geometry) ?? self.contentHeight
             
-            
             switch self.bottomSheetPosition {
             case .hidden:
                 return

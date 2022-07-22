@@ -62,11 +62,10 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                     )
                 }
                 
-                Text("Where am i?")
-//                // The BottomSheet itself
-//                self.bottomSheet(
-//                    with: geometry
-//                )
+                // The BottomSheet itself
+                self.bottomSheet(
+                    with: geometry
+                )
             }
         }
         // Animate value changes
