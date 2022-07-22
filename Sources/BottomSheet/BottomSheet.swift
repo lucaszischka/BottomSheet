@@ -37,7 +37,7 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
                     configuration: self.configuration
                 )
                 // zIndex ensures that the transition is visible on disappear
-                    .zIndex(1)
+//                    .zIndex(1)
             }
         }
         // Animate value changes
