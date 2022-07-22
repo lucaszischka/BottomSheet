@@ -195,10 +195,8 @@ internal extension BottomSheetView {
             ),
             height: self.height(
                 with: geometry
-            )
-            // TODO: Needed?
-            /*,
-            alignment: self.isIPadOrMac ? .bottom : .top*/
+            ),
+            alignment: self.isIPadOrMac ? .bottom : .top
         )
         .background(
             // BottomSheet background
@@ -348,7 +346,7 @@ internal extension BottomSheetView {
         }
         // Clip content to avoid that it leavs the BottomSheet
         .clipped()
-        // Make the BottomSheet transition via move
+        // Make the main content transition via move
         .transition(
             .move(
                 edge: self.isIPadOrMac ? .top : .bottom
