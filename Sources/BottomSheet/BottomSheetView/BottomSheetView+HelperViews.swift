@@ -296,6 +296,11 @@ internal extension BottomSheetView {
             .top,
             self.isIPadOrMac || !self.configuration.isDragIndicatorShown || !self.configuration.isResizeable ? 20 : 0
         )
+        // Add bottom padding when header is nil and close button is shown
+        .padding(
+            .bottom,
+            self.headerContent == nil && self.configuration.isCloseButtonShown ? 20 : 0
+        )
         // Make the header dragable
         .gesture(
             self.configuration.isResizeable ? self.dragGesture(
