@@ -200,8 +200,6 @@ internal extension BottomSheetView {
             ),
             alignment: self.isIPadOrMac ? .bottom : .top
         )
-        // Clip content to avoid that it leavs the BottomSheet
-//        .clipped()
         .background(
             // BottomSheet background
             self.configuration.backgroundView
@@ -220,6 +218,8 @@ internal extension BottomSheetView {
         .measureSize { size in
             self.contentHeight = size.height
         }
+        // Clip content to avoid that it leavs the BottomSheet
+        .clipped()
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0
