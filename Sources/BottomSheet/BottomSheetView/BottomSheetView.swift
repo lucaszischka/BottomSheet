@@ -67,6 +67,11 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                     with: geometry
                 )
             }
+            // Make the geometry reader fill the whole screen
+            .frame(
+                maxWidth: .infinity,
+                maxHeight: .infinity
+            )
         }
         // Animate value changes
 #if !os(macOS)

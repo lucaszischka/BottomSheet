@@ -113,15 +113,11 @@ internal extension BottomSheetView {
     ) -> some View {
         self.configuration.backgroundBlurMaterial
             .opacity(
-                // When .backgroundBlur is enabled the opacity is calculated based on the current height of the BottomSheet, else it is 0
+                // When .backgroundBlur is enabled the opacity is calculated
+                // based on the current height of the BottomSheet, else it is 0
                 self.opacity(
                     with: geometry
                 )
-            )
-        // Make the background fill the whole screen
-            .frame(
-                maxWidth: .infinity,
-                maxHeight: .infinity
             )
             .edgesIgnoringSafeArea(
                 .all
