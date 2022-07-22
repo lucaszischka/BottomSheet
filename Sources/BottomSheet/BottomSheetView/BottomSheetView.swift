@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Combine
 
 internal struct BottomSheetView<HContent: View, MContent: View>: View {
     
@@ -107,9 +106,6 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 self.configuration.animation,
                 value: self.configuration
             )
-            .onReceive(Just(self.bottomSheetPosition)) { _ in
-                self.contentHeight = nil
-            }
         }
     }
 }
