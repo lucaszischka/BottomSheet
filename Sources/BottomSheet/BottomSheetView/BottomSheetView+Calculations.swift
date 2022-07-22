@@ -24,8 +24,14 @@ internal extension BottomSheetView {
             let height = self.bottomSheetPosition.asScreenHeight(
                 with: geometry
             ) ?? self.contentHeight
-            return Double(
-                (height - self.translation) / geometry.size.height
+            return min(
+                max(
+                    Double(
+                        (height - self.translation) / geometry.size.height
+                    ),
+                    0
+                ),
+                1
             )
         } else {
             return 0
@@ -74,47 +80,11 @@ internal extension BottomSheetView {
                     height - self.translation,
                     0
                 ),
-                geometry.size.height * 1.05
+                geometry.size.height + geometry.safeAreaInsets.bottom + geometry.safeAreaInsets.top
             )
         } else {
             // Is .dynamic... so there is no fixed height
             return nil
-        }
-    }
-    
-    // For `bottomSheetPosition`
-    func offsetY(
-        with geometry: GeometryProxy
-    ) -> Double {
-        return 0
-        if self.isIPadOrMac {
-            // No offset on Mac or iPad because it is dragged down not up
-            return 0
-        } else {
-            let height = self.bottomSheetPosition.asScreenHeight(
-                with: geometry
-            ) ?? self.contentHeight
-            
-            if self.bottomSheetPosition.isHidden {
-                // Move BottomSheet out of the screen
-                return max(
-                    geometry.size.height + geometry.safeAreaInsets.bottom,
-                    geometry.size.height * -0.05
-                )
-            } else if self.bottomSheetPosition.isBottom {
-                // TODO: Check reason?
-                return max(
-                    geometry.size.height - height +
-                    self.translation + geometry.safeAreaInsets.bottom,
-                    geometry.size.height * -0.05
-                )
-            } else {
-                return max(
-                    geometry.size.height - height +
-                    self.translation,
-                    geometry.size.height * -0.05
-                )
-            }
         }
     }
     
