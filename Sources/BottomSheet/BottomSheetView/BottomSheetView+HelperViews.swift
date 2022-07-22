@@ -348,6 +348,12 @@ internal extension BottomSheetView {
         }
         // Clip content to avoid that it leavs the BottomSheet
         .clipped()
+        // Make the BottomSheet transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
+        )
     }
     
 #if !os(macOS)

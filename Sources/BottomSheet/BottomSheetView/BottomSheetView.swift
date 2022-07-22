@@ -79,10 +79,6 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
 #endif
             .animation(
                 self.configuration.animation,
-                value: self.bottomSheetPosition
-            )
-            .animation(
-                self.configuration.animation,
                 value: self.translation
             )
             .animation(

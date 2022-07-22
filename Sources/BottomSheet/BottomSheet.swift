@@ -40,6 +40,11 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
                     .zIndex(1)
             }
         }
+        // Animate value changes
+        .animation(
+            self.configuration.animation,
+            value: self.bottomSheetPosition
+        )
     }
     
     // Initializers
