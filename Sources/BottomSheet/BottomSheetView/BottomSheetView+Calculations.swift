@@ -75,7 +75,7 @@ internal extension BottomSheetView {
     ) -> CGFloat? {
         let height = self.bottomSheetPosition.asScreenHeight(
             with: geometry
-        ) ?? self.contentHeight
+        ) ?? (self.translation == 0 ? self.contentHeight : nil)
         
         if let height = height {
             return min(
