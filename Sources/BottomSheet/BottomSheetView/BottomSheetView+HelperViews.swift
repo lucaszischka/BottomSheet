@@ -200,13 +200,11 @@ internal extension BottomSheetView {
             ),
             alignment: self.isIPadOrMac ? .bottom : .top
         )
+        // Clip content to avoid that it leavs the BottomSheet
+        .clipped()
         .background(
             // BottomSheet background
             self.configuration.backgroundView
-            // Ignore bottom safe area on iPhone
-                .edgesIgnoringSafeArea(
-                    self.isIPadOrMac ? [] : .bottom
-                )
             // Make the background dragable
                 .gesture(
                     self.configuration.isResizeable ? self.dragGesture(
@@ -214,8 +212,6 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
-        // Clip content to avoid that it leavs the BottomSheet
-//        .clipped()
         // TODO: Redo dynamic?
         .measureSize { size in
             self.contentHeight = size.height
