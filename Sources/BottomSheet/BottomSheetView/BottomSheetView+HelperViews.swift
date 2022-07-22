@@ -201,7 +201,7 @@ internal extension BottomSheetView {
         .background(
             // BottomSheet background
             self.configuration.backgroundView
-            // Ignore bottom safe area on iPhone
+            // Make the background ignore bottom safe area on iPhone
                 .edgesIgnoringSafeArea(
                     self.isIPadOrMac ? [] : .bottom
                 )
