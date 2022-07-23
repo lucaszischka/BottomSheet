@@ -86,7 +86,7 @@ internal extension BottomSheetView {
                     height - self.translation,
                     0
                 ),
-                geometry.size.height + geometry.safeAreaInsets.bottom + geometry.safeAreaInsets.top
+                geometry.size.height + geometry.safeAreaInsets.bottom
             )
         } else {
             // Use nil if dynamic and currently not dragging
