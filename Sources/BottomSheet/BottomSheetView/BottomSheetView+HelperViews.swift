@@ -233,7 +233,7 @@ internal extension BottomSheetView {
                 let height = self.bottomSheetPosition.asScreenHeight(with: geometry) ?? self.contentHeight
                 
                 if let height = height {
-                    return height + self.translation
+                    return geometry.size.height - height + self.translation
                 } else {
                     return 0
                 }
