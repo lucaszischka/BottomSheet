@@ -57,7 +57,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
             ) {
                 // Hide everything when the BottomSheet is hidden
-                if self.bottomSheetPosition.isHidden {
+                if !self.bottomSheetPosition.isHidden {
                     // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
                     if self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled {
                         self.fullScreenBackground(
