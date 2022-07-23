@@ -385,14 +385,9 @@ internal extension BottomSheetView {
             dragState: self.$dragState
         ) {
             self.mainContent
+            
+            Spacer(minLength: 0)
         }
-        // Align content to top and make it fill all avaiable space
-        // This workaround fixes appleScrollBehaviour for small views
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity,
-            alignment: .top
-        )
         // Make ScrollView dragable
         .gesture(
             self.isScrollEnabled ? nil : self.appleScrollViewDragGesture(
