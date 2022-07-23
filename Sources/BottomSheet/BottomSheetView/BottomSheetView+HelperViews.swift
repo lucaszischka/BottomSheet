@@ -205,7 +205,7 @@ internal extension BottomSheetView {
                         if !self.bottomSheetPosition.isDynamic {
                             print("reset")
                             self.contentHeight = nil
-                        } else self.translation == 0 {
+                        } else if self.translation == 0 {
                             print("update: \(geometry.size.height)")
                             self.contentHeight = geometry.size.height
                         }
