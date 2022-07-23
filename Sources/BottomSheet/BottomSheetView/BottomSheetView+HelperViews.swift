@@ -385,9 +385,8 @@ internal extension BottomSheetView {
             dragState: self.$dragState
         ) {
             self.mainContent
-            
-            Spacer(minLength: 0)
         }
+        .background(Color.orange)
         // Make ScrollView dragable
         .gesture(
             self.isScrollEnabled ? nil : self.appleScrollViewDragGesture(
