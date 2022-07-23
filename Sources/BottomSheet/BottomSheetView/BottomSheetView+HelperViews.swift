@@ -227,7 +227,11 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
-    // Clip content to avoid that it leaves the BottomSheet
+        // Make the BottomSheet ignore bottom safe area on iPhone
+        .edgesIgnoringSafeArea(
+            self.isIPadOrMac ? [] : .bottom
+        )
+        // Clip content to avoid that it leaves the BottomSheet
         .clipped()
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
