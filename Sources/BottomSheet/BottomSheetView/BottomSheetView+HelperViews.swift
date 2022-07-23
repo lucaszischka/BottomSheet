@@ -334,7 +334,6 @@ internal extension BottomSheetView {
     func bottomSheetContent(
         with geometry: GeometryProxy
     ) -> some View {
-        // TODO: Fix workaround not working for ScrollView
         // VStack to make frame workaround work
         VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
@@ -387,6 +386,13 @@ internal extension BottomSheetView {
         ) {
             self.mainContent
         }
+        // Align content to top and make it fill all avaiable space
+        // This workaround fixes appleScrollBehaviour for small views
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .top
+        )
         // Make ScrollView dragable
         .gesture(
             self.isScrollEnabled ? nil : self.appleScrollViewDragGesture(
