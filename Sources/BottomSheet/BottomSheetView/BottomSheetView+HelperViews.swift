@@ -168,10 +168,9 @@ internal extension BottomSheetView {
             // BottomSheet main content
             if self.bottomSheetPosition.isBottom {
                 // In a bottom position the main content is hidden - add a Spacer to fill the set height
-                // TODO: Fix geometry.safeAreaInsets.bottom = 0
                 // For .dynamicBottom make the height match the bottom sava area
                 Spacer(minLength: 0)
-                    .frame(height: self.bottomSheetPosition.isDynamic ? geometry.safeAreaInsets.bottom : nil)
+                    .frame(height: self.bottomSheetPosition.isDynamic ? (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20) : nil)
             } else {
                 // Main content
                 self.bottomSheetContent(
@@ -378,13 +377,12 @@ internal extension BottomSheetView {
                     )
             }
         }
-        // TODO: Needed?
-        /*
-        // Make the main contentn align to the top (for transition)
-        .frame(alignment: .top)
-        // TODO: Fix BottomSheet transition not ignoring safe area
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .top
+        )
         // Make the main content transition via move
-         */
         .transition(
             .move(
                 edge: self.isIPadOrMac ? .top : .bottom
