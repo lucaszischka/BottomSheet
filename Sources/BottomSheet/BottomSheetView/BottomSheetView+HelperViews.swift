@@ -211,6 +211,8 @@ internal extension BottomSheetView {
                     }
             }
         )
+        // Clip content to avoid that it leaves the BottomSheet
+        .clipped()
         .background(
             // BottomSheet background
             self.configuration.backgroundView
@@ -235,8 +237,6 @@ internal extension BottomSheetView {
                 edge: self.isIPadOrMac ? .top : .bottom
             )
         )
-        // Clip content to avoid that it leavs the BottomSheet
-        .clipped()
     }
     
     func dragIndicator(

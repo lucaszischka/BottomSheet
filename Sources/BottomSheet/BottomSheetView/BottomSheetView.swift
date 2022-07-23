@@ -69,6 +69,8 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                     )
                 }
             }
+            // Clip content to avoid that it leaves the BottomSheet
+            .clipped()
             // Animate value changes
 #if !os(macOS)
             .animation(
