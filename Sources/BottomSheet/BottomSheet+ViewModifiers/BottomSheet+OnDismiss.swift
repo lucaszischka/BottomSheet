@@ -11,7 +11,7 @@ public extension BottomSheet {
     
     /// A action that will be performed when the BottomSheet is dismissed.
     ///
-    /// Please note that when you dismiss the BottomSheet yourself, by setting the `bottomSheetPosition = .hidden`,
+    /// Please note that when you dismiss the BottomSheet yourself, by setting the bottomSheetPosition to .hidden,
     /// the action will not be called.
     ///
     /// - Parameters:

@@ -18,6 +18,11 @@ public enum BottomSheetPosition: Equatable {
     /// Only makes sense for views that don't take all avaiable space (like ScrollVIew, Color, ...)
     case dynamic
     
+    /// The state where the height of the BottomSheet is equal to its content size
+    /// It functions as top position for appleScrollBehaviour
+    /// Only makes sense for views that don't take all avaiable space (like ScrollVIew, Color, ...)
+    case dynamicTop
+    
     /// The state where only the headerContent is visible. The height of the BottomSheet is x%
     /// Only values between 0 and 1 make sense
     case relativeBottom(CGFloat)
@@ -64,7 +69,7 @@ public enum BottomSheetPosition: Equatable {
     
     internal var isTop: Bool {
         switch self {
-        case .relativeTop, .absoluteTop:
+        case .dynamicTop, .relativeTop, .absoluteTop:
             return true
         default:
             return false
@@ -73,7 +78,7 @@ public enum BottomSheetPosition: Equatable {
     
     internal var isDynamic: Bool {
         switch self {
-        case .dynamic, .dynamicBottom:
+        case .dynamic, .dynamicBottom, .dynamicTop:
             return true
         default:
             return false
@@ -86,7 +91,7 @@ public enum BottomSheetPosition: Equatable {
         switch self {
         case .hidden:
             return 0
-        case .dynamic, .dynamicBottom:
+        case .dynamic, .dynamicTop, .dynamicBottom:
             return nil
         case .relative(let value), .relativeBottom(let value), .relativeTop(let value):
             return geometry.size.height * value
