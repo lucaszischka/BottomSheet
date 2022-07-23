@@ -234,6 +234,12 @@ internal extension BottomSheetView {
         .padding(
             self.isIPadOrMac ? 10 : 0
         )
+        // Make the BottomSheet transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
+        )
     }
     
     func dragIndicator(
@@ -377,14 +383,13 @@ internal extension BottomSheetView {
         // Make the main contentn align to the top (for transition)
         .frame(alignment: .top)
         // TODO: Fix BottomSheet transition not ignoring safe area
-         */
         // Make the main content transition via move
         .transition(
             .move(
                 edge: self.isIPadOrMac ? .top : .bottom
             )
         )
-        
+        */
     }
     
 #if !os(macOS)
