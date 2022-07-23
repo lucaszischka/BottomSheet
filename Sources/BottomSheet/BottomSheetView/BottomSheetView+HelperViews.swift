@@ -229,6 +229,8 @@ internal extension BottomSheetView {
         .padding(
             self.isIPadOrMac ? 10 : 0
         )
+        // Make the BottomSheet align to top (for transition)
+        .frame(alignment: .top)
         // Make the BottomSheet transition via move
         .transition(
             .move(
