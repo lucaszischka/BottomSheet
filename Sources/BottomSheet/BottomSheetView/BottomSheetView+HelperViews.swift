@@ -169,8 +169,13 @@ internal extension BottomSheetView {
             if self.bottomSheetPosition.isBottom {
                 // In a bottom position the main content is hidden - add a Spacer to fill the set height
                 // For .dynamicBottom make the height match the bottom sava area
+#if os(macOS)
+                Spacer(minLength: 0)
+                    .frame(height: self.bottomSheetPosition.isDynamic ? 0 : nil)
+#else
                 Spacer(minLength: 0)
                     .frame(height: self.bottomSheetPosition.isDynamic ? (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20) : nil)
+#endif
             } else {
                 // Main content
                 self.bottomSheetContent(
