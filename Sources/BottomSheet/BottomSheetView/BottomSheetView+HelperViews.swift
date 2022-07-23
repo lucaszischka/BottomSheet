@@ -334,8 +334,9 @@ internal extension BottomSheetView {
     func bottomSheetContent(
         with geometry: GeometryProxy
     ) -> some View {
-//        VStack(alignment: .center, spacing: 0) {
-        Group {
+        // TODO: Fix workaround not working for ScrollView
+        // VStack to make frame workaround work
+        VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
                 // TODO: Fix appleScrollBehaviour not working when main content doesnt fill BottomSheet
                 // Content for .appleScrollBehavior
@@ -351,16 +352,6 @@ internal extension BottomSheetView {
 #endif
                 }
             } else {
-                
-                // TODO: Needed?
-                /*
-                // TODO: Fix workaround not working for ScrollView
-                // VStack to make alignment workaround work
-                VStack(alignment: .center, spacing: 0) {
-                    // Normal Content
-                    self.mainContent
-                }
-                */
                 // Normal Content
                 self.mainContent
                 // Make the main content dragable if content drag is enabled
@@ -371,11 +362,13 @@ internal extension BottomSheetView {
                     )
             }
         }
-//        .frame(
-//            maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
-//            maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
-//            alignment: .top
-//        )
+        // Align content to top and make it fill all avaiable space when not dynamic
+        // This workaround fixes the transition
+        .frame(
+            maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
+            maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
+            alignment: .top
+        )
         // Make the main content transition via move
         .transition(
             .move(
