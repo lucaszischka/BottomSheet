@@ -211,7 +211,7 @@ internal extension BottomSheetView {
                     }
             }
         )
-        // TODO: Fix background not transitioning via move
+        // TODO: Fix background not appearing via move
         // BottomSheet background
         .background(
             self.configuration.backgroundView
@@ -221,12 +221,6 @@ internal extension BottomSheetView {
                         with: geometry
                     ) : nil
                 )
-            // Make the background transition via move
-                .transition(
-                    .move(
-                        edge: self.isIPadOrMac ? .top : .bottom
-                    )
-            )
         )
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
