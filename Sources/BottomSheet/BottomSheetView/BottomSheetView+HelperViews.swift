@@ -384,12 +384,12 @@ internal extension BottomSheetView {
         .frame(alignment: .top)
         // TODO: Fix BottomSheet transition not ignoring safe area
         // Make the main content transition via move
+         */
         .transition(
             .move(
                 edge: self.isIPadOrMac ? .top : .bottom
             )
         )
-        */
     }
     
 #if !os(macOS)
