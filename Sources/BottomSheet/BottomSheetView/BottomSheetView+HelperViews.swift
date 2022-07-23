@@ -229,8 +229,6 @@ internal extension BottomSheetView {
         .padding(
             self.isIPadOrMac ? 10 : 0
         )
-        // Make the BottomSheet align to top (for transition)
-        .frame(alignment: .top)
         // Make the BottomSheet transition via move
         .transition(
             .move(
@@ -354,8 +352,9 @@ internal extension BottomSheetView {
 #endif
                 }
             } else {
-                // Normal Content
+                // VStack to make frame workaround work
                 VStack(alignment: .center, spacing: 0) {
+                    // Normal Content
                     self.mainContent
                 }
                 // Make the main content dragable if content drag is enabled
