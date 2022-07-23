@@ -211,8 +211,8 @@ internal extension BottomSheetView {
                     }
             }
         )
-        // Clip content to avoid that it leaves the BottomSheet
-        .clipped()
+//        // Clip content to avoid that it leaves the BottomSheet
+//        .clipped()
         .background(
             // BottomSheet background
             self.configuration.backgroundView
