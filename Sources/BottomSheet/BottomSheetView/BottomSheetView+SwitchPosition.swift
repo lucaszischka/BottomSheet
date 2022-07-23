@@ -96,22 +96,16 @@ internal extension BottomSheetView {
     ) {
         switch self.bottomSheetPosition {
         case .dynamicBottom:
-            if self.switchablePositions.contains(.dynamicTop) {
-                // 1. dynamicTop
-                self.bottomSheetPosition = .dynamicTop
-            } else if self.switchablePositions.contains(.dynamic) {
-                // 2. dynamic
+            if self.switchablePositions.contains(.dynamic) {
+                // 1. dynamic
                 self.bottomSheetPosition = .dynamic
             } else if let highest = switchablePositions.last, highest.height > currentHeight {
-                // 3. highest position
+                // 2. highest position
                 self.bottomSheetPosition = highest.position
             }
         case .dynamic:
-            if self.switchablePositions.contains(.dynamicTop) {
-                // 1. dynamicTop
-                self.bottomSheetPosition = .dynamicTop
-            } else if let highest = switchablePositions.last, highest.height > currentHeight {
-                // 2. highest position
+            if let highest = switchablePositions.last, highest.height > currentHeight {
+                // 1. highest position
                 self.bottomSheetPosition = highest.position
             }
         default:
@@ -130,17 +124,6 @@ internal extension BottomSheetView {
         currentHeight: CGFloat
     ) {
         switch self.bottomSheetPosition {
-        case .dynamicTop:
-            if self.switchablePositions.contains(.dynamicBottom) {
-                // 1. dynamicBottom
-                self.bottomSheetPosition = .dynamicBottom
-            } else if self.switchablePositions.contains(.dynamic) {
-                // 2. dynamic
-                self.bottomSheetPosition = .dynamic
-            } else if let lowest = switchablePositions.first, lowest.height < currentHeight {
-                // 3. lowest position that is lower than the current one
-                self.bottomSheetPosition = lowest.position
-            }
         case .dynamic:
             if self.switchablePositions.contains(.dynamicBottom) {
                 // 1. dynamicBottom
@@ -200,12 +183,7 @@ internal extension BottomSheetView {
                 fallthrough
             }
         case .dynamic:
-            if self.switchablePositions.contains(.dynamicTop) {
-                // 1. dynamicTop
-                self.bottomSheetPosition = .dynamicTop
-            } else {
-                fallthrough
-            }
+            fallthrough
         default:
             if let position = switchablePositions.first(where: { $0.height > currentHeight })?.position {
                 // 1. lowest value that is higher than current height
@@ -216,15 +194,6 @@ internal extension BottomSheetView {
                 if self.switchablePositions.contains(.dynamic) {
                     // 2.1 dynamic
                     self.bottomSheetPosition = .dynamic
-                } else if self.switchablePositions.contains(.dynamicTop) {
-                    // 2.2 dynamicTop
-                    self.bottomSheetPosition = .dynamicTop
-                }
-            } else if !self.bottomSheetPosition.isTop {
-                // 3. if currently "medium"
-                if self.switchablePositions.contains(.dynamicTop) {
-                    // 3.1 dynamicTop
-                    self.bottomSheetPosition = .dynamicTop
                 }
             }
         }
@@ -240,13 +209,6 @@ internal extension BottomSheetView {
         switch self.bottomSheetPosition {
         case .hidden:
             return
-        case .dynamicTop:
-            if self.switchablePositions.contains(.dynamic) {
-                // 1. dynamic
-                self.bottomSheetPosition = .dynamic
-            } else {
-                fallthrough
-            }
         case .dynamic:
             if self.switchablePositions.contains(.dynamicBottom) {
                 // 1. dynamicBottom

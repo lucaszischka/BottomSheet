@@ -40,11 +40,6 @@ internal extension BottomSheetView {
                         switchablePositions: switchablePositions,
                         currentHeight: currentHeight
                     )
-                case .dynamicTop:
-                    self.dynamicTopSwitch(
-                        switchablePositions: switchablePositions,
-                        currentHeight: currentHeight
-                    )
                 case .relativeBottom, .absoluteBottom:
                     self.valueBottomSwitch(
                         switchablePositions: switchablePositions,
@@ -82,52 +77,6 @@ internal extension BottomSheetView {
         })?.position {
             // 2. lowest value that is "middle" and higher than current height
             self.bottomSheetPosition = position
-        } else if self.switchablePositions.contains(.dynamicTop) {
-            // 3. dynamicTop
-            self.bottomSheetPosition = .dynamicTop
-        } else if let position = switchablePositions.first(where: {
-            $0.position.isTop && $0.height > currentHeight
-        })?.position {
-            // 4. lowest value that is top and higher than current height
-            self.bottomSheetPosition = position
-        } else if let position = switchablePositions.first(where: {
-            $0.position.isBottom && $0.height > currentHeight
-        })?.position {
-            // 5. lowest value that is bottom and higher than current height
-            self.bottomSheetPosition = position
-        } else if let position = switchablePositions.last(where: {
-            !$0.position.isTop && !$0.position.isBottom
-        })?.position {
-            // 6. highest value that is "middle"
-            self.bottomSheetPosition = position
-        } else if let position = switchablePositions.last(where: {
-            $0.position.isTop
-        })?.position {
-            // 7. highest value that is top
-            self.bottomSheetPosition = position
-        } else if let position = switchablePositions.last(where: {
-            $0.position.isBottom
-        })?.position {
-            // 8. highest value that is bottom
-            self.bottomSheetPosition = position
-        }
-    }
-    
-    private func dynamicSwitch(
-        switchablePositions: [(
-            height: CGFloat,
-            position: BottomSheetPosition
-        )],
-        currentHeight: CGFloat
-    ) {
-        if self.switchablePositions.contains(.dynamicTop) {
-            // 1. dynamicTop
-            self.bottomSheetPosition = .dynamicTop
-        } else if let position = switchablePositions.first(where: {
-            !$0.position.isTop && !$0.position.isBottom && $0.height > currentHeight
-        })?.position {
-            // 2. lowest value that is "middle" and higher than current height
-            self.bottomSheetPosition = position
         } else if let position = switchablePositions.first(where: {
             $0.position.isTop && $0.height > currentHeight
         })?.position {
@@ -139,68 +88,62 @@ internal extension BottomSheetView {
             // 4. lowest value that is bottom and higher than current height
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.last(where: {
-            $0.position.isTop
-        })?.position {
-            // 5. highest value that is top
-            self.bottomSheetPosition = position
-        } else if let position = switchablePositions.last(where: {
             !$0.position.isTop && !$0.position.isBottom
         })?.position {
-            // 6. highest value that is "middle"
+            // 5. highest value that is "middle"
             self.bottomSheetPosition = position
-        } else if self.switchablePositions.contains(.dynamicBottom) {
-            // 7. dynamicBottom
-            self.bottomSheetPosition = .dynamicBottom
+        } else if let position = switchablePositions.last(where: {
+            $0.position.isTop
+        })?.position {
+            // 6. highest value that is top
+            self.bottomSheetPosition = position
         } else if let position = switchablePositions.last(where: {
             $0.position.isBottom
         })?.position {
-            // 8. highest value that is bottom
+            // 7. highest value that is bottom
             self.bottomSheetPosition = position
         }
     }
     
-    private func dynamicTopSwitch(
+    private func dynamicSwitch(
         switchablePositions: [(
             height: CGFloat,
             position: BottomSheetPosition
         )],
         currentHeight: CGFloat
     ) {
-        if self.switchablePositions.contains(.dynamic) {
-            // 1. dynamic
-            self.bottomSheetPosition = .dynamic
-        } else if let position = switchablePositions.last(where: {
-            !$0.position.isTop && !$0.position.isBottom && $0.height < currentHeight
+        if let position = switchablePositions.first(where: {
+            !$0.position.isTop && !$0.position.isBottom && $0.height > currentHeight
         })?.position {
-            // 2. highest value that is "middle" and lower than current height
-            self.bottomSheetPosition = position
-        } else if self.switchablePositions.contains(.dynamicBottom) {
-            // 3. dynamicBottom
-            self.bottomSheetPosition = .dynamicBottom
-        } else if let position = switchablePositions.last(where: {
-            $0.position.isBottom && $0.height < currentHeight
-        })?.position {
-            // 4. highest value that is bottom and lower than current height
-            self.bottomSheetPosition = position
-        } else if let position = switchablePositions.last(where: {
-            $0.position.isTop && $0.height < currentHeight
-        })?.position {
-            // 5. highest value that is top and lower than current height
+            // 1. lowest value that is "middle" and higher than current height
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.first(where: {
-            !$0.position.isTop && !$0.position.isBottom
+            $0.position.isTop && $0.height > currentHeight
         })?.position {
-            // 6. lowest value that is "middle"
+            // 2. lowest value that is top and higher than current height
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.first(where: {
-            $0.position.isBottom
+            $0.position.isBottom && $0.height > currentHeight
         })?.position {
-            // 7. lowest value that is bottom
+            // 3. lowest value that is bottom and higher than current height
             self.bottomSheetPosition = position
-        } else if let position = switchablePositions.first(where: {
+        } else if let position = switchablePositions.last(where: {
             $0.position.isTop
         })?.position {
-            // 8. lowest value that is top
+            // 4. highest value that is top
+            self.bottomSheetPosition = position
+        } else if let position = switchablePositions.last(where: {
+            !$0.position.isTop && !$0.position.isBottom
+        })?.position {
+            // 5. highest value that is "middle"
+            self.bottomSheetPosition = position
+        } else if self.switchablePositions.contains(.dynamicBottom) {
+            // 6. dynamicBottom
+            self.bottomSheetPosition = .dynamicBottom
+        } else if let position = switchablePositions.last(where: {
+            $0.position.isBottom
+        })?.position {
+            // 7. highest value that is bottom
             self.bottomSheetPosition = position
         }
     }
@@ -225,30 +168,27 @@ internal extension BottomSheetView {
         })?.position {
             // 3. lowest value that is top and higher than current height
             self.bottomSheetPosition = position
-        } else if self.switchablePositions.contains(.dynamicTop) {
-            // 4. dynamicTop
-            self.bottomSheetPosition = .dynamicTop
         } else if let position = switchablePositions.first(where: {
             $0.position.isBottom && $0.height > currentHeight
         })?.position {
-            // 5. lowest value that is bottom and higher than current height
+            // 4. lowest value that is bottom and higher than current height
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.last(where: {
             !$0.position.isTop && !$0.position.isBottom
         })?.position {
-            // 6. highest value that is "middle"
+            // 5. highest value that is "middle"
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.last(where: {
             $0.position.isTop
         })?.position {
-            // 7. highest value that is top
+            // 6. highest value that is top
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.last(where: {$0.position.isBottom
         })?.position {
-            // 8. highest value that is bottom
+            // 7. highest value that is bottom
             self.bottomSheetPosition = position
         } else if self.switchablePositions.contains(.dynamicBottom) {
-            // 9. dynamicBottom
+            // 8. dynamicBottom
             self.bottomSheetPosition = .dynamicBottom
         }
     }
@@ -270,34 +210,31 @@ internal extension BottomSheetView {
         })?.position {
             // 2. lowest value that is top and higher than current height
             self.bottomSheetPosition = position
-        } else if self.switchablePositions.contains(.dynamicTop) {
-            // 3. dynamicTop
-            self.bottomSheetPosition = .dynamicTop
-        } else if let position = switchablePositions.first(where: {
+        }else if let position = switchablePositions.first(where: {
             $0.position.isBottom && $0.height > currentHeight
         })?.position {
-            // 4. lowest value that is bottom and higher than current height
+            // 3. lowest value that is bottom and higher than current height
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.last(where: {
             $0.position.isTop
         })?.position {
-            // 5. highest value that is top
+            // 4. highest value that is top
             self.bottomSheetPosition = position
         } else if self.switchablePositions.contains(.dynamic) {
-            // 6. dynamic
+            // 5. dynamic
             self.bottomSheetPosition = .dynamic
         } else if let position = switchablePositions.last(where: {
             !$0.position.isTop && !$0.position.isBottom
         })?.position {
-            // 7. highest value that is "middle"
+            // 6. highest value that is "middle"
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.last(where: {
             $0.position.isBottom
         })?.position {
-            // 8. highest value that is bottom
+            // 7. highest value that is bottom
             self.bottomSheetPosition = position
         } else if self.switchablePositions.contains(.dynamicBottom) {
-            // 9. dynamicBottom
+            // 8. dynamicBottom
             self.bottomSheetPosition = .dynamicBottom
         }
     }
@@ -330,23 +267,20 @@ internal extension BottomSheetView {
         })?.position {
             // 5. highest value that is top and lower than current height
             self.bottomSheetPosition = position
-        } else if self.switchablePositions.contains(.dynamicTop) {
-            // 6. dynamicTop
-            self.bottomSheetPosition = .dynamicTop
         } else if let position = switchablePositions.last(where: {
             !$0.position.isTop && !$0.position.isBottom
         })?.position {
-            // 7. highest value that is "middle"
+            // 6. highest value that is "middle"
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.last(where: {
             $0.position.isBottom
         })?.position {
-            // 8. highest value that is bottom
+            // 7. highest value that is bottom
             self.bottomSheetPosition = position
         } else if let position = switchablePositions.first(where: {
             $0.position.isTop
         })?.position {
-            // 9. lowest value that is top
+            // 8. lowest value that is top
             self.bottomSheetPosition = position
         }
     }
