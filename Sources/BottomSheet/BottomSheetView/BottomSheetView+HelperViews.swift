@@ -167,10 +167,15 @@ internal extension BottomSheetView {
             
             // BottomSheet main content
             if self.bottomSheetPosition.isBottom {
-                // When bottom position the main content is hidden and add spacer to fill the height
-                // For dynamic make the height match the bottom sava area
+                // In a bottom position the main content is hidden - add a Spacer to fill the set height
+                // For .dynamicBottom make the height match the bottom sava area
+#if os(macOS)
                 Spacer(minLength: 0)
-                    .frame(height: self.bottomSheetPosition.isDynamic ? geometry.safeAreaInsets.bottom : nil)
+                    .frame(height: self.bottomSheetPosition.isDynamic ? 0 : nil)
+#else
+                Spacer(minLength: 0)
+                    .frame(height: self.bottomSheetPosition.isDynamic ? (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20) : nil)
+#endif
             } else {
                 // Main content
                 self.bottomSheetContent(
@@ -211,14 +216,10 @@ internal extension BottomSheetView {
                     }
             }
         )
-        // TODO: Fix background not transitioning via move
+        // TODO: Fix background not appearing via move
         // BottomSheet background
         .background(
             self.configuration.backgroundView
-            // Make the background ignore bottom safe area on iPhone
-                .edgesIgnoringSafeArea(
-                    self.isIPadOrMac ? [] : .bottom
-                )
             // Make the background dragable
                 .gesture(
                     self.configuration.isResizeable ? self.dragGesture(
@@ -306,7 +307,7 @@ internal extension BottomSheetView {
             .top,
             self.isIPadOrMac || !self.configuration.isDragIndicatorShown || !self.configuration.isResizeable ? 20 : 0
         )
-        // Add bottom padding when header is nil and close button is shown
+        // Add bottom padding when header content is nil and close button is shown
         .padding(
             .bottom,
             self.headerContent == nil && self.configuration.isCloseButtonShown ? 20 : 0
@@ -338,7 +339,8 @@ internal extension BottomSheetView {
     func bottomSheetContent(
         with geometry: GeometryProxy
     ) -> some View {
-        Group {
+        // VStack to make frame workaround work
+        VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
                 // TODO: Fix appleScrollBehaviour not working when main content doesnt fill BottomSheet
                 // Content for .appleScrollBehavior
@@ -354,12 +356,8 @@ internal extension BottomSheetView {
 #endif
                 }
             } else {
-                // TODO: Fix workaround not working for ScrollView
-                // VStack to make alignment workaround work
-                VStack(alignment: .center, spacing: 0) {
-                    // Normal Content
-                    self.mainContent
-                }
+                // Normal Content
+                self.mainContent
                 // Make the main content dragable if content drag is enabled
                     .gesture(
                         self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
@@ -368,9 +366,13 @@ internal extension BottomSheetView {
                     )
             }
         }
-        // Make the main contentn align to the top (for transition)
-        .frame(alignment: .top)
-        // TODO: Fix BottomSheet transition not ignoring safe area
+        // Align content to top and make it fill all avaiable space when not dynamic
+        // This workaround fixes the transition
+        .frame(
+            maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
+            maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
+            alignment: .top
+        )
         // Make the main content transition via move
         .transition(
             .move(
