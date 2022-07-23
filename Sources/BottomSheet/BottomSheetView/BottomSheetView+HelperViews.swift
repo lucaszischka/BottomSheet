@@ -360,14 +360,18 @@ internal extension BottomSheetView {
                         ) : nil
                     )
             }
+            
+            if !self.bottomSheetPosition.isDynamic {
+                Spacer(minLength: 0)
+            }
         }
-        // Align content to top and make it fill all avaiable space when not dynamic
-        // This workaround fixes the transition
-        .frame(
-            maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
-            maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
-            alignment: .top
-        )
+//        // Align content to top and make it fill all avaiable space when not dynamic
+//        // This workaround fixes the transition
+//        .frame(
+//            maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
+//            maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
+//            alignment: .top
+//        )
         // Make the main content transition via move
         .transition(
             .move(
@@ -386,12 +390,6 @@ internal extension BottomSheetView {
         ) {
             self.mainContent
         }
-        .background(
-            VStack {
-            Text(self.isScrollEnabled ? "true" : "false")
-            Text(self.dragState == .none ? ".none" : ".changed / .ended")
-            }
-        )
         // Make ScrollView dragable
         .gesture(
             self.isScrollEnabled ? nil : self.appleScrollViewDragGesture(
