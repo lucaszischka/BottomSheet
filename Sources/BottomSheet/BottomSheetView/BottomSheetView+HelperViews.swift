@@ -211,6 +211,7 @@ internal extension BottomSheetView {
                     }
             }
         )
+        // TODO: Fix background not transitioning via move
         // BottomSheet background
         .background(
             self.configuration.backgroundView
@@ -339,6 +340,7 @@ internal extension BottomSheetView {
     ) -> some View {
         Group {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
+                // TODO: Fix appleScrollBehaviour not working when main content doesnt fill BottomSheet
                 // Content for .appleScrollBehavior
                 if self.isIPadOrMac {
                     ScrollView {
@@ -352,7 +354,8 @@ internal extension BottomSheetView {
 #endif
                 }
             } else {
-                // VStack to make frame workaround work
+                // TODO: Fix workaround not working for ScrollView
+                // VStack to make alignment workaround work
                 VStack(alignment: .center, spacing: 0) {
                     // Normal Content
                     self.mainContent
@@ -367,6 +370,7 @@ internal extension BottomSheetView {
         }
         // Make the main contentn align to the top (for transition)
         .frame(alignment: .top)
+        // TODO: Fix BottomSheet transition not ignoring safe area
         // Make the main content transition via move
         .transition(
             .move(

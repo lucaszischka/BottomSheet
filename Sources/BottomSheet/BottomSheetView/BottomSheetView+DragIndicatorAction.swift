@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO: Test switching
 internal extension BottomSheetView {
     
     // For `dragIndicator`
