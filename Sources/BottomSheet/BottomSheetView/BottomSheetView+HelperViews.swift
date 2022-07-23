@@ -378,6 +378,8 @@ internal extension BottomSheetView {
             }
         }
         .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
             alignment: .top
         )
         // Make the main content transition via move
