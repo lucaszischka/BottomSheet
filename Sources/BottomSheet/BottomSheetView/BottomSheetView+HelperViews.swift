@@ -215,13 +215,6 @@ internal extension BottomSheetView {
         // BottomSheet background
         .background(
             self.configuration.backgroundView
-            // TODO: Needed?
-            /*
-             // Make the background ignore bottom safe area on iPhone
-                .edgesIgnoringSafeArea(
-                    self.isIPadOrMac ? [] : .bottom
-                )
-             */
             // Make the background dragable
                 .gesture(
                     self.configuration.isResizeable ? self.dragGesture(
@@ -341,7 +334,7 @@ internal extension BottomSheetView {
     func bottomSheetContent(
         with geometry: GeometryProxy
     ) -> some View {
-        Group {
+        ZStack {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
                 // TODO: Fix appleScrollBehaviour not working when main content doesnt fill BottomSheet
                 // Content for .appleScrollBehavior
