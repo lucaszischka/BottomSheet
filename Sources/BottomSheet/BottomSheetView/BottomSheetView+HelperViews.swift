@@ -375,6 +375,8 @@ internal extension BottomSheetView {
             dragState: self.$dragState
         ) {
             self.mainContent
+            
+            Spacer(minLength: 0)
         }
         // Make ScrollView dragable
         .gesture(
