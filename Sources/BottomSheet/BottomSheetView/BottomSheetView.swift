@@ -52,22 +52,21 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
         GeometryReader { geometry in
             // ZStack for aligning content
             ZStack(
-                // On iPad and Mac the BottomSheet is aligned to the top left
-                // On iPhone it is aligned to the bottom, in horizontal mode to the bottom left
-                alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
+                // Align the content to top leading
+                alignment: .topLeading
             ) {
-                // Hide the BottomSheet when .hidden
-                if !self.bottomSheetPosition.isHidden {
-                    // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
+                // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
+                // Only shown when BottomSheet is shown
+                if (self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled) && !self.bottomSheetPosition.isHidden {
                     self.fullScreenBackground(
                         with: geometry
                     )
-                    
-                    // The BottomSheet itself
-                    self.bottomSheet(
-                        with: geometry
-                    )
                 }
+                
+                // The BottomSheet itself
+                self.bottomSheet(
+                    with: geometry
+                )
             }
             // Animate value changes
 #if !os(macOS)

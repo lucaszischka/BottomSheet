@@ -159,7 +159,8 @@ internal extension BottomSheetView {
             }
             
             // BottomSheet header content
-            if self.headerContent != nil || self.configuration.isCloseButtonShown {
+            // Only shown when BottomSheet is not hidden
+            if (self.headerContent != nil || self.configuration.isCloseButtonShown) && !self.bottomSheetPosition.isHidden {
                 self.header(
                     with: geometry
                 )
@@ -171,8 +172,9 @@ internal extension BottomSheetView {
                 // For dynamic make the height match the bottom sava area
                 Spacer(minLength: 0)
                     .frame(height: self.bottomSheetPosition.isDynamic ? geometry.safeAreaInsets.bottom : nil)
-            } else {
+            } else if !self.bottomSheetPosition.isHidden {
                 // Main content
+                // Only shown when BottomSheet is not hidden
                 self.bottomSheetContent(
                     with: geometry
                 )
@@ -226,15 +228,20 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
+        .offset(
+            y: {
+                let height = self.bottomSheetPosition.asScreenHeight(with: geometry) ?? self.contentHeight
+                
+                if let height = height {
+                    return height + self.translation
+                } else {
+                    return 0
+                }
+            }()
+        )
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0
-        )
-        // Make the BottomSheet transition via move
-        .transition(
-            .move(
-                edge: self.isIPadOrMac ? .top : .bottom
-            )
         )
     }
     
