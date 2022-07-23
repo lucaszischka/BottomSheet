@@ -353,7 +353,9 @@ internal extension BottomSheetView {
                 }
             } else {
                 // Normal Content
-                self.mainContent
+                VStack(alignment: .center, spacing: 0) {
+                    self.mainContent
+                }
                 // Make the main content dragable if content drag is enabled
                     .gesture(
                         self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
