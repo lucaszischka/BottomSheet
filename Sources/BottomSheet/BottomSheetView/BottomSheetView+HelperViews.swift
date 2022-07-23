@@ -211,8 +211,8 @@ internal extension BottomSheetView {
                     }
             }
         )
+        // BottomSheet background
         .background(
-            // BottomSheet background
             self.configuration.backgroundView
             // Make the background ignore bottom safe area on iPhone
                 .edgesIgnoringSafeArea(
@@ -225,6 +225,7 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
+        .clipped()
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0
