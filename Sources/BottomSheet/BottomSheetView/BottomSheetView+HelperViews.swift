@@ -221,6 +221,12 @@ internal extension BottomSheetView {
                         with: geometry
                     ) : nil
                 )
+            // Make the background transition via move
+                .transition(
+                    .move(
+                        edge: self.isIPadOrMac ? .top : .bottom
+                    )
+            )
         )
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
@@ -360,18 +366,14 @@ internal extension BottomSheetView {
                         ) : nil
                     )
             }
-            
-            if !self.bottomSheetPosition.isDynamic {
-                Spacer(minLength: 0)
-            }
         }
-//        // Align content to top and make it fill all avaiable space when not dynamic
-//        // This workaround fixes the transition
-//        .frame(
-//            maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
-//            maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
-//            alignment: .top
-//        )
+        // Align content to top and make it fill all avaiable space when not dynamic
+        // This workaround fixes the transition
+        .frame(
+            maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
+            maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
+            alignment: .top
+        )
         // Make the main content transition via move
         .transition(
             .move(
