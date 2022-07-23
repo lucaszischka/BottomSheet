@@ -362,6 +362,12 @@ internal extension BottomSheetView {
                     )
             }
         }
+        // Make the main content transition via move
+        .transition(
+            .move(
+                edge: self.isIPadOrMac ? .top : .bottom
+            )
+        )
     }
     
 #if !os(macOS)
