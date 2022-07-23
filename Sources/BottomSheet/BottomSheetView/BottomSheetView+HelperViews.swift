@@ -334,7 +334,7 @@ internal extension BottomSheetView {
     func bottomSheetContent(
         with geometry: GeometryProxy
     ) -> some View {
-        ZStack {
+        VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
                 // TODO: Fix appleScrollBehaviour not working when main content doesnt fill BottomSheet
                 // Content for .appleScrollBehavior
@@ -371,8 +371,8 @@ internal extension BottomSheetView {
             }
         }
         .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity,
+            maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
+            maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
             alignment: .top
         )
         // Make the main content transition via move
