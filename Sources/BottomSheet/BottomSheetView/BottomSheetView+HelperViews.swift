@@ -197,16 +197,15 @@ internal extension BottomSheetView {
             ),
             alignment: self.isIPadOrMac ? .bottom : .top
         )
+        // Get dynamic content size
         .background(
             GeometryReader { geometry in
                 Color.clear
                     .onReceive(Just(self.bottomSheetPosition)) { _ in
-                        print("onReceive")
+                        // Don't update on drag and when not dynamic
                         if !self.bottomSheetPosition.isDynamic {
-                            print("reset")
                             self.contentHeight = nil
                         } else if self.translation == 0 {
-                            print("update: \(geometry.size.height)")
                             self.contentHeight = geometry.size.height
                         }
                     }
@@ -228,13 +227,6 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
-//        // Get dynamic content size
-//        .measureSize { size in
-//            // Don't update on drag and when not dynamic
-//            if self.translation == 0 && self.bottomSheetPosition.isDynamic {
-//                self.contentHeight = size.height
-//            }
-//        }
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0

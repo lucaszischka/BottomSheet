@@ -19,12 +19,13 @@ internal extension BottomSheetView {
     func opacity(
         with geometry: GeometryProxy
     ) -> Double {
-        // Calculate background blur relative to BottomSheet height
+        // The height of the currentBottomSheetPosition; if nil use content height
         let height = self.bottomSheetPosition.asScreenHeight(
             with: geometry
         ) ?? self.contentHeight
         
         if let height = height, self.configuration.isBackgroundBlurEnabled {
+            // Calculate background blur relative to BottomSheet height
             return min(
                 max(
                     Double(
@@ -73,11 +74,13 @@ internal extension BottomSheetView {
     func height(
         with geometry: GeometryProxy
     ) -> CGFloat? {
+        // The height of the currentBottomSheetPosition; if nil and not dragging use content height
         let height = self.bottomSheetPosition.asScreenHeight(
             with: geometry
         ) ?? (self.translation != 0 ? self.contentHeight : nil)
         
         if let height = height {
+            // Calculate BottomSheet height
             return min(
                 max(
                     height - self.translation,
@@ -86,6 +89,7 @@ internal extension BottomSheetView {
                 geometry.size.height + geometry.safeAreaInsets.bottom + geometry.safeAreaInsets.top
             )
         } else {
+            // Use nil if dynamic and currently not dragging
             return nil
         }
     }
