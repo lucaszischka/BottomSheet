@@ -211,8 +211,6 @@ internal extension BottomSheetView {
                     }
             }
         )
-        // Clip content to avoid that it leavs the BottomSheet
-        .clipped()
         .background(
             // BottomSheet background
             self.configuration.backgroundView
@@ -237,6 +235,8 @@ internal extension BottomSheetView {
                 edge: self.isIPadOrMac ? .top : .bottom
             )
         )
+        // Clip content to avoid that it leavs the BottomSheet
+        .clipped()
     }
     
     func dragIndicator(
@@ -376,11 +376,6 @@ internal extension BottomSheetView {
         ) {
             self.mainContent
         }
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity,
-            alignment: .top
-        )
         // Make ScrollView dragable
         .gesture(
             self.isScrollEnabled ? nil : self.appleScrollViewDragGesture(
