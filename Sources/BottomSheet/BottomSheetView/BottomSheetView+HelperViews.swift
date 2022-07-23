@@ -197,12 +197,12 @@ internal extension BottomSheetView {
             ),
             alignment: self.isIPadOrMac ? .bottom : .top
         )
-        // Make the BottomSheet ignore bottom safe area on iPhone
-        .edgesIgnoringSafeArea(
-            self.isIPadOrMac ? [] : .bottom
-        )
         // Clip content to avoid that it leaves the BottomSheet
-        .clipShape(Rectangle())
+        .clipped()
+//        // Make the BottomSheet ignore bottom safe area on iPhone
+//        .edgesIgnoringSafeArea(
+//            self.isIPadOrMac ? [] : .bottom
+//        )
         // Get dynamic content size
         .background(
             GeometryReader { geometry in
