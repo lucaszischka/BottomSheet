@@ -56,22 +56,19 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 // On iPhone it is aligned to the bottom, in horizontal mode to the bottom left
                 alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
             ) {
-                // Hide the BottomSheet when .hidden
-                if !self.bottomSheetPosition.isHidden {
                     // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
                     self.fullScreenBackground(
                         with: geometry
                     )
-                    
+                
+                // Hide the BottomSheet when .hidden
+                if !self.bottomSheetPosition.isHidden {
                     // The BottomSheet itself
                     self.bottomSheet(
                         with: geometry
                     )
                 }
             }
-            .edgesIgnoringSafeArea(.bottom)
-            .clipped()
-            .transition(.move(edge: .bottom))
             // Animate value changes
 #if !os(macOS)
             .animation(
