@@ -227,6 +227,8 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
+    // Clip content to avoid that it leaves the BottomSheet
+        .clipped()
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0
