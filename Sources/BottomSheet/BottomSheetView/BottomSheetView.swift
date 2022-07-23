@@ -59,11 +59,9 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 // Hide everything when the BottomSheet is hidden
                 if !self.bottomSheetPosition.isHidden {
                     // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
-                    if self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled {
-                        self.fullScreenBackground(
-                            with: geometry
-                        )
-                    }
+                    self.fullScreenBackground(
+                        with: geometry
+                    )
                     
                     // The BottomSheet itself
                     self.bottomSheet(
