@@ -362,6 +362,10 @@ internal extension BottomSheetView {
                     )
             }
         }
+        // Make content ignore bottom save area (for transition)
+        .edgesIgnoringSafeArea(
+            self.isIPadOrMac ? [] : .bottom
+        )
         // Make the main content transition via move
         .transition(
             .move(
