@@ -362,6 +362,8 @@ internal extension BottomSheetView {
                     )
             }
         }
+        // Make the main contentn align to the top (for transition)
+        .frame(alignment: .top)
         // Make the main content transition via move
         .transition(
             .move(
