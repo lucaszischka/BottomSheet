@@ -159,8 +159,7 @@ internal extension BottomSheetView {
             }
             
             // BottomSheet header content
-            // Only shown when BottomSheet is not hidden
-            if (self.headerContent != nil || self.configuration.isCloseButtonShown) && !self.bottomSheetPosition.isHidden {
+            if self.headerContent != nil || self.configuration.isCloseButtonShown {
                 self.header(
                     with: geometry
                 )
@@ -168,13 +167,13 @@ internal extension BottomSheetView {
             
             // BottomSheet main content
             if self.bottomSheetPosition.isBottom {
-                // When bottom position the main content is hidden and add spacer to fill the height
-                // For dynamic make the height match the bottom sava area
+                // In a bottom position the main content is hidden - add a Spacer to fill the set height
+                // TODO: Fix geometry.safeAreaInsets.bottom = 0
+                // For .dynamicBottom make the height match the bottom sava area
                 Spacer(minLength: 0)
                     .frame(height: self.bottomSheetPosition.isDynamic ? geometry.safeAreaInsets.bottom : nil)
-            } else if !self.bottomSheetPosition.isHidden {
+            } else {
                 // Main content
-                // Only shown when BottomSheet is not hidden
                 self.bottomSheetContent(
                     with: geometry
                 )
@@ -217,34 +216,19 @@ internal extension BottomSheetView {
         // BottomSheet background
         .background(
             self.configuration.backgroundView
-            // Make the background ignore bottom safe area on iPhone
+            // TODO: Needed?
+            /*
+             // Make the background ignore bottom safe area on iPhone
                 .edgesIgnoringSafeArea(
                     self.isIPadOrMac ? [] : .bottom
                 )
+             */
             // Make the background dragable
                 .gesture(
                     self.configuration.isResizeable ? self.dragGesture(
                         with: geometry
                     ) : nil
                 )
-        )
-        .offset(
-            y: {
-                let height = self.bottomSheetPosition.asScreenHeight(with: geometry) ?? self.contentHeight
-                
-                if let height = height {
-                    return min(
-                        max(
-                            geometry.size.height - height + self.translation,
-                            0
-                        ),
-                        geometry.size.height + geometry.safeAreaInsets.bottom
-                    )
-                    
-                } else {
-                    return 0
-                }
-            }()
         )
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
@@ -320,7 +304,7 @@ internal extension BottomSheetView {
             .top,
             self.isIPadOrMac || !self.configuration.isDragIndicatorShown || !self.configuration.isResizeable ? 20 : 0
         )
-        // Add bottom padding when header is nil and close button is shown
+        // Add bottom padding when header content is nil and close button is shown
         .padding(
             .bottom,
             self.headerContent == nil && self.configuration.isCloseButtonShown ? 20 : 0
@@ -368,12 +352,18 @@ internal extension BottomSheetView {
 #endif
                 }
             } else {
+                
+                // TODO: Needed?
+                /*
                 // TODO: Fix workaround not working for ScrollView
                 // VStack to make alignment workaround work
                 VStack(alignment: .center, spacing: 0) {
                     // Normal Content
                     self.mainContent
                 }
+                */
+                // Normal Content
+                self.mainContent
                 // Make the main content dragable if content drag is enabled
                     .gesture(
                         self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
@@ -382,15 +372,19 @@ internal extension BottomSheetView {
                     )
             }
         }
+        // TODO: Needed?
+        /*
         // Make the main contentn align to the top (for transition)
         .frame(alignment: .top)
         // TODO: Fix BottomSheet transition not ignoring safe area
+         */
         // Make the main content transition via move
         .transition(
             .move(
                 edge: self.isIPadOrMac ? .top : .bottom
             )
         )
+        
     }
     
 #if !os(macOS)

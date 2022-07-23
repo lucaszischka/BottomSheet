@@ -41,6 +41,8 @@ public extension BottomSheet {
     ///
     /// The `GeometryProxy` parameter can be used for calculations.
     /// This replaces the default action. You need to switch the positons and dismiss the keyboard yourself.
+    /// The `GeometryProxy`'s height contains the bottom safe area inserts on iPhone
+    /// The `GeometryPrody`'s height contains the top safe area inserts on iPad and Mac
     ///
     /// - Parameters:
     ///   - perform: The action to perform when the drag indicator is tapped.

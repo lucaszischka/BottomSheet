@@ -9,13 +9,13 @@ import SwiftUI
 
 internal struct BottomSheetView<HContent: View, MContent: View>: View {
     
-    // For `landscape` and `iPad` support
+    // For iPhone landscape and iPad support
 #if !os(macOS)
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 #endif
     
-    // For `iPad and `Mac` support
+    // For iPad and Mac support
     var isIPadOrMac: Bool {
 #if os(macOS)
         return true
@@ -48,25 +48,28 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
     let configuration: BottomSheetConfiguration
     
     var body: some View {
-        // GeometryReader for calculations
+        // GeometryReader for size calculations
         GeometryReader { geometry in
             // ZStack for aligning content
             ZStack(
-                // Align the content to top leading
-                alignment: .topLeading
+                // On iPad and Mac the BottomSheet is aligned to the top left
+                // On iPhone it is aligned to the bottom center, in horizontal mode to the bottom left
+                alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
             ) {
-                // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
-                // Only shown when BottomSheet is shown
-                if (self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled) && !self.bottomSheetPosition.isHidden {
-                    self.fullScreenBackground(
+                // Hide everything when the BottomSheet is hidden
+                if self.bottomSheetPosition.isHidden {
+                    // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
+                    if self.configuration.isBackgroundBlurEnabled || self.configuration.isTapToDismissEnabled {
+                        self.fullScreenBackground(
+                            with: geometry
+                        )
+                    }
+                    
+                    // The BottomSheet itself
+                    self.bottomSheet(
                         with: geometry
                     )
                 }
-                
-                // The BottomSheet itself
-                self.bottomSheet(
-                    with: geometry
-                )
             }
             // Animate value changes
 #if !os(macOS)
@@ -106,5 +109,11 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 value: self.configuration
             )
         }
+        // Make the GeometryReader ignore specific safe area (for transition to work)
+        // On iPhone ignore bottom safe area, because the BottomSheet moves to the bottom edge
+        // On iPad and Mac ignore top safe area, because the BottomSheet moves to the top edge
+        .edgesIgnoringSafeArea(
+            self.isIPadOrMac ? .top : .bottom
+        )
     }
 }

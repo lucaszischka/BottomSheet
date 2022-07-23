@@ -55,16 +55,19 @@ internal extension BottomSheetView {
         self.configuration.onDismiss()
     }
     
-    // For `landscape`, `iPad` and `Mac` support
+    // For iPhone landscape, iPad and Mac support
     func width(
         with geometry: GeometryProxy
     ) -> CGFloat {
 #if os(macOS)
+        // On Mac use 30% of width
         return geometry.size.width * 0.3
 #else
         if self.isIPadOrMac || UIDevice.current.orientation.isLandscape {
+            // On iPad and iPhone landscape use 40% width
             return geometry.size.width * 0.4
         } else {
+            // On iPhone portrait use 100% width
             return geometry.size.width
         }
 #endif
@@ -86,7 +89,7 @@ internal extension BottomSheetView {
                     height - self.translation,
                     0
                 ),
-                geometry.size.height + geometry.safeAreaInsets.bottom
+                geometry.size.height
             )
         } else {
             // Use nil if dynamic and currently not dragging
