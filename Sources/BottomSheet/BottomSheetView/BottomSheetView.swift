@@ -57,6 +57,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
             ) {
                 // Hide the BottomSheet when .hidden
+                Group {
                 if !self.bottomSheetPosition.isHidden {
                     // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
                     self.fullScreenBackground(
@@ -68,9 +69,11 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                         with: geometry
                     )
                 }
+                }
+                .edgesIgnoringSafeArea(.bottom)
+                .clipped()
+                .transition(.move(edge: .bottom))
             }
-//            // Clip content to avoid that it leaves the BottomSheet
-//            .clipped()
             // Animate value changes
 #if !os(macOS)
             .animation(
