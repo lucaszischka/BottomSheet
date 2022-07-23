@@ -229,6 +229,10 @@ internal extension BottomSheetView {
         .padding(
             self.isIPadOrMac ? 10 : 0
         )
+        // Make the BottomSheet ignore bottom save area (for transition)
+        .edgesIgnoringSafeArea(
+            self.isIPadOrMac ? [] : .bottom
+        )
         // Make the BottomSheet transition via move
         .transition(
             .move(
