@@ -362,6 +362,11 @@ internal extension BottomSheetView {
                     )
             }
         }
+        // Make the main content ignore bottom safe area on iPhone (for transition)
+        .edgesIgnoringSafeArea(
+            self.isIPadOrMac ? [] : .bottom
+        )
+        // Make the main content align to top (for transition)
         .frame(alignment: .top)
         // Make the main content transition via move
         .transition(
