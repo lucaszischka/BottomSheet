@@ -202,7 +202,7 @@ internal extension BottomSheetView {
             self.isIPadOrMac ? [] : .bottom
         )
         // Clip content to avoid that it leaves the BottomSheet
-        .clipped()
+        .clipShape(Rectangle())
         // Get dynamic content size
         .background(
             GeometryReader { geometry in
