@@ -37,7 +37,7 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
         }
     }
     
-    // Initializers
+    // Initialisers
     internal init(
         bottomSheetPosition: Binding<BottomSheetPosition>,
         switchablePositions: [BottomSheetPosition],
@@ -93,7 +93,7 @@ public extension View {
     /// - Parameter bottomSheetPosition: A binding that holds the current position.
     /// For more information about the possible positions see  `BottomSheetPosition`.
     /// - Parameter switchablePositions: An array that contains the positions for the BottomSheet.
-    /// Only the positions contained in the array can be switched into (via drag indicator or swipe).
+    /// Only the positions contained in the array can be switched into (via tapping the drag indicator or swiping the BottomSheet).
     /// - Parameter headerContent: A view that is used as header content for the BottomSheet.
     /// You can use a text that is displayed as title instead.
     /// - Parameter mainContent: A view that is used as main content for the BottomSheet.
@@ -119,7 +119,7 @@ public extension View {
     /// - Parameter bottomSheetPosition: A binding that holds the current position.
     /// For more information about the possible positions see  `BottomSheetPosition`.
     /// - Parameter switchablePositions: An array that contains the positions for the BottomSheet.
-    /// Only the positions contained in the array can be switched into (via drag indicator or swipe).
+    /// Only the positions contained in the array can be switched into (via tapping the drag indicator or swiping the BottomSheet).
     /// - Parameter title: You can use a text that is displayed as title instead.
     /// A view that is used as header content for the BottomSheet.
     /// - Parameter content: A view that is used as main content for the BottomSheet.

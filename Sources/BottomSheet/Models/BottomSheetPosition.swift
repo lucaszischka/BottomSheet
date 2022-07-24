@@ -8,47 +8,57 @@
 import SwiftUI
 
 public enum BottomSheetPosition: Equatable {
-    /// The state where the BottomSheet is hidden
+    /// The state where the BottomSheet is hidden.
     case hidden
     
-    /// The state where only the headerContent is visible
+    /// The state where only the headerContent is visible.
     case dynamicBottom
     
-    /// The state where the height of the BottomSheet is equal to its content size
-    /// Only makes sense for views that don't take all avaiable space (like ScrollVIew, Color, ...)
+    /// The state where the height of the BottomSheet is equal to its content size.
+    /// Only makes sense for views that don't take all available space (like ScrollVIew, Color, ...).
     case dynamic
     
-    /// The state where the height of the BottomSheet is equal to its content size
-    /// It functions as top position for appleScrollBehaviour
-    /// Only makes sense for views that don't take all avaiable space (like ScrollVIew, Color, ...)
+    /// The state where the height of the BottomSheet is equal to its content size.
+    /// It functions as top position for appleScrollBehaviour,
+    /// although it doesn't make much sense to use it with dynamic.
+    /// Only makes sense for views that don't take all available space (like ScrollVIew, Color, ...).
     case dynamicTop
     
-    /// The state where only the headerContent is visible. The height of the BottomSheet is x%
-    /// Only values between 0 and 1 make sense
+    /// The state where only the headerContent is visible.
+    /// The height of the BottomSheet is x%.
+    /// Only values between 0 and 1 make sense.
+    /// Instead of 0 please use `.hidden`. 
     case relativeBottom(CGFloat)
     
-    /// The state where the height of the BottomSheet is equal to x%
-    /// Only values between 0 and 1 make sense
+    /// The state where the height of the BottomSheet is equal to x%.
+    /// Only values between 0 and 1 make sense.
+    /// Instead of 0 please use `.hidden`.
     case relative(CGFloat)
     
-    /// The state where the height of the BottomSheet is equal to x%
-    /// It funtions as top position for appleScrollBehaviour
-    /// Only values between 0 and 1 make sense
+    /// The state where the height of the BottomSheet is equal to x%.
+    /// It functions as top position for appleScrollBehaviour.
+    /// Only values between 0 and 1 make sense.
+    /// Instead of 0 please use `.hidden`.
     case relativeTop(CGFloat)
     
-    ///  The state where only the headerContent is visible. The height of the BottomSheet is x
-    /// Only values above 0 make sense
+    /// The state where only the headerContent is visible
+    /// The height of the BottomSheet is x.
+    /// Only values above 0 make sense.
+    /// Instead of 0 please use `.hidden`.
     case absoluteBottom(CGFloat)
     
-    /// The state where the height of the BottomSheet is equal to x
-    /// Only values above 0 make sense
+    /// The state where the height of the BottomSheet is equal to x.
+    /// Only values above 0 make sense.
+    /// Instead of 0 please use `.hidden`.
     case absolute(CGFloat)
     
-    /// The state where the height of the BottomSheet is equal to x
-    /// It funtions as top position for appleScrollBehaviour
-    /// Only values above 0 make sense
+    /// The state where the height of the BottomSheet is equal to x.
+    /// It functions as top position for appleScrollBehaviour.
+    /// Only values above 0 make sense.
+    /// Instead of 0 please use `.hidden`.
     case absoluteTop(CGFloat)
     
+    // State grouping
     internal var isHidden: Bool {
         switch self {
         case .hidden:
@@ -78,13 +88,14 @@ public enum BottomSheetPosition: Equatable {
     
     internal var isDynamic: Bool {
         switch self {
-        case .dynamic, .dynamicBottom, .dynamicTop:
+        case .dynamicBottom, .dynamic, .dynamicTop:
             return true
         default:
             return false
         }
     }
     
+    // Hight calculation
     internal func asScreenHeight(
         with geometry: GeometryProxy
     ) -> CGFloat? {

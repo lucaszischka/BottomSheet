@@ -62,7 +62,7 @@ public extension BottomSheet {
     /// Layers the views that you specify behind this view.
     ///
     /// Use this modifier to place one or more views behind another view.
-    /// For example, you can place a collection of stars beind a ``Text`` view:
+    /// For example, you can place a collection of stars behind a ``Text`` view:
     ///
     ///     Text("ABCDEF")
     ///         .background(alignment: .leading) { Star(color: .red) }

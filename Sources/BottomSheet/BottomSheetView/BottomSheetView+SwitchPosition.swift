@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// TODO: Test switching
+// TODO: Test switching, Documentation
 internal extension BottomSheetView {
     
     // For `flickThrough`

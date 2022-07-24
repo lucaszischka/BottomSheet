@@ -29,12 +29,33 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
     }
     
     // For dynamic
-    var bottomSafeAreaInsets: CGFloat? {
-#if os(macOS)
-        return nil
+    var bottomPositionSpacerHeight: CGFloat? {
+        if self.bottomSheetPosition.isDynamic {
+            if self.isIPadOrMac {
+                // When dynamic make Spacer have no height (iPad and Mac)
+                return 0
+            } else {
+#if !os(macOS)
+                // When dynamic make Spacer have bottom safe area as height (iPhone)
+                return UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20
 #else
-        UIApplication.shared.windows.first?.safeAreaInsets.bottom
+                // Should never be called
+                return 0
 #endif
+            }
+        } else {
+            // Let it take up all space
+            return nil
+        }
+    }
+    
+    var iPadTopPadding: CGFloat {
+        if self.isIPadOrMac {
+#if !os(macOS)
+            return UIApplication.shared.windows.first?.safeAreaInsets.top ?? 10
+#endif
+        }
+        return 0
     }
     
     @Binding var bottomSheetPosition: BottomSheetPosition
@@ -67,7 +88,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
             ) {
                 // Hide everything when the BottomSheet is hidden
                 if !self.bottomSheetPosition.isHidden {
-                    // Full sceen background for aligning and used by `backgroundBlur` and `tapToDissmiss`
+                    // Full screen background for aligning and used by `backgroundBlur` and `tapToDismiss`
                     self.fullScreenBackground(
                         with: geometry
                     )

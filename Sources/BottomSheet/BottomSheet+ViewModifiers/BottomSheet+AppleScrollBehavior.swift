@@ -11,17 +11,18 @@ public extension BottomSheet {
     
     /// Packs the mainContent into a ScrollView.
     ///
-    /// Behavior on the iPhone:
+    /// Behaviour on the iPhone:
     /// - The ScrollView is only enabled (scrollable) when the BottomSheet is in a `...Top` position.
     /// - If the offset of the ScrollView becomes less than or equal to 0,
     /// the BottomSheet is pulled down instead of scrolling.
+    /// - In every other position the BottomSheet will be dragged instead
     ///
-    /// This behavior is not present on the iPad or Mac.
+    /// This behaviour is not active on Mac and iPad, because it would not make sense there.
     ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.
     ///
-    /// - Returns: A BottomSheet where the mainContent is inside a ScrollView.
+    /// - Returns: A BottomSheet where the mainContent is packed inside a ScrollView.
     func enableAppleScrollBehavior(
         _ bool: Bool = true
     ) -> BottomSheet {

@@ -52,11 +52,11 @@ internal extension BottomSheetView {
         DragGesture()
             .onChanged { value in
                 if self.bottomSheetPosition.isTop && value.translation.height < 0 {
-                    // Notifiy the ScrollView that the user switched to scrolling
+                    // Notify the ScrollView that the user is scrolling
                     self.dragState = .changed(
                         value: value
                     )
-                    // Reset translation, because the user switched to scrolling
+                    // Reset translation, because the user is scrolling
                     self.translation = 0
                 } else {
                     // Perform custom action from the user
@@ -64,7 +64,7 @@ internal extension BottomSheetView {
                         value
                     )
                     
-                    // Notifiy the ScrollView that the user switched to dragging
+                    // Notify the ScrollView that the user is dragging
                     self.dragState = .none
                     // Update translation; on iPad and Mac the drag direction is reversed
                     self.translation = self.isIPadOrMac ? -value.translation.height : value.translation.height
@@ -75,11 +75,12 @@ internal extension BottomSheetView {
             }
             .onEnded { value in
                 if value.translation.height < 0 && self.bottomSheetPosition.isTop {
-                    // Notifiy the ScrollView that the user ended to scrolling
+                    // Notify the ScrollView that the user ended to scroll
                     self.dragState = .ended(
                         value: value
                     )
-                    // Reset translation, because the user ended to scrolling
+                    
+                    // Reset translation, because the user ended to scroll
                     self.translation = 0
                     // Enable further interaction via the ScrollView directly
                     self.isScrollEnabled = true
@@ -89,7 +90,7 @@ internal extension BottomSheetView {
                         value
                     )
                     
-                    // Notifiy the ScrollView that the user switched to dragging
+                    // Notify the ScrollView that the user is dragging
                     self.dragState = .none
                     // Switch the position based on the translation and screen height
                     self.dragPositionSwitch(
@@ -114,7 +115,7 @@ internal extension BottomSheetView {
     ) -> some View {
         VisualEffectView(visualEffect: self.configuration.backgroundBlurMaterial)
             .opacity(
-                // When .backgroundBlur is enabled the opacity is calculated
+                // When `.backgroundBlur` is enabled the opacity is calculated
                 // based on the current height of the BottomSheet, else it is 0
                 self.opacity(
                     with: geometry
@@ -128,7 +129,7 @@ internal extension BottomSheetView {
             .edgesIgnoringSafeArea(
                 .all
             )
-        // Make the background tapable
+        // Make the background tap-able
             .contentShape(
                 Rectangle()
             )
@@ -151,7 +152,7 @@ internal extension BottomSheetView {
             alignment: .center,
             spacing: 0
         ) {
-            // Drag indicator for iPhone
+            // Drag indicator on the top (iPhone)
             if self.configuration.isResizeable && self.configuration.isDragIndicatorShown && !self.isIPadOrMac {
                 self.dragIndicator(
                     with: geometry
@@ -167,19 +168,11 @@ internal extension BottomSheetView {
             
             // BottomSheet main content
             if self.bottomSheetPosition.isBottom {
-                // In a bottom position the main content is hidden - add a Spacer to fill the set height
-                // For .dynamicBottom make the height match the bottom sava area
-#if os(macOS)
+                // In a bottom position the main content is hidden - add a Spacer to fill the height
                 Spacer(minLength: 0)
                     .frame(
-                        height: self.bottomSheetPosition.isDynamic ? 0 : nil
+                        height: self.bottomPositionSpacerHeight
                     )
-#else
-                Spacer(minLength: 0)
-                    .frame(
-                        height: self.bottomSheetPosition.isDynamic ? (self.bottomSafeAreaInsets ?? 20) : nil
-                    )
-#endif
             } else {
                 // Main content
                 self.bottomSheetContent(
@@ -194,7 +187,7 @@ internal extension BottomSheetView {
                 )
             }
         }
-        // Set the height and with to its calculated values
+        // Set the height and width to its calculated values
         // The content should be aligned to the top on iPhone
         // On iPad and Mac to the bottom
         .frame(
@@ -215,10 +208,11 @@ internal extension BottomSheetView {
                             self.bottomSheetPosition
                         )
                     ) { _ in
-                        // Don't update on drag and when not dynamic
                         if !self.bottomSheetPosition.isDynamic {
+                            // Reset contentHeight when not dynamic
                             self.contentHeight = nil
                         } else if self.translation == 0 {
+                            // Update content height when dynamic and not dragging
                             self.contentHeight = geometry.size.height
                         }
                     }
@@ -227,12 +221,17 @@ internal extension BottomSheetView {
         // BottomSheet background
         .background(
             Group {
+                // Use custom BottomSheet background if set
                 if let backgroundView = self.configuration.backgroundView {
                     backgroundView
                 } else {
+                    // Default BottomSheet background
                     VisualEffectView(
                         visualEffect: .system
                     )
+                    // Add corner radius to BottomSheet background
+                    // On iPhone only to the top corners
+                    // On iPad and Mac to all corners
                         .cornerRadius(
                             10,
                             corners: self.isIPadOrMac ? .allCorners : [
@@ -242,7 +241,7 @@ internal extension BottomSheetView {
                         )
                 }
             }
-            // Make the background dragable
+            // Make the background drag-able
                 .gesture(
                     self.configuration.isResizeable ? self.dragGesture(
                         with: geometry
@@ -252,6 +251,11 @@ internal extension BottomSheetView {
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0
+        )
+        // Add safe area top padding on iPad
+        .padding(
+            .top,
+            self.iPadTopPadding
         )
         // Make the BottomSheet transition via move
         .transition(
@@ -288,7 +292,7 @@ internal extension BottomSheetView {
                         .bottom,
                         7
                     )
-                // Make the drag indicator dragable
+                // Make the drag indicator drag-able
                     .gesture(
                         self.dragGesture(
                             with: geometry
@@ -334,7 +338,7 @@ internal extension BottomSheetView {
             .bottom,
             self.headerContent == nil && self.configuration.isCloseButtonShown ? 20 : 0
         )
-        // Make the header dragable
+        // Make the header drag-able
         .gesture(
             self.configuration.isResizeable ? self.dragGesture(
                 with: geometry
@@ -364,7 +368,7 @@ internal extension BottomSheetView {
         // VStack to make frame workaround work
         VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
-                // TODO: Fix appleScrollBehaviour not working when main content doesnt fill BottomSheet
+                // TODO: Fix appleScrollBehaviour not working when main content doesn't is higher or equal to BottomSheet height
                 // Content for .appleScrollBehavior
                 if self.isIPadOrMac {
                     ScrollView {
@@ -380,7 +384,7 @@ internal extension BottomSheetView {
             } else {
                 // Normal Content
                 self.mainContent
-                // Make the main content dragable if content drag is enabled
+                // Make the main content drag-able if content drag is enabled
                     .gesture(
                         self.configuration.isContentDragEnabled && self.configuration.isResizeable ? self.dragGesture(
                             with: geometry
@@ -388,12 +392,12 @@ internal extension BottomSheetView {
                     )
             }
         }
-        // Align content to top and make it fill all avaiable space when not dynamic
+        // Align content correctly and make it fill all available space when not dynamic
         // This workaround fixes the transition
         .frame(
             maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
             maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
-            alignment: .top
+            alignment: self.isIPadOrMac ? .bottom : .top
         )
         // Make the main content transition via move
         .transition(
@@ -413,7 +417,7 @@ internal extension BottomSheetView {
         ) {
             self.mainContent
         }
-        // Make ScrollView dragable
+        // Make ScrollView drag-able
         .gesture(
             self.isScrollEnabled ? nil : self.appleScrollViewDragGesture(
                 with: geometry

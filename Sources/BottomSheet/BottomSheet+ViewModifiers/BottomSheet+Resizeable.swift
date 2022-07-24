@@ -11,7 +11,7 @@ public extension BottomSheet {
     
     /// Makes it possible to resize the BottomSheet.
     ///
-    /// When disabled the drag indicator disapears.
+    /// When disabled the drag indicator disappears.
     ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.

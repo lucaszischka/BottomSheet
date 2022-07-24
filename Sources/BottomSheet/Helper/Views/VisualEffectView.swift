@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Adapted from https://github.com/AlanQuatermain/AQUI/blob/master/Sources/AQUI/VisualEffectView.swift
 #if canImport(UIKit)
 import UIKit
 #elseif os(macOS)

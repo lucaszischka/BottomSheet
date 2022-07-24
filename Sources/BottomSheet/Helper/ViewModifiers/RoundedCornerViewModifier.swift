@@ -1,5 +1,5 @@
 //
-//  RoundedCornerViewModifer.swift
+//  RoundedCornerViewModifier.swift
 //
 //  Created by Lucas Zischka.
 //  Copyright © 2022 Lucas Zischka. All rights reserved.
@@ -45,51 +45,51 @@ private struct RoundedCorner: Shape {
         
         let point1 = CGPoint(
             x: rect.minX,
-            y: corners.contains(
+            y: self.corners.contains(
                 .topLeft
-            ) ? rect.minY + radius  : rect.minY
+            ) ? rect.minY + self.radius : rect.minY
         )
         let point2 = CGPoint(
-            x: corners.contains(
+            x: self.corners.contains(
                 .topLeft
-            ) ? rect.minX + radius : rect.minX,
+            ) ? rect.minX + self.radius : rect.minX,
             y: rect.minY
         )
         let point3 = CGPoint(
-            x: corners.contains(
+            x: self.corners.contains(
                 .topRight
-            ) ? rect.maxX - radius : rect.maxX,
+            ) ? rect.maxX - self.radius : rect.maxX,
             y: rect.minY
         )
         let point4 = CGPoint(
             x: rect.maxX,
-            y: corners.contains(
+            y: self.corners.contains(
                 .topRight
-            ) ? rect.minY + radius  : rect.minY
+            ) ? rect.minY + self.radius : rect.minY
         )
         let point5 = CGPoint(
             x: rect.maxX,
-            y: corners.contains(
+            y: self.corners.contains(
                 .bottomRight
-            ) ? rect.maxY - radius : rect.maxY
+            ) ? rect.maxY - self.radius : rect.maxY
         )
         let point6 = CGPoint(
-            x: corners.contains(
+            x: self.corners.contains(
                 .bottomRight
-            ) ? rect.maxX - radius : rect.maxX,
+            ) ? rect.maxX - self.radius : rect.maxX,
             y: rect.maxY
         )
         let point7 = CGPoint(
-            x: corners.contains(
+            x: self.corners.contains(
                 .bottomLeft
-            ) ? rect.minX + radius : rect.minX,
+            ) ? rect.minX + self.radius : rect.minX,
             y: rect.maxY
         )
         let point8 = CGPoint(
             x: rect.minX,
-            y: corners.contains(
+            y: self.corners.contains(
                 .bottomLeft
-            ) ? rect.maxY - radius : rect.maxY
+            ) ? rect.maxY - self.radius : rect.maxY
         )
         
         path.move(
@@ -101,7 +101,7 @@ private struct RoundedCorner: Shape {
                 y: rect.minY
             ),
             tangent2End: point2,
-            radius: radius
+            radius: self.radius
         )
         path.addLine(
             to: point3
@@ -112,7 +112,7 @@ private struct RoundedCorner: Shape {
                 y: rect.minY
             ),
             tangent2End: point4,
-            radius: radius
+            radius: self.radius
         )
         path.addLine(
             to: point5
@@ -123,7 +123,7 @@ private struct RoundedCorner: Shape {
                 y: rect.maxY
             ),
             tangent2End: point6,
-            radius: radius
+            radius: self.radius
         )
         path.addLine(
             to: point7
@@ -134,7 +134,7 @@ private struct RoundedCorner: Shape {
                 y: rect.maxY
             ),
             tangent2End: point8,
-            radius: radius
+            radius: self.radius
         )
         path.closeSubpath()
         
@@ -152,10 +152,10 @@ private struct RoundedCorner: Shape {
     ) -> Path {
         let path = UIBezierPath(
             roundedRect: rect,
-            byRoundingCorners: corners,
+            byRoundingCorners: self.corners,
             cornerRadii: CGSize(
-                width: radius,
-                height: radius
+                width: self.radius,
+                height: self.radius
             )
         )
         return Path(

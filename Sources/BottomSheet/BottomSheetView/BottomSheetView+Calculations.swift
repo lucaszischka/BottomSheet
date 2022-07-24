@@ -36,18 +36,20 @@ internal extension BottomSheetView {
                 1
             )
         } else {
+            // Should never be called
             return 0
         }
     }
     
     // For `tapToDismiss`
     func tapToDismissAction() {
+        // Only dismiss sheet when `tapToDismiss` is enabled
         if self.configuration.isTapToDismissEnabled {
             self.closeSheet()
         }
     }
     
-    // General usage
+    // For closing the sheet
     func closeSheet() {
         self.bottomSheetPosition = .hidden
         self.endEditing()
@@ -60,14 +62,17 @@ internal extension BottomSheetView {
         with geometry: GeometryProxy
     ) -> CGFloat {
 #if os(macOS)
-        // On Mac use 30% of width
+        // On Mac use 30% of the width
         return geometry.size.width * 0.3
 #else
-        if self.isIPadOrMac || UIDevice.current.orientation.isLandscape {
-            // On iPad and iPhone landscape use 40% width
+        if self.isIPadOrMac {
+            // On iPad use 30% of the width
+            return geometry.size.width * 0.3
+        } else if UIDevice.current.orientation.isLandscape {
+            // On iPhone landscape use of the 40% width
             return geometry.size.width * 0.4
         } else {
-            // On iPhone portrait use 100% width
+            // On iPhone portrait use of the 100% width
             return geometry.size.width
         }
 #endif
@@ -83,7 +88,7 @@ internal extension BottomSheetView {
         ) ?? (self.translation != 0 ? self.contentHeight : nil)
         
         if let height = height {
-            // Calculate BottomSheet height
+            // Calculate BottomSheet height by subtracting translation
             return min(
                 max(
                     height - self.translation,
@@ -92,7 +97,7 @@ internal extension BottomSheetView {
                 geometry.size.height
             )
         } else {
-            // Use nil if dynamic and currently not dragging
+            // Use nil if `.dynamic...` and currently not dragging
             return nil
         }
     }
@@ -119,7 +124,7 @@ internal extension BottomSheetView {
                     )
                 }
             } else {
-                // It as a .dynamic... position. Those are not included
+                // Remove `.dynamic...` positions
                 return nil
             }
         }).sorted(by: {

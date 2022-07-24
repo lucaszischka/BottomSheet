@@ -9,7 +9,11 @@ import SwiftUI
 
 public extension BottomSheet {
     
-    /// Adds a drag indicator to the headerContent in the middle.
+    /// Adds a drag indicator to the BottomSheet.
+    ///
+    /// On iPhone it is centered above the headerContent.
+    /// On Mac and iPad it is centered above the mainContent,
+    /// To change the color of the drag indicator please use the `dragIndicatorColor()` modifier.
     ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.
@@ -22,14 +26,15 @@ public extension BottomSheet {
         return self
     }
     
-    /// Changes the color used by the `.showDragIndicator()` option.
+    /// Changes the color of the drag indicator.
     ///
-    /// Changing the color does not affect whether the `.showDragIndicator()` option is enabled.
+    /// Changing the color does not affect whether the drag indicator is shown.
+    /// To toggle the drag indicator please use the `.showDragIndicator()` modifier,
     ///
     /// - Parameters:
     ///   - color: The new color.
     ///
-    /// - Returns: A view with a diffrent color used by the `.showDragIndicator()` option.
+    /// - Returns: A view with a different colored drag indicator.
     func dragIndicatorColor(
         _ color: Color
     ) -> BottomSheet {
@@ -37,12 +42,12 @@ public extension BottomSheet {
         return self
     }
     
-    /// A action that will be performed when the drag indicator is tapped.
+    /// Replaces the action that will be performed when the drag indicator is tapped.
     ///
     /// The `GeometryProxy` parameter can be used for calculations.
-    /// This replaces the default action. You need to switch the positons and dismiss the keyboard yourself.
-    /// The `GeometryProxy`'s height contains the bottom safe area inserts on iPhone
-    /// The `GeometryPrody`'s height contains the top safe area inserts on iPad and Mac
+    /// You need to switch the positions and dismiss the keyboard yourself.
+    /// The `GeometryProxy`'s height contains the bottom safe area inserts on iPhone.
+    /// The `GeometryProxy`'s height contains the top safe area inserts on iPad and Mac.
     ///
     /// - Parameters:
     ///   - perform: The action to perform when the drag indicator is tapped.
