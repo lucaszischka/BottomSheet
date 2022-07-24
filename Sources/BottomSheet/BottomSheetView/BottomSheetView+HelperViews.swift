@@ -252,7 +252,7 @@ internal extension BottomSheetView {
         .padding(
             self.isIPadOrMac ? 10 : 0
         )
-        // Add safe area top padding on iPad
+        // Add safe area top padding on iPad and Mac
         .padding(
             .top,
             self.iPadAndMacTopPadding
