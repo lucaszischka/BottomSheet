@@ -405,6 +405,8 @@ internal extension BottomSheetView {
                 edge: self.isIPadOrMac ? .top : .bottom
             )
         )
+        // Clip main content to prevent it leaving the BottomSheet
+        .clipped()
     }
     
 #if !os(macOS)
