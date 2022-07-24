@@ -223,7 +223,7 @@ internal extension BottomSheetView {
                 if let backgroundView = self.configuration.backgroundView {
                     backgroundView
                 } else {
-                    VisualEffectView(visualEffect: .default)
+                    VisualEffectView(visualEffect: .system)
                         .cornerRadius(
                             10,
                             corners: self.isIPadOrMac ? .allCorners : [
