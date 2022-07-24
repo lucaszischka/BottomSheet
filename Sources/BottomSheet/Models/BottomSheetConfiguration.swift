@@ -8,17 +8,15 @@
 import SwiftUI
 
 internal class BottomSheetConfiguration: Equatable {
-    // TODO: Fix Equatable
+    // For animating changes
     static func == (
         lhs: BottomSheetConfiguration,
         rhs: BottomSheetConfiguration
     ) -> Bool {
         return lhs.animation == rhs.animation &&
-        // lhs.backgroundBlurMaterial == rhs.backgroundBlurMaterial &&
-        // lhs.backgroundView == rhs.backgroundView &&
-        // lhs.dragIndicatorAction == rhs.dragIndicatorAction &&
+        lhs.backgroundBlurMaterial == rhs.backgroundBlurMaterial &&
+        lhs.backgroundViewID == rhs.backgroundViewID &&
         lhs.dragIndicatorColor == rhs.dragIndicatorColor &&
-        // lhs.dragPositionSwitchAction == rhs.dragPositionSwitchAction &&
         lhs.isAppleScrollBehaviorEnabled == rhs.isAppleScrollBehaviorEnabled &&
         lhs.isBackgroundBlurEnabled == rhs.isBackgroundBlurEnabled &&
         lhs.isCloseButtonShown == rhs.isCloseButtonShown &&
@@ -27,10 +25,7 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.isFlickThroughEnabled == rhs.isFlickThroughEnabled &&
         lhs.isResizeable == rhs.isResizeable &&
         lhs.isSwipeToDismissEnabled && rhs.isSwipeToDismissEnabled &&
-        lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled // &&
-        // lhs.onDismiss == rhs.onDismiss &&
-        // lhs.onDragEnded == rhs.onDragEnded &&
-        // lhs.onDragChanged == rhs.onDragChanged
+        lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled
     }
     
     var animation: Animation? = .spring(
@@ -38,38 +33,9 @@ internal class BottomSheetConfiguration: Equatable {
         dampingFraction: 0.75,
         blendDuration: 1
     )
-#if os(macOS)
-    var backgroundBlurMaterial: EffectView = EffectView(
-        material: .popover
-    )
-#else
-    var backgroundBlurMaterial: EffectView = EffectView(
-        material: .systemUltraThinMaterial
-    )
-#endif
-#if os(macOS)
-    var backgroundView: AnyView = AnyView(
-        EffectView(
-            material: .popover
-        )
-            .cornerRadius(
-                10
-            )
-    )
-#else
-    var backgroundView: AnyView = AnyView(
-        EffectView(
-            material: .systemUltraThinMaterial
-        )
-            .cornerRadius(
-                10,
-                corners: UIDevice.current.userInterfaceIdiom == .pad ? .allCorners : [
-                    .topRight,
-                    .topLeft
-                ]
-            )
-    )
-#endif
+    var backgroundBlurMaterial: VisualEffect = .system
+    var backgroundViewID: UUID?
+    var backgroundView: AnyView?
     var dragIndicatorAction: (
         (
             GeometryProxy

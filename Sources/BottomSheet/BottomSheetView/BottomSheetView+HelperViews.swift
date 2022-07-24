@@ -112,7 +112,7 @@ internal extension BottomSheetView {
     func fullScreenBackground(
         with geometry: GeometryProxy
     ) -> some View {
-        self.configuration.backgroundBlurMaterial
+        VisualEffectView(visualEffect: self.configuration.backgroundBlurMaterial)
             .opacity(
                 // When .backgroundBlur is enabled the opacity is calculated
                 // based on the current height of the BottomSheet, else it is 0
@@ -219,7 +219,20 @@ internal extension BottomSheetView {
         // TODO: Fix background not appearing via move
         // BottomSheet background
         .background(
-            self.configuration.backgroundView
+            Group {
+                if let backgroundView = self.configuration.backgroundView {
+                    backgroundView
+                } else {
+                    VisualEffectView(visualEffect: .default)
+                        .cornerRadius(
+                            10,
+                            corners: self.isIPadOrMac ? .allCorners : [
+                                .topRight,
+                                .topLeft
+                            ]
+                        )
+                }
+            }
             // Make the background dragable
                 .gesture(
                     self.configuration.isResizeable ? self.dragGesture(

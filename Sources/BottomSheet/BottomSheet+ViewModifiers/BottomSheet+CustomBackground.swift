@@ -55,6 +55,7 @@ public extension BottomSheet {
         self.configuration.backgroundView = AnyView(
             background
         )
+        self.configuration.backgroundViewID = UUID()
         return self
     }
     
@@ -187,6 +188,7 @@ public extension BottomSheet {
         self.configuration.backgroundView = AnyView(
             content()
         )
+        self.configuration.backgroundViewID = UUID()
         return self
     }
     
@@ -260,6 +262,7 @@ public extension BottomSheet {
                     edges
                 )
         )
+        self.configuration.backgroundViewID = UUID()
         return self
     }
     
@@ -317,6 +320,7 @@ public extension BottomSheet {
                     style: fillStyle
                 )
         )
+        self.configuration.backgroundViewID = UUID()
         return self
     }
     
@@ -366,6 +370,7 @@ public extension BottomSheet {
                     style: fillStyle
                 )
         )
+        self.configuration.backgroundViewID = UUID()
         return self
     }
 }
