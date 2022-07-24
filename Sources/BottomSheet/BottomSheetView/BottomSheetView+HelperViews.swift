@@ -171,10 +171,14 @@ internal extension BottomSheetView {
                 // For .dynamicBottom make the height match the bottom sava area
 #if os(macOS)
                 Spacer(minLength: 0)
-                    .frame(height: self.bottomSheetPosition.isDynamic ? 0 : nil)
+                    .frame(
+                        height: self.bottomSheetPosition.isDynamic ? 0 : nil
+                    )
 #else
                 Spacer(minLength: 0)
-                    .frame(height: self.bottomSheetPosition.isDynamic ? (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20) : nil)
+                    .frame(
+                        height: self.bottomSheetPosition.isDynamic ? (self.bottomSafeAreaInsets ?? 20) : nil
+                    )
 #endif
             } else {
                 // Main content
@@ -206,7 +210,11 @@ internal extension BottomSheetView {
         .background(
             GeometryReader { geometry in
                 Color.clear
-                    .onReceive(Just(self.bottomSheetPosition)) { _ in
+                    .onReceive(
+                        Just(
+                            self.bottomSheetPosition
+                        )
+                    ) { _ in
                         // Don't update on drag and when not dynamic
                         if !self.bottomSheetPosition.isDynamic {
                             self.contentHeight = nil
@@ -223,7 +231,9 @@ internal extension BottomSheetView {
                 if let backgroundView = self.configuration.backgroundView {
                     backgroundView
                 } else {
-                    VisualEffectView(visualEffect: .system)
+                    VisualEffectView(
+                        visualEffect: .system
+                    )
                         .cornerRadius(
                             10,
                             corners: self.isIPadOrMac ? .allCorners : [

@@ -165,10 +165,10 @@ fileprivate extension VisualEffect {
                 return .behindWindow
             case .titlebar:
                 return .withinWindow
-            case .contentBackground(let b),
-                 .headerView(let b),
-                 .behindPageBackground(let b):
-                return b ? .behindWindow : .withinWindow
+            case .contentBackground(let behindWindow),
+                 .headerView(let behindWindow),
+                 .behindPageBackground(let behindWindow):
+                return behindWindow ? .behindWindow : .withinWindow
             }
         }
     }

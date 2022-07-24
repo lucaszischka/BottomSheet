@@ -28,6 +28,15 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
 #endif
     }
     
+    // For dynamic
+    var bottomSafeAreaInsets: CGFloat? {
+#if os(macOS)
+        return nil
+#else
+        UIApplication.shared.windows.first?.safeAreaInsets.bottom
+#endif
+    }
+    
     @Binding var bottomSheetPosition: BottomSheetPosition
     @State var translation: CGFloat = 0
     @State var contentHeight: CGFloat?
