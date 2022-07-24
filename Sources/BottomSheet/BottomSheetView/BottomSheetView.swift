@@ -49,10 +49,12 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
         }
     }
     
-    var iPadTopPadding: CGFloat {
+    var iPadAndMacTopPadding: CGFloat {
         if self.isIPadOrMac {
 #if !os(macOS)
             return UIApplication.shared.windows.first?.safeAreaInsets.top ?? 10
+#else
+            return NSApplication.shared.windowsMenu?.size.height
 #endif
         }
         return 0

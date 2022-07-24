@@ -255,7 +255,7 @@ internal extension BottomSheetView {
         // Add safe area top padding on iPad
         .padding(
             .top,
-            self.iPadTopPadding
+            self.iPadAndMacTopPadding
         )
         // Make the BottomSheet transition via move
         .transition(
@@ -365,6 +365,7 @@ internal extension BottomSheetView {
     func bottomSheetContent(
         with geometry: GeometryProxy
     ) -> some View {
+        // TODO: Fix mainContent not disappearing correctly on iPad and Mac (due to header content)
         // VStack to make frame workaround work
         VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
@@ -405,8 +406,6 @@ internal extension BottomSheetView {
                 edge: self.isIPadOrMac ? .top : .bottom
             )
         )
-        // Clip main content to prevent it leaving the BottomSheet
-        .clipped()
     }
     
 #if !os(macOS)

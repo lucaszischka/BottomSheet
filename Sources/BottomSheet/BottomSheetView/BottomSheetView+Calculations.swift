@@ -29,7 +29,7 @@ internal extension BottomSheetView {
             return min(
                 max(
                     Double(
-                        (height - self.translation) / (geometry.size.height - (self.isIPadOrMac ? 10 : 0) - self.iPadTopPadding)
+                        (height - self.translation) / (geometry.size.height - (self.isIPadOrMac ? 10 : 0) - self.iPadAndMacTopPadding)
                     ),
                     0
                 ),
@@ -95,7 +95,7 @@ internal extension BottomSheetView {
                     0
                 ),
                 // Subtract potential padding
-                geometry.size.height - (self.isIPadOrMac ? 10 : 0) - self.iPadTopPadding
+                geometry.size.height - (self.isIPadOrMac ? 10 : 0) - self.iPadAndMacTopPadding
             )
         } else {
             // Use nil if `.dynamic...` and currently not dragging
