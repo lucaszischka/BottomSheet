@@ -159,6 +159,7 @@ internal extension BottomSheetView {
                 )
             }
             
+            // TODO: Fix header not fixed on iPad and Mac
             // BottomSheet header content
             if self.headerContent != nil || self.configuration.isCloseButtonShown {
                 self.header(
