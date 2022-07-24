@@ -224,7 +224,6 @@ internal extension BottomSheetView {
                     }
             }
         )
-        // TODO: Fix background not appearing via move
         // BottomSheet background
         .background(
             Group {

@@ -57,7 +57,6 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
     let configuration: BottomSheetConfiguration
     
     var body: some View {
-        // TODO: Find out why geometry.size.height is to large
         // GeometryReader for size calculations
         GeometryReader { geometry in
             // ZStack for aligning content
