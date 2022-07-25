@@ -29,7 +29,9 @@ internal extension BottomSheetView {
             return min(
                 max(
                     Double(
-                        (height - self.translation) / (geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding)
+                        (height - self.translation) / (
+                            geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding
+                        )
                     ),
                     0
                 ),
@@ -98,6 +100,7 @@ internal extension BottomSheetView {
                 geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding
             )
         } else {
+            // TODO: Fix dynamic leaving screen on iPad and Mac
             // Use nil if `.dynamic...` and currently not dragging
             return nil
         }
