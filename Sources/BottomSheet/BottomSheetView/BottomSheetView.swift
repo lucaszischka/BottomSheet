@@ -55,7 +55,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
 #if !os(macOS)
             return UIApplication.shared.windows.first?.safeAreaInsets.top ?? 10
 #else
-            return NSApplication.shared.windowsMenu?.menuBarHeight ?? 20
+            return NSScreen.main?.safeAreaInsets.top ?? 20
 #endif
         }
         return 0
