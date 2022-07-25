@@ -20,4 +20,12 @@ internal extension UIApplication {
         )
     }
 }
+#else
+import AppKit
+
+extension NSWindow {
+    var titlebarHeight: CGFloat {
+        frame.height - contentRect(forFrameRect: frame).height
+    }
+}
 #endif
