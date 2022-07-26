@@ -283,6 +283,8 @@ internal extension BottomSheetView {
             .top,
             self.iPadAndMacTopPadding
         )
+        // Clip BottomSheet so that all of the transition is hidden
+        .clipped()
         // Make the BottomSheet transition via move
         .transition(
             .move(
@@ -446,7 +448,7 @@ internal extension BottomSheetView {
             ) : .infinity,
             alignment: self.isIPadOrMac ? .bottom : .top
         )
-        // Clip main content
+        // Clip main content so that it doesn't go beneath the header content
         .clipped()
         // Align content below header content
         .padding(
