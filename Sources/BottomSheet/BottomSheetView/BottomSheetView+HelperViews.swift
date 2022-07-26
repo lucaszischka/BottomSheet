@@ -318,7 +318,7 @@ internal extension BottomSheetView {
                     )
                     .padding(
                         .bottom,
-                        7
+                        10
                     )
                 // Make the drag indicator drag-able
                     .gesture(
@@ -411,7 +411,6 @@ internal extension BottomSheetView {
     func bottomSheetContent(
         with geometry: GeometryProxy
     ) -> some View {
-        // TODO: Fix mainContent not disappearing correctly on iPad and Mac (due to header content)
         // VStack to make frame workaround work
         VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizeable {
@@ -439,13 +438,10 @@ internal extension BottomSheetView {
                     )
             }
         }
-        // Align content correctly and make it fill all available space when not dynamic or iPad or Mac
-        // This workaround fixes the transition
+        // Align content correctly to fix transition
         .frame(
             maxWidth: .infinity,
-            maxHeight: self.bottomSheetPosition.isDynamic || self.isIPadOrMac ? (
-                self.height(with: geometry) != nil ? self.height(with: geometry)! - self.headerContentHeight : nil
-            ) : .infinity,
+            maxHeight: self.maxMainContentHeight(with: geometry),
             alignment: self.isIPadOrMac ? .bottom : .top
         )
         // Clip main content so that it doesn't go beneath the header content
