@@ -274,6 +274,8 @@ internal extension BottomSheetView {
                     ) : nil
                 )
         )
+        // Clip BottomSheet so that all of the transition is hidden
+        .clipped()
         // On iPad and Mac the BottomSheet has a padding to the edges
         .padding(
             self.isIPadOrMac ? 10 : 0
@@ -283,8 +285,6 @@ internal extension BottomSheetView {
             .top,
             self.iPadAndMacTopPadding
         )
-        // Clip BottomSheet so that all of the transition is hidden
-        .clipped()
         // Make the BottomSheet transition via move
         .transition(
             .move(
