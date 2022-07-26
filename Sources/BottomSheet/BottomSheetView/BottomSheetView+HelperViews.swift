@@ -110,7 +110,7 @@ internal extension BottomSheetView {
             )
             .edgesIgnoringSafeArea(.all)
         // Make the background tap-able for `tapToDismiss`
-            .contentShape(Rectangle()) // TODO: Needed?
+//            .contentShape(Rectangle())
             .allowsHitTesting(self.configuration.isTapToDismissEnabled) // TODO: Needed?
             .onTapGesture(perform: self.tapToDismissAction)
         // Make the background transition via opacity
@@ -330,7 +330,11 @@ internal extension BottomSheetView {
         VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizable {
                 // TODO: Fix appleScrollBehaviour not working when main content doesn't is higher or equal to BottomSheet height
-                // Content for `appleScrollBehavior`
+                // TODO: Fix appleScrollBehaviour breaking dynamic height - even crashes
+                /*
+                 Cannot set _verticalScrollIndicator (<_UIScrollViewScrollIndicator: 0x7fc5f490e130; frame = (384 506.089; 3 36); autoresize = LM; layer = <CALayer: 0x6000010d1f80>>) frame to {{384, nan}, {3, 36}}. indicatorBounds={{3, nan}, {384, -39.911364912688782}}, indicatorInsets={3, 3, 36.911364912688782, 3}, _accuracy=3.000000, CONTENT_MINY=0.000000, CONTENT_HEIGHT=964.000000, _parentAdjustment={0, 0}, scrollView=<UIScrollView: 0x7fc5f6822a00; frame = (0 0; 390 0); clipsToBounds = YES; gestureRecognizers = <NSArray: 0x600001eee340>; layer = <CALayer: 0x6000010a2860>; contentOffset: {0, nan}; contentSize: {390, 964}; adjustedContentInset: {0, 0, 0, 0}>
+                 */
+                // Content for `appleScrollBehaviour`
                 if self.isIPadOrMac {
                     // On iPad an Mac use a normal ScrollView
                     ScrollView {
