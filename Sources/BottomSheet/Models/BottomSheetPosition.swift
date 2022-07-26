@@ -27,7 +27,7 @@ public enum BottomSheetPosition: Equatable {
     /// The state where only the headerContent is visible.
     /// The height of the BottomSheet is x%.
     /// Only values between 0 and 1 make sense.
-    /// Instead of 0 please use `.hidden`. 
+    /// Instead of 0 please use `.hidden`.
     case relativeBottom(CGFloat)
     
     /// The state where the height of the BottomSheet is equal to x%.
@@ -96,16 +96,14 @@ public enum BottomSheetPosition: Equatable {
     }
     
     // Hight calculation
-    internal func asScreenHeight(
-        with geometry: GeometryProxy
-    ) -> CGFloat? {
+    internal func asScreenHeight(with maxBottomSheetHeight: CGFloat) -> CGFloat? {
         switch self {
         case .hidden:
             return 0
         case .dynamic, .dynamicTop, .dynamicBottom:
             return nil
         case .relative(let value), .relativeBottom(let value), .relativeTop(let value):
-            return geometry.size.height * value
+            return maxBottomSheetHeight * value
         case .absolute(let value), .absoluteBottom(let value), .absoluteTop(let value):
             return value
         }

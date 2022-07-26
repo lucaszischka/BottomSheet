@@ -65,16 +65,10 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
             headerContent: {
                 if let title = title {
                     return Text(title)
-                        .font(
-                            .title
-                        )
+                        .font(.title)
                         .bold()
-                        .lineLimit(
-                            1
-                        )
-                        .padding(
-                            .bottom
-                        )
+                        .lineLimit(1)
+                        .padding(.bottom)
                     as? HContent
                 } else {
                     return nil

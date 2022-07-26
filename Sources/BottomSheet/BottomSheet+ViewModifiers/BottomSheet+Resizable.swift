@@ -1,5 +1,5 @@
 //
-//  BottomSheet+Resizeable.swift
+//  BottomSheet+Resizable.swift
 //
 //  Created by Lucas Zischka.
 //  Copyright © 2022 Lucas Zischka. All rights reserved.
@@ -17,10 +17,10 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet that can be resized.
-    func isResizeable(
+    func isResizable(
         _ bool: Bool = true
     ) -> BottomSheet {
-        self.configuration.isResizeable = bool
+        self.configuration.isResizable = bool
         return self
     }
 }

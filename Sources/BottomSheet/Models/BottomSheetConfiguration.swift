@@ -23,7 +23,7 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.isContentDragEnabled == rhs.isContentDragEnabled &&
         lhs.isDragIndicatorShown == rhs.isDragIndicatorShown &&
         lhs.isFlickThroughEnabled == rhs.isFlickThroughEnabled &&
-        lhs.isResizeable == rhs.isResizeable &&
+        lhs.isResizable == rhs.isResizable &&
         lhs.isSwipeToDismissEnabled && rhs.isSwipeToDismissEnabled &&
         lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled
     }
@@ -36,32 +36,22 @@ internal class BottomSheetConfiguration: Equatable {
     var backgroundBlurMaterial: VisualEffect = .system
     var backgroundViewID: UUID?
     var backgroundView: AnyView?
-    var dragIndicatorAction: (
-        (
-            GeometryProxy
-        ) -> Void
-    )?
+    var dragIndicatorAction: ((GeometryProxy) -> Void)?
     var dragIndicatorColor: Color = Color.tertiaryLabel
-    var dragPositionSwitchAction: (
-        (
-            GeometryProxy,
-            DragGesture.Value
-        ) -> Void
-    )?
+    var dragPositionSwitchAction: ((
+        GeometryProxy,
+        DragGesture.Value
+    ) -> Void)?
     var isAppleScrollBehaviorEnabled: Bool = false
     var isBackgroundBlurEnabled: Bool = false
     var isCloseButtonShown: Bool = false
     var isContentDragEnabled: Bool = false
     var isDragIndicatorShown: Bool = true
     var isFlickThroughEnabled: Bool = true
-    var isResizeable: Bool = true
+    var isResizable: Bool = true
     var isSwipeToDismissEnabled: Bool = false
     var isTapToDismissEnabled: Bool = false
     var onDismiss: () -> Void = {}
-    var onDragEnded: (
-        DragGesture.Value
-    ) -> Void = { _ in }
-    var onDragChanged: (
-        DragGesture.Value
-    ) -> Void = { _ in }
+    var onDragEnded: (DragGesture.Value) -> Void = { _ in }
+    var onDragChanged: (DragGesture.Value) -> Void = { _ in }
 }
