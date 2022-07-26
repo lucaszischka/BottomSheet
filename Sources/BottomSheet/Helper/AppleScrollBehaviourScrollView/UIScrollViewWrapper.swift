@@ -8,7 +8,6 @@
 #if !os(macOS)
 import SwiftUI
 
-// TODO: Fix and cleanup
 internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentable {
     
     @State private var contentOffsetAnimation: TimerAnimation?
@@ -16,12 +15,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     @Binding private var dragState: DragGesture.DragState
     private var content: Content
     
-    func makeUIViewController(
-        context: UIViewControllerRepresentableContext<Self>
-    ) -> UIScrollViewViewController<Content> {
-        let viewController = UIScrollViewViewController(
-            rootView: self.content
-        )
+    func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> UIScrollViewViewController<Content> {
+        let viewController = UIScrollViewViewController(rootView: self.content)
         viewController.scrollView.delegate = context.coordinator
         return viewController
     }
@@ -30,10 +25,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         _ viewController: UIScrollViewViewController<Content>,
         context: UIViewControllerRepresentableContext<Self>
     ) {
-        viewController.hostingController.rootView = content
-        viewController.scrollView.addSubview(
-            viewController.hostingController.view
-        )
+        viewController.hostingController.rootView = self.content
+        viewController.scrollView.addSubview(viewController.hostingController.view)
         
         var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
         contentSize.width = viewController.scrollView.frame.width
@@ -67,9 +60,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                 viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
             )
             let sign: CGFloat = clampedY > -value.translation.height ? -1 : 1
-            let result: CGFloat = clampedY + sign * ((1.0 - (1.0 / (abs(
-                -value.translation.height - clampedY
-            ) * 0.55 / dims + 1.0))) * dims)
+            let result: CGFloat = clampedY + sign * ((1.0 - (1.0 / (abs(-value.translation.height - clampedY) * 0.55 / dims + 1.0))) * dims)
             
             viewController.scrollView.contentOffset.y = result
         case .ended(value: let value):
@@ -77,15 +68,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                 self.dragState = .none
             }
             
-            let velocityY = (
-                value.location.y - value.predictedEndLocation.y
-            ) / (
-                UIScrollView.DecelerationRate.normal.rawValue / (
-                    1000.0 * (
-                        1.0 - UIScrollView.DecelerationRate.normal.rawValue
-                    )
-                )
-            )
+            let velocityY = (value.location.y - value.predictedEndLocation.y) / (UIScrollView.DecelerationRate.normal.rawValue / (1000.0 * (1.0 - UIScrollView.DecelerationRate.normal.rawValue)))
             self.completeGesture(
                 with: velocityY,
                 in: viewController
@@ -106,9 +89,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     ) {
         if !(
             viewController.scrollView.contentOffset.y < 0 ||
-            viewController.scrollView.contentOffset.y > (
-                viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
-            )
+            viewController.scrollView.contentOffset.y > (viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height)
         ) {
             self.startDeceleration(
                 with: velocityY,
@@ -128,16 +109,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     ) {
         let initialValueY: CGFloat = viewController.scrollView.contentOffset.y
         let decelerationRate: CGFloat = UIScrollView.DecelerationRate.normal.rawValue
-        let dCoeff = 1000 * log(
-            decelerationRate
-        )
-        let duration: TimeInterval = velocityY == 0 ? 0 : TimeInterval(
-            log(
-                -dCoeff * 0.5 / abs(
-                    velocityY
-                )
-            ) / dCoeff
-        ) / 10
+        let dCoeff = 1000 * log(decelerationRate)
+        let duration: TimeInterval = velocityY == 0 ? 0 : TimeInterval(log(-dCoeff * 0.5 / abs(velocityY)) / dCoeff) / 10
         
         DispatchQueue.main.async {
             self.contentOffsetAnimation = TimerAnimation(
@@ -145,9 +118,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                 animations: { _, time in
                     viewController.scrollView.contentOffset.y = initialValueY + (pow(
                         decelerationRate,
-                        CGFloat(
-                            1000 * time
-                        )
+                        CGFloat(1000 * time)
                     ) - 1) / dCoeff * velocityY
                 },
                 completion: { finished in
@@ -157,9 +128,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                     self.bounce(
                         with: velocityY * pow(
                             decelerationRate,
-                            CGFloat(
-                                1000 * duration
-                            )
+                            CGFloat(1000 * duration)
                         ),
                         in: viewController
                     )
@@ -183,26 +152,12 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         let threshold = 0.5 / UIScreen.main.scale
         
         let duration: TimeInterval = {
-            if abs(
-                displacementY
-            ) == 0 && abs(
-                velocityY
-            ) == 0 {
+            if abs(displacementY) == 0 && abs(velocityY) == 0 {
                 return 0
             }
             
-            let timeInterval1 = 1 / 10 * log(
-                2 * abs(
-                    displacementY
-                ) / threshold
-            )
-            let timeInterval2 = 2 / 10 * log(
-                4 * abs(
-                    velocityY + 10 * displacementY
-                ) / (CGFloat(
-                    M_E
-                ) * 10 * threshold)
-            )
+            let timeInterval1 = 1 / 10 * log(2 * abs(displacementY) / threshold)
+            let timeInterval2 = 2 / 10 * log(4 * abs(velocityY + 10 * displacementY) / (CGFloat(M_E) * 10 * threshold))
             
             return TimeInterval(
                 max(
@@ -216,9 +171,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             self.contentOffsetAnimation = TimerAnimation(
                 duration: duration,
                 animations: { _, time in
-                    viewController.scrollView.contentOffset.y = restOffsetY + (exp(
-                        -10 * time
-                    ) * (displacementY + (velocityY + 10 * displacementY) * time))
+                    viewController.scrollView.contentOffset.y = restOffsetY + (exp(-10 * time) * (displacementY + (velocityY + 10 * displacementY) * time))
                 }
             )
         }
@@ -229,9 +182,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         @Binding fileprivate var contentOffsetAnimation: TimerAnimation?
         @Binding fileprivate var isScrollEnabled: Bool
         
-        func scrollViewWillBeginDragging(
-            _ scrollView: UIScrollView
-        ) {
+        func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
             DispatchQueue.main.async {
                 self.contentOffsetAnimation?.invalidate()
                 self.contentOffsetAnimation = nil
@@ -242,22 +193,14 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             _ scrollView: UIScrollView,
             willDecelerate decelerate: Bool
         ) {
-            self.updateScroll(
-                for: scrollView.contentOffset
-            )
+            self.updateScroll(for: scrollView.contentOffset)
         }
         
-        func scrollViewDidEndDecelerating(
-            _ scrollView: UIScrollView
-        ) {
-            self.updateScroll(
-                for: scrollView.contentOffset
-            )
+        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            self.updateScroll(for: scrollView.contentOffset)
         }
         
-        private func updateScroll(
-            for offset: CGPoint
-        ) {
+        private func updateScroll(for offset: CGPoint) {
             DispatchQueue.main.async {
                 if offset.y <= 0 {
                     self.isScrollEnabled = false
@@ -294,39 +237,25 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(
-            self.scrollView
-        )
+        self.view.addSubview(self.scrollView)
         NSLayoutConstraint.activate([
-            self.scrollView.leadingAnchor.constraint(
-                equalTo: self.view.leadingAnchor
-            ),
-            self.scrollView.trailingAnchor.constraint(
-                equalTo: self.view.trailingAnchor
-            ),
-            self.scrollView.topAnchor.constraint(
-                equalTo: self.view.topAnchor
-            ),
-            self.scrollView.bottomAnchor.constraint(
-                equalTo: self.view.bottomAnchor
-            )
+            self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         self.view.setNeedsUpdateConstraints()
         self.view.updateConstraintsIfNeeded()
         self.view.layoutIfNeeded()
     }
     
-    fileprivate init(
-        rootView: Content
-    ) {
+    fileprivate init(rootView: Content) {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .clear
         self.scrollView = scrollView
         
-        let hostingController = UIHostingController(
-            rootView: rootView
-        )
+        let hostingController = UIHostingController(rootView: rootView)
         hostingController.view.backgroundColor = .clear
         self.hostingController = hostingController
         
@@ -336,12 +265,8 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         )
     }
     
-    required init?(
-        coder: NSCoder
-    ) {
-        fatalError(
-            "init(coder:) has not been implemented"
-        )
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 #endif

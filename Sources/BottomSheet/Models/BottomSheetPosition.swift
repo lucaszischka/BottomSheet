@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 /// The `BottomSheetPosition` enum holds all states you can switch into.
 /// There are 3 mayor types:
 /// - `.dynamic...`, where the height of the BottomSheet is equal to its content height

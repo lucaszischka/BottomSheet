@@ -360,6 +360,7 @@ internal extension BottomSheetView {
             GeometryReader { geometry in
                 Color.clear
                     .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
+                        print(geometry.size.height)
                         self.mainContentHeight = geometry.size.height
                     }
                     .onReceive(Just(self.configuration.isResizable)) { _ in
