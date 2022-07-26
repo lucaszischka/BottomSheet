@@ -64,6 +64,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
     @Binding var bottomSheetPosition: BottomSheetPosition
     @State var translation: CGFloat = 0
     @State var contentHeight: CGFloat?
+    @State var headerContentHeight: CGFloat = 0
     
 #if !os(macOS)
     // For `appleScrollBehaviour`

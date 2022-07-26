@@ -159,26 +159,51 @@ internal extension BottomSheetView {
                 )
             }
             
-            // TODO: Fix header not fixed on iPad and Mac
-            // BottomSheet header content
-            if self.headerContent != nil || self.configuration.isCloseButtonShown {
-                self.header(
-                    with: geometry
-                )
-            }
-            
-            // BottomSheet main content
-            if self.bottomSheetPosition.isBottom {
-                // In a bottom position the main content is hidden - add a Spacer to fill the height
-                Spacer(minLength: 0)
-                    .frame(
-                        height: self.bottomPositionSpacerHeight
-                    )
+            if self.isIPadOrMac {
+                // TODO: Fix header not fixed on iPad and Mac
+                ZStack(alignment: .top) {
+                    // BottomSheet header content
+                    if self.headerContent != nil || self.configuration.isCloseButtonShown {
+                        self.header(
+                            with: geometry
+                        )
+                    }
+                    
+                    // BottomSheet main content
+                    if self.bottomSheetPosition.isBottom {
+                        // In a bottom position the main content is hidden - add a Spacer to fill the height
+                        Spacer(minLength: 0)
+                            .frame(
+                                height: self.bottomPositionSpacerHeight
+                            )
+                    } else {
+                        // Main content
+                        self.bottomSheetContent(
+                            with: geometry
+                        )
+                    }
+                }
             } else {
-                // Main content
-                self.bottomSheetContent(
-                    with: geometry
-                )
+                // BottomSheet header content
+                if self.headerContent != nil || self.configuration.isCloseButtonShown {
+                    self.header(
+                        with: geometry
+                    )
+                }
+                
+                // BottomSheet main content
+                if self.bottomSheetPosition.isBottom {
+                    // In a bottom position the main content is hidden - add a Spacer to fill the height
+                    Spacer(minLength: 0)
+                        .frame(
+                            height: self.bottomPositionSpacerHeight
+                        )
+                } else {
+                    // Main content
+                    self.bottomSheetContent(
+                        with: geometry
+                    )
+                }
             }
             
             // Drag indicator for iPad and Mac
@@ -339,6 +364,24 @@ internal extension BottomSheetView {
             .bottom,
             self.headerContent == nil && self.configuration.isCloseButtonShown ? 20 : 0
         )
+        // Get header content size
+        .background(
+            GeometryReader { geometry in
+                Color.clear
+                    .onReceive(Just(self.configuration.isDragIndicatorShown)) { _ in
+                        self.headerContentHeight = geometry.size.height
+                    }
+                    .onReceive(Just(self.configuration.isResizeable)) { _ in
+                        self.headerContentHeight = geometry.size.height
+                    }
+                    .onReceive(Just(self.configuration.isCloseButtonShown)) { _ in
+                        self.headerContentHeight = geometry.size.height
+                    }
+                    .onReceive(Just(self.headerContent)) { _ in
+                        self.headerContentHeight = geometry.size.height
+                    }
+            }
+        )
         // Make the header drag-able
         .gesture(
             self.configuration.isResizeable ? self.dragGesture(
@@ -400,6 +443,11 @@ internal extension BottomSheetView {
             maxWidth: self.bottomSheetPosition.isDynamic ? nil : .infinity,
             maxHeight: self.bottomSheetPosition.isDynamic ? nil : .infinity,
             alignment: self.isIPadOrMac ? .bottom : .top
+        )
+        // Align content below header content
+        .padding(
+            .top,
+            self.isIPadOrMac ? self.headerContentHeight : 0
         )
         // Make the main content transition via move
         .transition(
