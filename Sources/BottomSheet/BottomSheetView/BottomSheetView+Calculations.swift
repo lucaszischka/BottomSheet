@@ -24,7 +24,7 @@ internal extension BottomSheetView {
             with: geometry
         ) ?? self.contentHeight
         
-        if let height = height, self.configuration.isBackgroundBlurEnabled {
+        if self.configuration.isBackgroundBlurEnabled {
             // Calculate background blur relative to BottomSheet height
             return min(
                 max(
@@ -107,7 +107,7 @@ internal extension BottomSheetView {
         // The max height of the main content is the height of the BottomSheet
         // without the header and drag indicator
         return max(
-            height - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0),
+            self.height(with: geometry) - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0),
             0
         )
     }

@@ -33,20 +33,18 @@ internal extension BottomSheetView {
             // The height of the currentBottomSheetPosition; if nil use content height
             let currentHeight = self.bottomSheetPosition.asScreenHeight(with: geometry) ?? self.contentHeight
             
-            if let currentHeight = currentHeight {
-                if self.configuration.isFlickThroughEnabled {
-                    self.switchPositonWithFlickThrough(
-                        with: height,
-                        switchablePositions: switchablePositions,
-                        currentHeight: currentHeight
-                    )
-                } else {
-                    self.switchPositonWithoutFlickThrough(
-                        with: height,
-                        switchablePositions: switchablePositions,
-                        currentHeight: currentHeight
-                    )
-                }
+            if self.configuration.isFlickThroughEnabled {
+                self.switchPositonWithFlickThrough(
+                    with: height,
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight
+                )
+            } else {
+                self.switchPositonWithoutFlickThrough(
+                    with: height,
+                    switchablePositions: switchablePositions,
+                    currentHeight: currentHeight
+                )
             }
         }
     }
