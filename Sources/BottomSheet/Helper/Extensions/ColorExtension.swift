@@ -9,12 +9,8 @@ import SwiftUI
 
 internal extension Color {
 #if os(macOS)
-    static var tertiaryLabel = Color(
-        NSColor.tertiaryLabelColor
-    )
+    static var tertiaryLabel = Color(NSColor.tertiaryLabelColor)
 #else
-    static var tertiaryLabel = Color(
-        UIColor.tertiaryLabel
-    )
+    static var tertiaryLabel = Color(UIColor.tertiaryLabel)
 #endif
 }

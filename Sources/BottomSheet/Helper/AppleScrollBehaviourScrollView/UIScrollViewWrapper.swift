@@ -8,6 +8,7 @@
 #if !os(macOS)
 import SwiftUI
 
+// TODO: Fix and cleanup
 internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentable {
     
     @State private var contentOffsetAnimation: TimerAnimation?

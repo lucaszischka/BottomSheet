@@ -24,22 +24,22 @@ public enum VisualEffect: Equatable, Hashable {
     public enum Material: Equatable, Hashable {
         /// A default appearance, suitable for most cases.
         case `default`
-
+        
         /// A blur simulating a very thin material.
         @available(iOS 13.0, *)
         @available(macOS, unavailable)
         case ultraThin
-
+        
         /// A blur simulating a thin material.
         @available(iOS 13.0, *)
         @available(macOS, unavailable)
         case thin
-
+        
         /// A blur simulating a thicker than normal material.
         @available(iOS 13.0, *)
         @available(macOS, unavailable)
         case thick
-
+        
         /// A blur matching the system chrome.
         @available(iOS 13.0, *)
         @available(macOS, unavailable)
@@ -50,13 +50,13 @@ public enum VisualEffect: Equatable, Hashable {
         @available(iOS, unavailable)
         @available(macCatalyst, unavailable)
         case titlebar
-
+        
         /// A material used for the background of a window.
         @available(macOS 10.15, *)
         @available(iOS, unavailable)
         @available(macCatalyst, unavailable)
         case windowBackground
-
+        
         /// A material used for an inline header view.
         /// - Parameter behindWindow: `true` if the effect should use
         ///     the content behind the window, `false` to use content within
@@ -65,7 +65,7 @@ public enum VisualEffect: Equatable, Hashable {
         @available(iOS, unavailable)
         @available(macCatalyst, unavailable)
         case headerView(behindWindow: Bool)
-
+        
         /// A material used for the background of a content view, e.g. a scroll
         /// view or a list.
         /// - Parameter behindWindow: `true` if the effect should use
@@ -75,7 +75,7 @@ public enum VisualEffect: Equatable, Hashable {
         @available(iOS, unavailable)
         @available(macCatalyst, unavailable)
         case contentBackground(behindWindow: Bool)
-
+        
         /// A material used for the background of a view that contains a
         /// 'page' interface, as in some document-based applications.
         /// - Parameter behindWindow: `true` if the effect should use
@@ -86,14 +86,14 @@ public enum VisualEffect: Equatable, Hashable {
         @available(macCatalyst, unavailable)
         case behindPageBackground(behindWindow: Bool)
     }
-
+    
     /// A standard effect that adapts to the current `ColorScheme`.
     case system
     /// A standard effect that uses the system light appearance.
     case systemLight
     /// A standard effect that uses the system dark appearance.
     case systemDark
-
+    
     /// An adaptive effect with the given material that changes to match
     /// the current `ColorScheme`.
     case adaptive(Material)
@@ -153,22 +153,22 @@ fileprivate extension VisualEffect {
             }
         }
     }
-
+    
     var blendingMode: NSVisualEffectView.BlendingMode {
         switch self {
         case .system, .systemLight, .systemDark:
             return .behindWindow
         case .adaptive(let material),
-             .light(let material),
-             .dark(let material):
+                .light(let material),
+                .dark(let material):
             switch material {
             case .default, .windowBackground:
                 return .behindWindow
             case .titlebar:
                 return .withinWindow
             case .contentBackground(let behindWindow),
-                 .headerView(let behindWindow),
-                 .behindPageBackground(let behindWindow):
+                    .headerView(let behindWindow),
+                    .behindPageBackground(let behindWindow):
                 return behindWindow ? .behindWindow : .withinWindow
             }
         }
@@ -189,14 +189,12 @@ internal struct VisualEffectView: NSViewRepresentable {
     
     var visualEffect: VisualEffect
     
-    func makeNSView(
-        context: Context
-    ) -> NSVisualEffectView {
+    func makeNSView(context: Context) -> NSVisualEffectView {
         let view = NSVisualEffectView()
         view.material = self.visualEffect.material
         view.blendingMode = self.visualEffect.blendingMode
         view.appearance = self.visualEffect.appearance
-
+        
         // mark emphasized if it contains the first responder
         if let resp = view.window?.firstResponder as? NSView {
             view.isEmphasized = resp === view || resp.isDescendant(
@@ -222,9 +220,7 @@ internal struct VisualEffectView: NSViewRepresentable {
         
         // mark emphasized if it contains the first responder
         if let resp = nsView.window?.firstResponder as? NSView {
-            nsView.isEmphasized = resp === nsView || resp.isDescendant(
-                of: nsView
-            )
+            nsView.isEmphasized = resp === nsView || resp.isDescendant(of: nsView)
         } else {
             nsView.isEmphasized = false
         }
@@ -235,14 +231,8 @@ internal struct VisualEffectView: UIViewRepresentable {
     
     var visualEffect: VisualEffect
     
-    func makeUIView(
-        context: Context
-    ) -> UIVisualEffectView {
-        let view = UIVisualEffectView(
-            effect: UIBlurEffect(
-                style: self.visualEffect.blurStyle
-            )
-        )
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        let view = UIVisualEffectView(effect: UIBlurEffect(style: self.visualEffect.blurStyle))
         view.autoresizingMask = [
             .flexibleWidth,
             .flexibleHeight
@@ -254,9 +244,7 @@ internal struct VisualEffectView: UIViewRepresentable {
         _ uiView: UIVisualEffectView,
         context: Context
     ) {
-        uiView.effect = UIBlurEffect(
-            style: self.visualEffect.blurStyle
-        )
+        uiView.effect = UIBlurEffect(style: self.visualEffect.blurStyle)
     }
 }
 #endif

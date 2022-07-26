@@ -18,9 +18,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet with a close button.
-    func showCloseButton(
-        _ bool: Bool = true
-    ) -> BottomSheet {
+    func showCloseButton(_ bool: Bool = true) -> BottomSheet {
         self.configuration.isCloseButtonShown = bool
         return self
     }

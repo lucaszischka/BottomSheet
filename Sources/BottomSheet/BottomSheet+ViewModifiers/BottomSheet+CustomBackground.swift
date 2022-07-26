@@ -52,9 +52,7 @@ public extension BottomSheet {
         _ background: Background,
         alignment: Alignment = .center
     ) -> BottomSheet where Background: View {
-        self.configuration.backgroundView = AnyView(
-            background
-        )
+        self.configuration.backgroundView = AnyView(background)
         self.configuration.backgroundViewID = UUID()
         return self
     }
@@ -185,9 +183,7 @@ public extension BottomSheet {
         alignment: Alignment = .center,
         @ViewBuilder content: () -> V
     ) -> BottomSheet where V: View {
-        self.configuration.backgroundView = AnyView(
-            content()
-        )
+        self.configuration.backgroundView = AnyView(content())
         self.configuration.backgroundViewID = UUID()
         return self
     }
@@ -255,12 +251,8 @@ public extension BottomSheet {
     ) -> BottomSheet where S: ShapeStyle {
         self.configuration.backgroundView = AnyView(
             Rectangle()
-                .fill(
-                    style
-                )
-                .edgesIgnoringSafeArea(
-                    edges
-                )
+                .fill(style)
+                .edgesIgnoringSafeArea(edges)
         )
         self.configuration.backgroundViewID = UUID()
         return self

@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+
+/// The `BottomSheetPosition` enum holds all states you can switch into.
+/// There are 3 mayor types:
+/// - `.dynamic...`, where the height of the BottomSheet is equal to its content height
+/// - `.relative...`, where the height of the BottomSheet is a percentage of the screen height
+/// - `.absolute...`, where the height of the BottomSheet is a pixel value
+///
+/// You can combine those types  as much as you want.
+/// You can use multiple instances of one cases (for example `.relative(0.4)` and `.relative(0.6)`)
 public enum BottomSheetPosition: Equatable {
     /// The state where the BottomSheet is hidden.
     case hidden

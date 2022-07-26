@@ -17,9 +17,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet that can be resized.
-    func isResizable(
-        _ bool: Bool = true
-    ) -> BottomSheet {
+    func isResizable(_ bool: Bool = true) -> BottomSheet {
         self.configuration.isResizable = bool
         return self
     }

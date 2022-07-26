@@ -15,9 +15,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet where long swiping to go directly to the top or bottom positions is enabled.
-    func enableFlickThrough(
-        _ bool: Bool = true
-    ) -> BottomSheet {
+    func enableFlickThrough(_ bool: Bool = true) -> BottomSheet {
         self.configuration.isFlickThroughEnabled = bool
         return self
     }

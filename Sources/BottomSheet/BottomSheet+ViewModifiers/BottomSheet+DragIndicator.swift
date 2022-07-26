@@ -19,9 +19,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet with a drag indicator.
-    func showDragIndicator(
-        _ bool: Bool = true
-    ) -> BottomSheet {
+    func showDragIndicator(_ bool: Bool = true) -> BottomSheet {
         self.configuration.isDragIndicatorShown = bool
         return self
     }
@@ -35,9 +33,7 @@ public extension BottomSheet {
     ///   - color: The new color.
     ///
     /// - Returns: A view with a different colored drag indicator.
-    func dragIndicatorColor(
-        _ color: Color
-    ) -> BottomSheet {
+    func dragIndicatorColor(_ color: Color) -> BottomSheet {
         self.configuration.dragIndicatorColor = color
         return self
     }
@@ -53,11 +49,7 @@ public extension BottomSheet {
     ///   - perform: The action to perform when the drag indicator is tapped.
     ///
     /// - Returns: A BottomSheet with a custom on drag indicator action.
-    func dragIndicatorAction(
-        _ action: @escaping (
-            GeometryProxy
-        ) -> Void
-    ) -> BottomSheet {
+    func dragIndicatorAction(_ action: @escaping (GeometryProxy) -> Void) -> BottomSheet {
         self.configuration.dragIndicatorAction = action
         return self
     }

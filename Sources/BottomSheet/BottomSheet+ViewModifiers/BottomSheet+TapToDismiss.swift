@@ -15,9 +15,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet that can be dismissed by tapping somewhere else
-    func enableTapToDismiss(
-        _ bool: Bool = true
-    ) -> BottomSheet {
+    func enableTapToDismiss(_ bool: Bool = true) -> BottomSheet {
         self.configuration.isTapToDismissEnabled = bool
         return self
     }

@@ -19,9 +19,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet where the mainContent can be used for resizing.
-    func enableContentDrag(
-        _ bool: Bool = true
-    ) -> BottomSheet {
+    func enableContentDrag(_ bool: Bool = true) -> BottomSheet {
         self.configuration.isContentDragEnabled = bool
         return self
     }

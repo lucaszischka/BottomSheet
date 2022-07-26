@@ -350,7 +350,8 @@ internal extension BottomSheetView {
                 self.mainContent
                 // Make the main content drag-able if content drag is enabled
                     .gesture(
-                        self.configuration.isContentDragEnabled && self.configuration.isResizable ? self.dragGesture(with: geometry) : nil
+                        self.configuration.isContentDragEnabled && self.configuration.isResizable ?
+                        self.dragGesture(with: geometry) : nil
                     )
             }
         }

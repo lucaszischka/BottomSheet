@@ -18,9 +18,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A view that has a blur layer below the BottomSheet.
-    func enableBackgroundBlur(
-        _ bool: Bool = true
-    ) -> BottomSheet {
+    func enableBackgroundBlur(_ bool: Bool = true) -> BottomSheet {
         self.configuration.isBackgroundBlurEnabled = bool
         return self
     }
@@ -34,9 +32,7 @@ public extension BottomSheet {
     ///   - material: The new material.
     ///
     /// - Returns: A view with a different material of the blur layer.
-    func backgroundBlurMaterial(
-        _ material: VisualEffect
-    ) -> BottomSheet {
+    func backgroundBlurMaterial(_ material: VisualEffect) -> BottomSheet {
         self.configuration.backgroundBlurMaterial = material
         return self
     }

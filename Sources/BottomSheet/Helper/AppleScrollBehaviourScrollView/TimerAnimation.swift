@@ -15,9 +15,7 @@ internal class TimerAnimation {
         _ time: TimeInterval
     ) -> Void
     
-    typealias Completion = (
-        _ finished: Bool
-    ) -> Void
+    typealias Completion = (_ finished: Bool) -> Void
     
     init(
         duration: TimeInterval,
@@ -48,12 +46,12 @@ internal class TimerAnimation {
     }
     
     func invalidate() {
-        guard running else {
+        guard self.running else {
             return
         }
-        running = false
-        completion?(false)
-        displayLink?.invalidate()
+        self.running = false
+        self.completion?(false)
+        self.displayLink?.invalidate()
     }
     
     private let duration: TimeInterval
@@ -65,24 +63,22 @@ internal class TimerAnimation {
     
     private let firstFrameTimestamp: CFTimeInterval
     
-    @objc private func handleFrame(
-        _ displayLink: CADisplayLink
-    ) {
-        guard running else {
+    @objc private func handleFrame(_ displayLink: CADisplayLink) {
+        guard self.running else {
             return
         }
-        let elapsed = CACurrentMediaTime() - firstFrameTimestamp
-        if elapsed >= duration {
-            animations(
+        let elapsed = CACurrentMediaTime() - self.firstFrameTimestamp
+        if elapsed >= self.duration {
+            self.animations(
                 1,
-                duration
+                self.duration
             )
-            running = false
-            completion?(true)
+            self.running = false
+            self.completion?(true)
             displayLink.invalidate()
         } else {
-            animations(
-                elapsed / duration, elapsed
+            self.animations(
+                elapsed / self.duration, elapsed
             )
         }
     }

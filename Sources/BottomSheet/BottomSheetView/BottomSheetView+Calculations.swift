@@ -59,7 +59,9 @@ internal extension BottomSheetView {
     // The minimum height of the BottomSheet
     var minBottomSheetHeight: CGFloat {
         // Header content and drag indicator height
-        return self.headerContentHeight + (self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0)
+        return self.headerContentHeight + (
+            self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0
+        )
     }
     
     // The maximum height of the BottomSheet
@@ -75,7 +77,9 @@ internal extension BottomSheetView {
             return 0
         case .dynamic, .dynamicTop, .dynamicBottom:
             // Main content, header content and drag indicator height
-            return self.mainContentHeight + self.headerContentHeight + (self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0)
+            return self.mainContentHeight + self.headerContentHeight + (
+                self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0
+            )
         case .relative(let value), .relativeBottom(let value), .relativeTop(let value):
             // Percentage of the max height
             return self.maxBottomSheetHeight(with: geometry) * value
@@ -89,7 +93,9 @@ internal extension BottomSheetView {
         // The max height of the main content is the height of the BottomSheet
         // without the header and drag indicator
         return max(
-            self.height(with: geometry) - self.headerContentHeight - (self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0),
+            self.height(with: geometry) - self.headerContentHeight - (
+                self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0
+            ),
             0
         )
     }

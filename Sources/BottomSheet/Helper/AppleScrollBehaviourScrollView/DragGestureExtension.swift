@@ -11,12 +11,8 @@ import SwiftUI
 internal extension DragGesture {
     enum DragState: Equatable {
         case none
-        case changed(
-            value: DragGesture.Value
-        )
-        case ended(
-            value: DragGesture.Value
-        )
+        case changed(value: DragGesture.Value)
+        case ended(value: DragGesture.Value)
     }
 }
 #endif

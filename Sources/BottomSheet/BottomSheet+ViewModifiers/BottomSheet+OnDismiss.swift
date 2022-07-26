@@ -18,9 +18,7 @@ public extension BottomSheet {
     ///   - perform: The action to perform when the BottomSheet is dismissed.
     ///
     /// - Returns: A BottomSheet with a custom on dismiss action.
-    func onDismiss(
-        _ perform: @escaping () -> Void
-    ) -> BottomSheet {
+    func onDismiss(_ perform: @escaping () -> Void) -> BottomSheet {
         self.configuration.onDismiss = perform
         return self
     }

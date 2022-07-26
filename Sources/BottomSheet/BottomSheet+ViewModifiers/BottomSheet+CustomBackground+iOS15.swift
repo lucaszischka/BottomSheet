@@ -45,9 +45,7 @@ public extension BottomSheet {
     ///
     /// - Returns: A view with the ``ShapeStyle/background`` shape style
     ///   drawn behind it.
-    func customBackground(
-        ignoresSafeAreaEdges edges: Edge.Set = .all
-    ) -> BottomSheet {
+    func customBackground(ignoresSafeAreaEdges edges: Edge.Set = .all) -> BottomSheet {
         return self.customBackground(
             .background,
             ignoresSafeAreaEdges: edges

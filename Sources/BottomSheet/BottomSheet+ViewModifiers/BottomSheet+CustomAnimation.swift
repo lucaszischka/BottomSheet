@@ -15,9 +15,7 @@ public extension BottomSheet {
     ///   - animation: The animation to apply. If animation is nil, the view doesn’t animate.
     ///
     /// - Returns: A view that applies `animation` to the BottomSheet.
-    func customAnimation(
-        _ animation: Animation?
-    ) -> BottomSheet {
+    func customAnimation(_ animation: Animation?) -> BottomSheet {
         self.configuration.animation = animation
         return self
     }

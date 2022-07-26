@@ -16,11 +16,7 @@ public extension BottomSheet {
     ///   The `action` closure’s parameter contains the gesture’s new value.
     ///
     /// - Returns: The BottomSheet triggers `action` when its gesture’s value changes.
-    func onDragChanged(
-        _ perform: @escaping (
-            DragGesture.Value
-        ) -> Void
-    ) -> BottomSheet {
+    func onDragChanged(_ perform: @escaping (DragGesture.Value) -> Void) -> BottomSheet {
         self.configuration.onDragChanged = perform
         return self
     }
@@ -32,11 +28,7 @@ public extension BottomSheet {
     ///   The `action` closure’s parameter contains the final value of the gesture.
     ///
     /// - Returns: The BottomSheet triggers `action` when its gesture ends.
-    func onDragEnded(
-        _ perform: @escaping (
-            DragGesture.Value
-        ) -> Void
-    ) -> BottomSheet {
+    func onDragEnded(_ perform: @escaping (DragGesture.Value) -> Void) -> BottomSheet {
         self.configuration.onDragEnded = perform
         return self
     }
@@ -53,12 +45,10 @@ public extension BottomSheet {
     ///   - perform: The action to perform when the drag indicator is tapped.
     ///
     /// - Returns: A BottomSheet with a custom on drag indicator action.
-    func dragPositionSwitchAction(
-        _ action: @escaping (
-            GeometryProxy,
-            DragGesture.Value
-        ) -> Void
-    ) -> BottomSheet {
+    func dragPositionSwitchAction(_ action: @escaping (
+        GeometryProxy,
+        DragGesture.Value
+    ) -> Void) -> BottomSheet {
         self.configuration.dragPositionSwitchAction = action
         return self
     }

@@ -23,9 +23,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet where the mainContent is packed inside a ScrollView.
-    func enableAppleScrollBehavior(
-        _ bool: Bool = true
-    ) -> BottomSheet {
+    func enableAppleScrollBehavior(_ bool: Bool = true) -> BottomSheet {
         self.configuration.isAppleScrollBehaviorEnabled = bool
         return self
     }

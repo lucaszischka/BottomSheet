@@ -15,9 +15,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet that can be dismissed by long swiping.
-    func enableSwipeToDismiss(
-        _ bool: Bool = true
-    ) -> BottomSheet {
+    func enableSwipeToDismiss(_ bool: Bool = true) -> BottomSheet {
         self.configuration.isSwipeToDismissEnabled = bool
         return self
     }
