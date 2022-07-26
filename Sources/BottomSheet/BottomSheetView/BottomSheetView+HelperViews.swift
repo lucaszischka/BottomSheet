@@ -440,8 +440,7 @@ internal extension BottomSheetView {
         }
         // Align content correctly to fix transition
         .frame(
-            maxWidth: .infinity,
-            minHeight: 0,
+            idealHeight: 0,
             maxHeight: self.maxMainContentHeight(with: geometry),
             alignment: self.isIPadOrMac ? .bottom : .top
         )

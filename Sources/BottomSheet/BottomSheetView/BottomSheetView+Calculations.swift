@@ -114,11 +114,17 @@ internal extension BottomSheetView {
         if let height = self.height(with: geometry) {
             // The max height of the main content is the height of the BottomSheet
             // without the header and drag indicator
-            return height - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0)
+            return max(
+                height - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0),
+                0
+            )
         } else {
             // If dynamic and not dragging the max height of the main content is the height of the screen
             // without the padding, the header and drag indicator
-            return geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0)
+            return max(
+                geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0),
+                0
+            )
         }
     }
     
