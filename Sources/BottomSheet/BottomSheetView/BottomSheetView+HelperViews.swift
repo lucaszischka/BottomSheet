@@ -146,22 +146,26 @@ internal extension BottomSheetView {
                 }
             }
             // Reset main content height if hidden
-            .onReceive(Just(self.bottomSheetPosition.isBottom)) { _ in
+            .onReceive(Just(self.bottomSheetPosition)) { _ in
                 if self.bottomSheetPosition.isBottom, let bottomPositionSpacerHeight = self.bottomPositionSpacerHeight {
                     self.mainContentHeight = bottomPositionSpacerHeight
+                    print("reset main content to ", bottomPositionSpacerHeight)
                 } else {
                     self.mainContentHeight = 0
+                    print("reset main content to 0")
                 }
             }
             // Reset header content height if hidden
             .onReceive(Just(self.configuration.isCloseButtonShown)) { _ in
                 if self.headerContent == nil && !self.configuration.isCloseButtonShown {
                     self.headerContentHeight = 0
+                    print("reset header content to 0")
                 }
             }
             .onReceive(Just(self.headerContent)) { _ in
                 if self.headerContent == nil && !self.configuration.isCloseButtonShown {
                     self.headerContentHeight = 0
+                    print("reset header content to 0")
                 }
             }
             
