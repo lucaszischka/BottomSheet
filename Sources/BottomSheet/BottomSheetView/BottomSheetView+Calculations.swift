@@ -116,7 +116,7 @@ internal extension BottomSheetView {
             // without the header and drag indicator
             return height - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0)
         } else {
-            // If dynamic the max height of the main content is the height of the screen
+            // If dynamic and not dragging the max height of the main content is the height of the screen
             // without the padding, the header and drag indicator
             return geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0)
         }
