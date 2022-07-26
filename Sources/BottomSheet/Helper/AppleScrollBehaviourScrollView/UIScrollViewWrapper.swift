@@ -15,7 +15,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     @Binding private var dragState: DragGesture.DragState
     private var content: Content
     
-    func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> UIScrollViewViewController<Content> {
+    func makeUIViewController(
+        context: UIViewControllerRepresentableContext<Self>
+    ) -> UIScrollViewViewController<Content> {
         let viewController = UIScrollViewViewController(rootView: self.content)
         viewController.scrollView.delegate = context.coordinator
         return viewController
@@ -60,7 +62,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                 viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
             )
             let sign: CGFloat = clampedY > -value.translation.height ? -1 : 1
-            let result: CGFloat = clampedY + sign * ((1.0 - (1.0 / (abs(-value.translation.height - clampedY) * 0.55 / dims + 1.0))) * dims)
+            let result: CGFloat = clampedY + sign * (
+                (1.0 - (1.0 / (abs(-value.translation.height - clampedY) * 0.55 / dims + 1.0))) * dims
+            )
             
             viewController.scrollView.contentOffset.y = result
         case .ended(value: let value):

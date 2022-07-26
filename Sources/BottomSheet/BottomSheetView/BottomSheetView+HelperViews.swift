@@ -285,19 +285,19 @@ internal extension BottomSheetView {
         )
         // Get header content size
         .background(
-            GeometryReader { geometry in
+            GeometryReader { headerGeometry in
                 Color.clear
                     .onReceive(Just(self.headerContent)) { _ in
-                        self.headerContentHeight = geometry.size.height
+                        self.headerContentHeight = headerGeometry.size.height
                     }
                     .onReceive(Just(self.configuration.isCloseButtonShown)) { _ in
-                        self.headerContentHeight = geometry.size.height
+                        self.headerContentHeight = headerGeometry.size.height
                     }
                     .onReceive(Just(self.configuration.isDragIndicatorShown)) { _ in
-                        self.headerContentHeight = geometry.size.height
+                        self.headerContentHeight = headerGeometry.size.height
                     }
                     .onReceive(Just(self.configuration.isResizable)) { _ in
-                        self.headerContentHeight = geometry.size.height
+                        self.headerContentHeight = headerGeometry.size.height
                     }
             }
         )
@@ -331,9 +331,6 @@ internal extension BottomSheetView {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizable {
                 // TODO: Fix appleScrollBehaviour not working when main content doesn't is higher or equal to BottomSheet height
                 // TODO: Fix appleScrollBehaviour breaking dynamic height - even crashes
-                /*
-                 Cannot set _verticalScrollIndicator (<_UIScrollViewScrollIndicator: 0x7fc5f490e130; frame = (384 506.089; 3 36); autoresize = LM; layer = <CALayer: 0x6000010d1f80>>) frame to {{384, nan}, {3, 36}}. indicatorBounds={{3, nan}, {384, -39.911364912688782}}, indicatorInsets={3, 3, 36.911364912688782, 3}, _accuracy=3.000000, CONTENT_MINY=0.000000, CONTENT_HEIGHT=964.000000, _parentAdjustment={0, 0}, scrollView=<UIScrollView: 0x7fc5f6822a00; frame = (0 0; 390 0); clipsToBounds = YES; gestureRecognizers = <NSArray: 0x600001eee340>; layer = <CALayer: 0x6000010a2860>; contentOffset: {0, nan}; contentSize: {390, 964}; adjustedContentInset: {0, 0, 0, 0}>
-                 */
                 // Content for `appleScrollBehaviour`
                 if self.isIPadOrMac {
                     // On iPad an Mac use a normal ScrollView
@@ -357,17 +354,16 @@ internal extension BottomSheetView {
         }
         // Get main content size
         .background(
-            GeometryReader { geometry in
+            GeometryReader { mainGeometry in
                 Color.clear
                     .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
-                        print(geometry.size.height)
-                        self.mainContentHeight = geometry.size.height
+                        self.mainContentHeight = mainGeometry.size.height
                     }
                     .onReceive(Just(self.configuration.isResizable)) { _ in
-                        self.mainContentHeight = geometry.size.height
+                        self.mainContentHeight = mainGeometry.size.height
                     }
                     .onReceive(Just(self.mainContent)) { _ in
-                        self.mainContentHeight = geometry.size.height
+                        self.mainContentHeight = mainGeometry.size.height
                     }
             }
         )
