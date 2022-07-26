@@ -437,20 +437,20 @@ internal extension BottomSheetView {
                     )
             }
         }
+        // Align content correctly and make it fill all available space when not dynamic or iPad or Mac
+        // This workaround fixes the transition
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: self.bottomSheetPosition.isDynamic || self.isIPadOrMac ? self.height(with: geometry) - self.headerContentHeight : .infinity,
+            alignment: self.isIPadOrMac ? .bottom : .top
+        )
+        // Clip main content
+        .clipped()
         // Align content below header content
         .padding(
             .top,
             self.isIPadOrMac ? self.headerContentHeight : 0
         )
-        // Align content correctly and make it fill all available space when not dynamic or iPad or Mac
-        // This workaround fixes the transition
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: self.bottomSheetPosition.isDynamic || self.isIPadOrMac ? self.height(with: geometry) : .infinity,
-            alignment: self.isIPadOrMac ? .bottom : .top
-        )
-        // Clip main content
-        .clipped()
         // Make the main content transition via move
         .transition(
             .move(
