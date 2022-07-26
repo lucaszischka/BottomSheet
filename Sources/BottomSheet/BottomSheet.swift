@@ -116,8 +116,8 @@ public extension View {
     /// - Parameter switchablePositions: An array that contains the positions for the BottomSheet.
     /// Only the positions contained in the array can be switched into
     /// (via tapping the drag indicator or swiping the BottomSheet).
-    /// - Parameter title: You can use a text that is displayed as title instead.
-    /// A view that is used as header content for the BottomSheet.
+    /// - Parameter title: A text that is displayed as title.
+    /// You can use a view that is used as header content for the BottomSheet instead.
     /// - Parameter content: A view that is used as main content for the BottomSheet.
     typealias TitleContent = ModifiedContent<ModifiedContent<Text,
                                                              _EnvironmentKeyWritingModifier<Int?>>, _PaddingLayout>

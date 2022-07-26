@@ -25,8 +25,8 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
 #endif
     
     // View heights
-    @State var mainContentHeight: CGFloat = 0
     @State var headerContentHeight: CGFloat = 0
+    @State var mainContentHeight: CGFloat = 0
     
     // Views
     let headerContent: HContent?
