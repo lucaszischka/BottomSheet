@@ -213,18 +213,6 @@ internal extension BottomSheetView {
                 )
             }
         }
-        // Set the height and width to its calculated values
-        // The content should be aligned to the top on iPhone
-        // On iPad and Mac to the bottom
-        .frame(
-            width: self.width(
-                with: geometry
-            ),
-            height: self.height(
-                with: geometry
-            ),
-            alignment: self.isIPadOrMac ? .bottom : .top
-        )
         // Get dynamic content size
         .background(
             GeometryReader { geometry in
@@ -243,6 +231,18 @@ internal extension BottomSheetView {
                         }
                     }
             }
+        )
+        // Set the height and width to its calculated values
+        // The content should be aligned to the top on iPhone
+        // On iPad and Mac to the bottom
+        .frame(
+            width: self.width(
+                with: geometry
+            ),
+            height: self.height(
+                with: geometry
+            ),
+            alignment: self.isIPadOrMac ? .bottom : .top
         )
         // BottomSheet background
         .background(
@@ -402,7 +402,10 @@ internal extension BottomSheetView {
             )
                 .resizable()
                 .scaledToFit()
-                .frame(width: 30, height: 30)
+                .frame(
+                    width: 30,
+                    height: 30
+                )
         }
         // Make it borderless for Mac
         .buttonStyle(.borderless)
@@ -440,7 +443,6 @@ internal extension BottomSheetView {
         }
         // Align content correctly to fix transition
         .frame(
-            idealHeight: 0,
             maxHeight: self.maxMainContentHeight(with: geometry),
             alignment: self.isIPadOrMac ? .bottom : .top
         )

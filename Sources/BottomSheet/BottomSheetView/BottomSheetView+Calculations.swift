@@ -109,7 +109,7 @@ internal extension BottomSheetView {
     // For iPad and Mac
     func maxMainContentHeight(
         with geometry: GeometryProxy
-    ) -> CGFloat {
+    ) -> CGFloat? {
         // The height of the BottomSheet
         if let height = self.height(with: geometry) {
             // The max height of the main content is the height of the BottomSheet
@@ -119,6 +119,7 @@ internal extension BottomSheetView {
                 0
             )
         } else {
+            return nil
             // If dynamic and not dragging the max height of the main content is the height of the screen
             // without the padding, the header and drag indicator
             return max(
