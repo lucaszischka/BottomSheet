@@ -83,50 +83,33 @@ internal extension BottomSheetView {
     // For `bottomSheetPosition`
     func height(
         with geometry: GeometryProxy
-    ) -> CGFloat? {
+    ) -> CGFloat {
         // The height of the currentBottomSheetPosition; if nil and dragging use content height
         let height = self.bottomSheetPosition.asScreenHeight(
             with: geometry
-        ) ?? (self.translation == 0 ? nil : self.contentHeight)
+        ) ?? self.contentHeight
         
-        if let height = height {
-            // Calculate BottomSheet height by subtracting translation
-            return min(
-                max(
-                    height - self.translation,
-                    0
-                ),
-                // Subtract potential padding
-                geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding
-            )
-        } else {
-            // TODO: Fix dynamic leaving screen on iPad and Mac
-            // Use nil if `.dynamic...` and currently not dragging
-            return nil
-        }
+        // Calculate BottomSheet height by subtracting translation
+        return min(
+            max(
+                height - self.translation,
+                0
+            ),
+            // Subtract potential padding
+            geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding
+        )
     }
     
     // For iPad and Mac
     func maxMainContentHeight(
         with geometry: GeometryProxy
-    ) -> CGFloat? {
-        // The height of the BottomSheet
-        if let height = self.height(with: geometry) {
-            // The max height of the main content is the height of the BottomSheet
-            // without the header and drag indicator
-            return max(
-                height - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0),
-                0
-            )
-        } else {
-            return nil
-            // If dynamic and not dragging the max height of the main content is the height of the screen
-            // without the padding, the header and drag indicator
-            return max(
-                geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0),
-                0
-            )
-        }
+    ) -> CGFloat {
+        // The max height of the main content is the height of the BottomSheet
+        // without the header and drag indicator
+        return max(
+            height - self.headerContentHeight - (self.configuration.isDragIndicatorShown ? 20 : 0),
+            0
+        )
     }
     
     // For position switching

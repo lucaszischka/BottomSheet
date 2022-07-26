@@ -222,13 +222,8 @@ internal extension BottomSheetView {
                             self.bottomSheetPosition
                         )
                     ) { _ in
-                        if !self.bottomSheetPosition.isDynamic {
-                            // Reset contentHeight when not dynamic
-                            self.contentHeight = nil
-                        } else if self.translation == 0 {
-                            // Update content height when dynamic and not dragging
-                            self.contentHeight = geometry.size.height
-                        }
+                        
+                        self.contentHeight = geometry.size.height
                     }
             }
         )
@@ -370,16 +365,32 @@ internal extension BottomSheetView {
         .background(
             GeometryReader { geometry in
                 Color.clear
-                    .onReceive(Just(self.configuration.isDragIndicatorShown)) { _ in
+                    .onReceive(
+                        Just(
+                            self.configuration.isDragIndicatorShown
+                        )
+                    ) { _ in
                         self.headerContentHeight = geometry.size.height
                     }
-                    .onReceive(Just(self.configuration.isResizeable)) { _ in
+                    .onReceive(
+                        Just(
+                            self.configuration.isResizeable
+                        )
+                    ) { _ in
                         self.headerContentHeight = geometry.size.height
                     }
-                    .onReceive(Just(self.configuration.isCloseButtonShown)) { _ in
+                    .onReceive(
+                        Just(
+                            self.configuration.isCloseButtonShown
+                        )
+                    ) { _ in
                         self.headerContentHeight = geometry.size.height
                     }
-                    .onReceive(Just(self.headerContent)) { _ in
+                    .onReceive(
+                        Just(
+                            self.headerContent
+                        )
+                    ) { _ in
                         self.headerContentHeight = geometry.size.height
                     }
             }
