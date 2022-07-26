@@ -138,7 +138,7 @@ internal extension BottomSheetView {
         return min(
             max(
                 self.currentBottomSheetHeight(with: geometry) - self.translation,
-                0
+                self.headerContentHeight
             ),
             self.maxBottomSheetHeight(with: geometry)
         )
