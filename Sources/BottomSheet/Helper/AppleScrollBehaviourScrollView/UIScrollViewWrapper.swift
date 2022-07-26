@@ -72,7 +72,11 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                 self.dragState = .none
             }
             
-            let velocityY = (value.location.y - value.predictedEndLocation.y) / (UIScrollView.DecelerationRate.normal.rawValue / (1000.0 * (1.0 - UIScrollView.DecelerationRate.normal.rawValue)))
+            let velocityY = (value.location.y - value.predictedEndLocation.y) / (
+                UIScrollView.DecelerationRate.normal.rawValue / (
+                    1000.0 * (1.0 - UIScrollView.DecelerationRate.normal.rawValue)
+                )
+            )
             self.completeGesture(
                 with: velocityY,
                 in: viewController
@@ -93,7 +97,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     ) {
         if !(
             viewController.scrollView.contentOffset.y < 0 ||
-            viewController.scrollView.contentOffset.y > (viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height)
+            viewController.scrollView.contentOffset.y > (
+                viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
+            )
         ) {
             self.startDeceleration(
                 with: velocityY,
