@@ -162,13 +162,6 @@ internal extension BottomSheetView {
             if self.isIPadOrMac {
                 // TODO: Fix header not fixed on iPad and Mac
                 ZStack(alignment: .top) {
-                    // BottomSheet header content
-                    if self.headerContent != nil || self.configuration.isCloseButtonShown {
-                        self.header(
-                            with: geometry
-                        )
-                    }
-                    
                     // BottomSheet main content
                     if self.bottomSheetPosition.isBottom {
                         // In a bottom position the main content is hidden - add a Spacer to fill the height
@@ -179,6 +172,13 @@ internal extension BottomSheetView {
                     } else {
                         // Main content
                         self.bottomSheetContent(
+                            with: geometry
+                        )
+                    }
+                    
+                    // BottomSheet header content
+                    if self.headerContent != nil || self.configuration.isCloseButtonShown {
+                        self.header(
                             with: geometry
                         )
                     }
@@ -449,6 +449,8 @@ internal extension BottomSheetView {
             maxHeight: self.bottomSheetPosition.isDynamic || self.isIPadOrMac ? self.height(with: geometry) : .infinity,
             alignment: self.isIPadOrMac ? .bottom : .top
         )
+        // Clip main content
+        .clipped()
         // Make the main content transition via move
         .transition(
             .move(
