@@ -39,10 +39,9 @@ internal extension BottomSheetView {
                 self.endEditing()
             }
     }
+    
 #if !os(macOS)
-    func appleScrollViewDragGesture(
-        with geometry: GeometryProxy
-    ) -> some Gesture {
+    func appleScrollViewDragGesture(with geometry: GeometryProxy) -> some Gesture {
         DragGesture()
             .onChanged { value in
                 if self.bottomSheetPosition.isTop && value.translation.height < 0 {
@@ -145,24 +144,26 @@ internal extension BottomSheetView {
                     self.header(with: geometry)
                 }
             }
-            // Reset main content height if hidden
-            .onReceive(Just(self.bottomSheetPosition)) { _ in
-                if self.bottomSheetPosition.isBottom {
+            // Reset main content height if it is hidden
+            .onReceive(Just(self.bottomSheetPosition.isBottom)) { isBottom in
+                if isBottom {
                     if let bottomPositionSpacerHeight = self.bottomPositionSpacerHeight {
+                        // It is dynamic position
                         self.mainContentHeight = bottomPositionSpacerHeight
                     } else {
+                        // It is other position, so mainContentHeight is not needed
                         self.mainContentHeight = 0
                     }
                 }
             }
-            // Reset header content height if hidden
-            .onReceive(Just(self.configuration.isCloseButtonShown)) { _ in
-                if self.headerContent == nil && !self.configuration.isCloseButtonShown {
+            // Reset header content height if it is hidden
+            .onReceive(Just(self.configuration.isCloseButtonShown)) { isCloseButtonShown in
+                if self.headerContent == nil && !isCloseButtonShown {
                     self.headerContentHeight = 0
                 }
             }
-            .onReceive(Just(self.headerContent)) { _ in
-                if self.headerContent == nil && !self.configuration.isCloseButtonShown {
+            .onReceive(Just(self.headerContent)) { headerContent in
+                if headerContent == nil && !self.configuration.isCloseButtonShown {
                     self.headerContentHeight = 0
                 }
             }
@@ -331,7 +332,7 @@ internal extension BottomSheetView {
                 // TODO: Fix appleScrollBehaviour not working when main content doesn't is higher or equal to BottomSheet height
                 // Content for `appleScrollBehavior`
                 if self.isIPadOrMac {
-                    // On iPad an Mac a normal ScrollView
+                    // On iPad an Mac use a normal ScrollView
                     ScrollView {
                         self.mainContent
                     }
@@ -374,7 +375,7 @@ internal extension BottomSheetView {
         // Align content below header content
         .padding(
             .top,
-            self.isIPadOrMac ? self.headerContentHeight : 0
+            self.headerContentHeight
         )
         // Make the main content transition via move
         .transition(.move(
