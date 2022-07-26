@@ -441,7 +441,9 @@ internal extension BottomSheetView {
         // This workaround fixes the transition
         .frame(
             maxWidth: .infinity,
-            maxHeight: self.bottomSheetPosition.isDynamic || self.isIPadOrMac ? self.height(with: geometry) - self.headerContentHeight : .infinity,
+            maxHeight: self.bottomSheetPosition.isDynamic || self.isIPadOrMac ? (
+                self.height(with: geometry) != nil ? self.height(with: geometry)! - self.headerContentHeight : nil
+            ) : .infinity,
             alignment: self.isIPadOrMac ? .bottom : .top
         )
         // Clip main content
