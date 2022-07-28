@@ -393,6 +393,8 @@ internal extension BottomSheetView {
         ) {
             self.mainContent
         }
+        // Ignore bottom safe area
+        .edgesIgnoringSafeArea(.bottom)
         // Make ScrollView drag-able
         .gesture(
             self.isScrollEnabled ? nil : self.appleScrollViewDragGesture(with: geometry)
