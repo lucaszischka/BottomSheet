@@ -41,7 +41,6 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.contentSize = contentSize
         
         viewController.scrollView.contentInsetAdjustmentBehavior = .never
-        viewController.scrollView.contentInset = .zero
         
         // Layout the UIHostingController
         NSLayoutConstraint.activate([
@@ -51,9 +50,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
         ])
         
-        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
-        bottomAnchor.priority = .defaultLow
-        bottomAnchor.isActive = true
+//        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
+//        bottomAnchor.priority = .defaultLow
+//        bottomAnchor.isActive = true
         
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
