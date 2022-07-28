@@ -20,6 +20,20 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     ) -> UIScrollViewViewController<Content> {
         let viewController = UIScrollViewViewController(rootView: self.content)
         viewController.scrollView.delegate = context.coordinator
+        
+        // Add/Update the content view
+        viewController.hostingController.rootView = self.content
+        viewController.scrollView.addSubview(viewController.hostingController.view)
+        
+        // Make the content and UIScrollView use full width
+        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
+        contentSize.width = viewController.scrollView.frame.width
+        viewController.hostingController.view.frame.size = contentSize
+        viewController.scrollView.contentSize = contentSize
+        
+        viewController.view.updateConstraintsIfNeeded()
+        viewController.view.layoutIfNeeded()
+        
         return viewController
     }
     
@@ -31,14 +45,11 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
-        // Update width for scroll indicator
-        print(viewController.hostingController.view.intrinsicContentSize, viewController.hostingController.view.frame, viewController.scrollView.intrinsicContentSize, viewController.scrollView.contentSize, viewController.scrollView.frame)
+        // Make the content and UIScrollView use full width
         var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
         contentSize.width = viewController.scrollView.frame.width
         viewController.hostingController.view.frame.size = contentSize
         viewController.scrollView.contentSize = contentSize
-//        viewController.hostingController.view.intrinsicContentSize = contentSize
-//        viewController.scrollView.intrinsicContentSize = contentSize
         
         viewController.view.updateConstraintsIfNeeded()
         viewController.view.layoutIfNeeded()
@@ -261,7 +272,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+//            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         self.view.setNeedsUpdateConstraints()
         self.view.updateConstraintsIfNeeded()
