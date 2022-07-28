@@ -40,9 +40,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
 //            viewController.scrollView.alwaysBounceVertical = true
 //        }
 //        viewController.scrollView.contentSize = contentSize
-//        
+//
 //        viewController.scrollView.contentInsetAdjustmentBehavior = .never
-//        
+//
 //        NSLayoutConstraint.activate([
 //            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
 //            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
@@ -51,7 +51,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
 //        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
 //        bottomAnchor.priority = .defaultLow
 //        bottomAnchor.isActive = true
-//        
+//
 //        viewController.view.setNeedsUpdateConstraints()
 //        viewController.view.updateConstraintsIfNeeded()
 //        viewController.view.layoutIfNeeded()
@@ -303,7 +303,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
     fileprivate init(rootView: Content) {
         // Create the UIScrollView
         let scrollView = UIScrollView()
-//        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .clear
         self.scrollView = scrollView
         
