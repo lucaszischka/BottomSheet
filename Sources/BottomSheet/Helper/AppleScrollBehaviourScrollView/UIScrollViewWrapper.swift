@@ -32,10 +32,10 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
         // Update width for scroll indicator
-        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-        contentSize.width = viewController.scrollView.frame.width
-        viewController.hostingController.view.frame.size = contentSize
-        viewController.scrollView.contentSize = contentSize
+//        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
+//        contentSize.width = viewController.scrollView.frame.width
+//        viewController.hostingController.view.frame.size = contentSize
+//        viewController.scrollView.contentSize = contentSize
         
         viewController.view.updateConstraintsIfNeeded()
         viewController.view.layoutIfNeeded()
