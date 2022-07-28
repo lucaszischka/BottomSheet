@@ -33,10 +33,10 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         
         // Layout the UIHostingController
         NSLayoutConstraint.activate([
-            viewController.hostingController.view.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor),
-            viewController.hostingController.view.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor),
-            viewController.hostingController.view.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
-            viewController.hostingController.view.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
+            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
+            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
+            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
+            viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
         ])
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
