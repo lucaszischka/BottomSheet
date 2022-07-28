@@ -31,6 +31,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
+        // Disable UIScrollView safe area
+        viewController.scrollView.contentInsetAdjustmentBehavior = .never
+        
         // Get size of the content view
         var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
         // Update the width to the width of the UIScrollView
@@ -43,14 +46,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             contentSize.height = viewController.scrollView.frame.height
             // Enable scroll for too small views
             viewController.scrollView.alwaysBounceVertical = true
-        } else {
-            contentSize.height += viewController.hostingController.view.safeAreaInsets.bottom
         }
         // Set the calculated content size
         viewController.scrollView.contentSize = contentSize
-        
-        // Disable UIScrollView safe area
-        viewController.scrollView.contentInsetAdjustmentBehavior = .never
         
         // Layout the UIHostingController
         NSLayoutConstraint.activate([
