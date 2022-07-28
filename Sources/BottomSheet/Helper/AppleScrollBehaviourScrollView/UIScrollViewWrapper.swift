@@ -271,10 +271,10 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         self.view.addSubview(self.scrollView)
         
         // Layout the UIScrollView
-        self.scrollView.autoresizingMask = [
-            .flexibleWidth,
-            .flexibleHeight
-        ]
+//        self.scrollView.autoresizingMask = [
+//            .flexibleWidth,
+//            .flexibleHeight
+//        ]
         
         NSLayoutConstraint.activate([
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -306,7 +306,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
     fileprivate init(rootView: Content) {
         // Create the UIScrollView
         let scrollView = UIScrollView()
-//        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .clear
         self.scrollView = scrollView
         
