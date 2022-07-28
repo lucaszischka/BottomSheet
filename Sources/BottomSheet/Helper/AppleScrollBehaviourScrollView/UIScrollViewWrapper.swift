@@ -31,17 +31,14 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
-        print("ScrollView before layout:", viewController.scrollView.contentSize, viewController.scrollView.frame)
-        print("View before layout:", viewController.hostingController.view.intrinsicContentSize, viewController.hostingController.view.frame)
-        
-//        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-//        contentSize.width = viewController.scrollView.frame.width
-//        if contentSize.height <= viewController.scrollView.frame.height {
-//            contentSize.height = viewController.scrollView.frame.height
-//            viewController.scrollView.alwaysBounceVertical = true
-//        }
-//        viewController.hostingController.view.frame.size = contentSize
-//        viewController.scrollView.contentSize = contentSize
+        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
+        contentSize.width = viewController.scrollView.frame.width
+        if contentSize.height <= viewController.scrollView.frame.height {
+            contentSize.height = viewController.scrollView.frame.height
+            viewController.scrollView.alwaysBounceVertical = true
+        }
+        viewController.hostingController.view.frame.size = contentSize
+        viewController.scrollView.contentSize = contentSize
         
         viewController.scrollView.contentInsetAdjustmentBehavior = .never
         
@@ -53,23 +50,13 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
         ])
         
-//        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
-//        bottomAnchor.priority = .defaultLow
-//        bottomAnchor.isActive = true
-        
-        if viewController.hostingController.view.intrinsicContentSize.height <= viewController.scrollView.frame.height {
-            viewController.hostingController.view.frame.size.height = viewController.scrollView.frame.height
-            viewController.scrollView.alwaysBounceVertical = true
-        } else {
-            viewController.scrollView.contentSize.height = viewController.hostingController.view.intrinsicContentSize.height
-        }
+        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
+        bottomAnchor.priority = .defaultLow
+        bottomAnchor.isActive = true
         
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
         viewController.scrollView.layoutIfNeeded()
-        
-        print("ScrollView after layout:", viewController.scrollView.contentSize, viewController.scrollView.frame)
-        print("View after layout:", viewController.hostingController.view.intrinsicContentSize, viewController.hostingController.view.frame)
         
         // isScrollEnabled
         if viewController.scrollView.isScrollEnabled != self.isScrollEnabled {
