@@ -31,8 +31,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
-        print(viewController.scrollView.contentSize, viewController.scrollView.frame)
-        print(viewController.hostingController.view.intrinsicContentSize, viewController.hostingController.view.frame)
+        print("ScrollView before layout:", viewController.scrollView.contentSize, viewController.scrollView.frame)
+        print("View before layout:", viewController.hostingController.view.intrinsicContentSize, viewController.hostingController.view.frame)
         
 //        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
 //        contentSize.width = viewController.scrollView.frame.width
@@ -60,6 +60,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
         viewController.scrollView.layoutIfNeeded()
+        
+        print("ScrollView after layout:", viewController.scrollView.contentSize, viewController.scrollView.frame)
+        print("View after layout:", viewController.hostingController.view.intrinsicContentSize, viewController.hostingController.view.frame)
         
         // isScrollEnabled
         if viewController.scrollView.isScrollEnabled != self.isScrollEnabled {
