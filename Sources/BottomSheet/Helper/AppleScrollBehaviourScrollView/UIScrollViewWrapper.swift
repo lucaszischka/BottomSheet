@@ -39,7 +39,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         // Update the width to the width of the UIScrollView
         contentSize.width = viewController.scrollView.frame.width
         // Set the size of the content to the calculated value
-//        viewController.hostingController.view.frame.size = contentSize
+        viewController.hostingController.view.frame.size.width = contentSize.width
+        viewController.hostingController.view.frame.size.height = contentSize.height + viewController.hostingController.view.safeAreaInsets.bottom
         // If the content is smaller than the UIScrollView
         if contentSize.height <= viewController.scrollView.frame.height {
             // Make the content as large as the UIScrollView to fix scrolling
