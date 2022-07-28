@@ -49,7 +49,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         
         // Disable UIScrollView safe area
         viewController.scrollView.contentInsetAdjustmentBehavior = .never
-//        viewController.scrollView.insetsLayoutMarginsFromSafeArea = false
+        viewController.scrollView.insetsLayoutMarginsFromSafeArea = false
         
         // Layout the UIHostingController
         NSLayoutConstraint.activate([
@@ -61,8 +61,6 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
         viewController.scrollView.layoutIfNeeded()
-        
-        print(viewController.scrollView.contentInset, viewController.scrollView.safeAreaInsets, viewController.scrollView.adjustedContentInset, viewController.scrollView.alignmentRectInsets)
         
         // isScrollEnabled
         if viewController.scrollView.isScrollEnabled != self.isScrollEnabled {
