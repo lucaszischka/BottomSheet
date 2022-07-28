@@ -31,11 +31,22 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
+        // Layout the UIHostingController
+        NSLayoutConstraint.activate([
+            viewController.hostingController.view.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor),
+            viewController.hostingController.view.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor),
+            viewController.hostingController.view.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
+            viewController.hostingController.view.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
+        ])
+        viewController.scrollView.setNeedsUpdateConstraints()
+        viewController.scrollView.updateConstraintsIfNeeded()
+        viewController.scrollView.layoutIfNeeded()
+        
 //        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
 //        contentSize.width = viewController.scrollView.frame.width
 //        viewController.hostingController.view.frame.size = contentSize
 //        viewController.scrollView.contentSize = contentSize
-//        
+//
 //        viewController.view.updateConstraintsIfNeeded()
 //        viewController.view.layoutIfNeeded()
         
@@ -288,17 +299,6 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         self.view.setNeedsUpdateConstraints()
         self.view.updateConstraintsIfNeeded()
         self.view.layoutIfNeeded()
-        
-        // Layout the UIHostingController
-        NSLayoutConstraint.activate([
-            self.hostingController.view.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor),
-            self.hostingController.view.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor),
-            self.hostingController.view.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
-            self.hostingController.view.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
-        ])
-        self.scrollView.setNeedsUpdateConstraints()
-        self.scrollView.updateConstraintsIfNeeded()
-        self.scrollView.layoutIfNeeded()
     }
     
     fileprivate init(rootView: Content) {
