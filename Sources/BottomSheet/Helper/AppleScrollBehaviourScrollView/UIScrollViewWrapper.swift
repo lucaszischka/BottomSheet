@@ -34,14 +34,14 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         print(viewController.scrollView.contentSize, viewController.scrollView.frame)
         print(viewController.hostingController.view.intrinsicContentSize, viewController.hostingController.view.frame)
         
-        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-        contentSize.width = viewController.scrollView.frame.width
-        if contentSize.height <= viewController.scrollView.frame.height {
-            contentSize.height = viewController.scrollView.frame.height
-            viewController.scrollView.alwaysBounceVertical = true
-        }
-        viewController.hostingController.view.frame.size = contentSize
-        viewController.scrollView.contentSize = contentSize
+//        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
+//        contentSize.width = viewController.scrollView.frame.width
+//        if contentSize.height <= viewController.scrollView.frame.height {
+//            contentSize.height = viewController.scrollView.frame.height
+//            viewController.scrollView.alwaysBounceVertical = true
+//        }
+//        viewController.hostingController.view.frame.size = contentSize
+//        viewController.scrollView.contentSize = contentSize
         
         viewController.scrollView.contentInsetAdjustmentBehavior = .never
         
