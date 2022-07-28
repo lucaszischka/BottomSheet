@@ -41,6 +41,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         }
         viewController.scrollView.contentSize = contentSize
         
+        viewController.scrollView.contentInsetAdjustmentBehavior = .never
+        
         // Align content view
         NSLayoutConstraint.activate([
             viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
