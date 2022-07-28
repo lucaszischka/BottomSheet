@@ -298,7 +298,9 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
             self.hostingController.view.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
             self.hostingController.view.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor),
         ])
-        self.
+        self.hostingController.view.setNeedsUpdateConstraints()
+        self.hostingController.view.updateConstraintsIfNeeded()
+        self.hostingController.view.layoutIfNeeded()
     }
     
     fileprivate init(rootView: Content) {
