@@ -27,7 +27,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         _ viewController: UIScrollViewViewController<Content>,
         context: UIViewControllerRepresentableContext<Self>
     ) {
-        // Update the content view
+        // Add/Update the content view
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
@@ -244,17 +244,21 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
 
 internal class UIScrollViewViewController<Content: View>: UIViewController {
     
-    fileprivate let scrollView: UIScrollView
+    fileprivate var scrollView: UIScrollView
     fileprivate let hostingController: UIHostingController<Content>
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Add the UIScrollView
         self.view.addSubview(self.scrollView)
+        
+        // Layout the UIScrollView
         NSLayoutConstraint.activate([
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         self.view.setNeedsUpdateConstraints()
         self.view.updateConstraintsIfNeeded()
@@ -262,11 +266,14 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
     }
     
     fileprivate init(rootView: Content) {
+        // Create the UIScrollView
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .clear
+        scrollView.alwaysBounceVertical = true
         self.scrollView = scrollView
         
+        // Create the UIHostingController
         let hostingController = UIHostingController(rootView: rootView)
         hostingController.view.backgroundColor = .clear
         self.hostingController = hostingController
