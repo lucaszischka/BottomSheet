@@ -57,7 +57,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
             viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor),
             viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor),
-            viewController.hostingController.view.heightAnchor.constraint(equalTo: viewController.scrollView.heightAnchor)
+//            viewController.hostingController.view.heightAnchor.constraint(equalTo: viewController.scrollView.heightAnchor)
         ])
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
