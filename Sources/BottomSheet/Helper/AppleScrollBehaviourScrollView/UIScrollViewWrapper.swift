@@ -58,7 +58,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
 //        bottomAnchor.isActive = true
         
         if viewController.hostingController.view.intrinsicContentSize.height <= viewController.scrollView.frame.height {
-            viewController.hostingController.view.frame.height = viewController.scrollView.frame.height
+            viewController.hostingController.view.frame.size.height = viewController.scrollView.frame.height
             viewController.scrollView.alwaysBounceVertical = true
         } else {
             viewController.scrollView.contentSize.height = viewController.hostingController.view.intrinsicContentSize.height
