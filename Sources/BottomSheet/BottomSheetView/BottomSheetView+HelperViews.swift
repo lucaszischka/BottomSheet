@@ -329,7 +329,6 @@ internal extension BottomSheetView {
         // VStack to make frame workaround work
         VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizable {
-                // TODO: Fix appleScrollBehaviour not working when main content doesn't is higher or equal to BottomSheet height
                 // TODO: Fix appleScrollBehaviour breaking dynamic height - even crashes
                 // Content for `appleScrollBehaviour`
                 if self.isIPadOrMac {

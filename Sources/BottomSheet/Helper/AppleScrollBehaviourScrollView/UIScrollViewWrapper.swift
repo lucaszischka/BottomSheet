@@ -31,6 +31,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
+        // TODO: Fix weird negative padding at the top of the view (onAppear or when contentView > scrollView)
+        
         // Disable UIScrollView safe area
         viewController.scrollView.contentInsetAdjustmentBehavior = .never
         
@@ -51,13 +53,13 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.contentSize = contentSize
         
         // Layout the UIHostingController
-//        NSLayoutConstraint.activate([
-//            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
-//            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
-//            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
-//            viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
-//        ])
-//        viewController.scrollView.setNeedsUpdateConstraints()
+        NSLayoutConstraint.activate([
+            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
+            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
+            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
+            viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
+        ])
+        viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
         viewController.scrollView.layoutIfNeeded()
         
