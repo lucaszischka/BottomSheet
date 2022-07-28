@@ -39,8 +39,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         // Update the width to the width of the UIScrollView
         contentSize.width = viewController.scrollView.frame.width
         // Set the size of the content to the calculated value
-        viewController.hostingController.view.frame.size.width = contentSize.width
-        viewController.hostingController.view.frame.size.height = contentSize.height + viewController.hostingController.view.safeAreaInsets.bottom
+        viewController.hostingController.view.frame.size = contentSize
         // If the content is smaller than the UIScrollView
         if contentSize.height <= viewController.scrollView.frame.height {
             // Make the content as large as the UIScrollView to fix scrolling
@@ -52,18 +51,13 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.contentSize = contentSize
         
         // Layout the UIHostingController
-        NSLayoutConstraint.activate([
-            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
-            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
-            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
-            viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
-        ])
-        
-        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
-        bottomAnchor.priority = .defaultLow
-        bottomAnchor.isActive = true
-        
-        viewController.scrollView.setNeedsUpdateConstraints()
+//        NSLayoutConstraint.activate([
+//            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
+//            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
+//            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
+//            viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
+//        ])
+//        viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
         viewController.scrollView.layoutIfNeeded()
         
