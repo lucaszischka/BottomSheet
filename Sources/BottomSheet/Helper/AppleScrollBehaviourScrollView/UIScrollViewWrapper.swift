@@ -35,7 +35,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
         contentSize.width = viewController.scrollView.frame.width
         viewController.hostingController.view.frame.size = contentSize
-        contentSize.height = viewController.scrollView.frame.height
+        if contentSize.height < viewController.scrollView.frame.height {
+            contentSize.height = viewController.scrollView.frame.height
+        }
         viewController.scrollView.contentSize = contentSize
         
         viewController.view.updateConstraintsIfNeeded()
