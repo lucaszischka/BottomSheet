@@ -293,17 +293,18 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         
         // Layout the content view
         NSLayoutConstraint.activate([
-            self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+            self.hostingController.view.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor),
+            self.hostingController.view.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor),
+            self.hostingController.view.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
+            self.hostingController.view.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor),
         ])
+        self.
     }
     
     fileprivate init(rootView: Content) {
         // Create the UIScrollView
         let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
+//        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .clear
         self.scrollView = scrollView
         
