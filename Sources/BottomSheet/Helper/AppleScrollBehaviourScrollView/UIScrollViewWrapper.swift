@@ -31,15 +31,23 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
+        // Get size of the content view
         var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
+        // Update the width to the width of the UIScrollView
         contentSize.width = viewController.scrollView.frame.width
+        // Set the size of the content to the calculated value
+        viewController.hostingController.view.frame.size = contentSize
+        // If the content is smaller than the UIScrollView
         if contentSize.height <= viewController.scrollView.frame.height {
+            // Make the content as large as the UIScrollView to fix scrolling
             contentSize.height = viewController.scrollView.frame.height
+            // Enable scroll for too small views
             viewController.scrollView.alwaysBounceVertical = true
         }
-        viewController.hostingController.view.frame.size = contentSize
+        // Set the calculated content size
         viewController.scrollView.contentSize = contentSize
         
+        // Disable UIScrollView safe area
         viewController.scrollView.contentInsetAdjustmentBehavior = .never
         
         // Layout the UIHostingController
@@ -49,11 +57,6 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
             viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
         ])
-        
-        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
-        bottomAnchor.priority = .defaultLow
-        bottomAnchor.isActive = true
-        
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
         viewController.scrollView.layoutIfNeeded()
