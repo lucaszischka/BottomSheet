@@ -20,20 +20,6 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     ) -> UIScrollViewViewController<Content> {
         let viewController = UIScrollViewViewController(rootView: self.content)
         viewController.scrollView.delegate = context.coordinator
-        
-        // Add/Update the content view
-        viewController.hostingController.rootView = self.content
-        viewController.scrollView.addSubview(viewController.hostingController.view)
-        
-        // Make the content and UIScrollView use full width
-        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-        contentSize.width = viewController.scrollView.frame.width
-        viewController.hostingController.view.frame.size = contentSize
-        viewController.scrollView.contentSize = contentSize
-        
-        viewController.view.updateConstraintsIfNeeded()
-        viewController.view.layoutIfNeeded()
-        
         return viewController
     }
     
@@ -45,11 +31,23 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
-        // Make the content and UIScrollView use full width
-        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-        contentSize.width = viewController.scrollView.frame.width
-        viewController.hostingController.view.frame.size = contentSize
-        viewController.scrollView.contentSize = contentSize
+        // Align content view
+        NSLayoutConstraint.activate([
+            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
+            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
+            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
+            viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor).priority = .defaultLow,
+            viewController.hostingController.view.heightAnchor.constraint(equalTo: viewController.scrollView.heightAnchor).priority = .defaultLow,
+            viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
+        ])
+        
+//        // Make the content view and UIScrollView have same height and width
+//        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
+//        contentSize.width = viewController.scrollView.frame.width
+//        viewController.hostingController.view.frame.size = contentSize
+//        viewController.scrollView.contentSize = contentSize
+        
+        
         
         viewController.view.updateConstraintsIfNeeded()
         viewController.view.layoutIfNeeded()
