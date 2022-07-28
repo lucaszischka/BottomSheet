@@ -262,6 +262,14 @@ internal extension BottomSheetView {
             // Header content
             if let headerContent = self.headerContent {
                 headerContent
+                // Add Padding when header is a title
+                    .padding(
+                        self.isTitleAsHeaderContent ? [
+                            .leading,
+                            .trailing,
+                            .bottom
+                        ] : []
+                    )
             }
             
             Spacer(minLength: 0)
@@ -269,16 +277,18 @@ internal extension BottomSheetView {
             // Close button
             if self.configuration.isCloseButtonShown {
                 self.closeButton
-                    .padding([.top, .trailing, .bottom])
+                // Add padding to close button
+                    .padding([
+                        .trailing,
+                        .bottom
+                    ])
             }
         }
-        // Add horizontal and bottom padding if the header is a title
+        // Add top padding when (on iPad or Mac or when the drag indicator is not shown)
+        // and (no header is set or the header is a title)
         .padding(
-            self.isTitleAsHeaderContent ? [.horizontal, .bottom] : []
-        )
-        // Add top padding when (on iPad or Mac or when the drag indicator is not shown) and (no header is set or the header is a title)
-        .padding(
-            (self.isIPadOrMac || !self.configuration.isDragIndicatorShown || !self.configuration.isResizable) && (self.isTitleAsHeaderContent || self.headerContent == nil) ? .top : []
+            (self.isIPadOrMac || !self.configuration.isDragIndicatorShown || !self.configuration.isResizable) &&
+            (self.headerContent == nil || self.isTitleAsHeaderContent) ? .top : []
         )
         // Get header content size
         .background(
