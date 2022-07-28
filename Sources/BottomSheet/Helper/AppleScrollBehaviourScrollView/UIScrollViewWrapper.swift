@@ -44,7 +44,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             // Enable scroll for too small views
             viewController.scrollView.alwaysBounceVertical = true
         } else {
-            contentSize.height = viewController.scrollView.frame.height
+            contentSize.height += viewController.hostingController.view.safeAreaInsets.bottom
         }
         // Set the calculated content size
         viewController.scrollView.contentSize = contentSize
