@@ -32,10 +32,11 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
         // Update width for scroll indicator
-//        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-//        contentSize.width = viewController.scrollView.frame.width
-//        viewController.hostingController.view.frame.size = contentSize
-//        viewController.scrollView.contentSize = contentSize
+        print(viewController.hostingController.view.intrinsicContentSize, viewController.scrollView.frame.width, viewController.hostingController.view.frame.size, viewController.scrollView.contentSize)
+        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
+        contentSize.width = viewController.scrollView.frame.width
+        viewController.hostingController.view.frame.size = contentSize
+        viewController.scrollView.contentSize = contentSize
         
         viewController.view.updateConstraintsIfNeeded()
         viewController.view.layoutIfNeeded()
@@ -270,7 +271,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .clear
-        scrollView.alwaysBounceVertical = true
+//        scrollView.alwaysBounceVertical = true
         self.scrollView = scrollView
         
         // Create the UIHostingController
