@@ -292,12 +292,6 @@ internal extension BottomSheetView {
                     )
             }
         }
-        // Add top padding when (on iPad or Mac or when the drag indicator is not shown)
-        // and (no header is set or the header is a title)
-//        .padding(
-//            (self.isIPadOrMac || !self.configuration.isDragIndicatorShown || !self.configuration.isResizable) &&
-//            (self.headerContent == nil || self.isTitleAsHeaderContent) ? .top : []
-//        )
         // Get header content size
         .background(
             GeometryReader { headerGeometry in
