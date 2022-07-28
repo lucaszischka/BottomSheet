@@ -50,9 +50,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
         ])
         
-        let heightAnchor = viewController.hostingController.view.heightAnchor.constraint(equalTo: viewController.scrollView.heightAnchor)
-        heightAnchor.priority = .defaultLow
-        heightAnchor.isActive = true
+//        let heightAnchor = viewController.hostingController.view.heightAnchor.constraint(equalTo: viewController.scrollView.heightAnchor)
+//        heightAnchor.priority = .defaultLow
+//        heightAnchor.isActive = true
         
         let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
         bottomAnchor.priority = .defaultLow
