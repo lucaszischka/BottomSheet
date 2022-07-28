@@ -27,35 +27,35 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         _ viewController: UIScrollViewViewController<Content>,
         context: UIViewControllerRepresentableContext<Self>
     ) {
-        // Add/Update the content view
-        viewController.hostingController.rootView = self.content
-        viewController.scrollView.addSubview(viewController.hostingController.view)
+//        // Add/Update the content view
+//        viewController.hostingController.rootView = self.content
+//        viewController.scrollView.addSubview(viewController.hostingController.view)
         
-        // Make the content view and UIScrollView have same height and width
-        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-        contentSize.width = viewController.scrollView.frame.width
-        viewController.hostingController.view.frame.size = contentSize
-        if contentSize.height < viewController.scrollView.frame.height {
-            contentSize.height = viewController.scrollView.frame.height
-            viewController.scrollView.alwaysBounceVertical = true
-        }
-        viewController.scrollView.contentSize = contentSize
-        
-        viewController.scrollView.contentInsetAdjustmentBehavior = .never
-        
-        // Align content view
-        NSLayoutConstraint.activate([
-            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
-            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
-            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor)
-        ])
-        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
-        bottomAnchor.priority = .defaultLow
-        bottomAnchor.isActive = true
-        
-        viewController.view.setNeedsUpdateConstraints()
-        viewController.view.updateConstraintsIfNeeded()
-        viewController.view.layoutIfNeeded()
+//        // MARK: Find someone who knows why this works
+//        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
+//        contentSize.width = viewController.scrollView.frame.width
+//        viewController.hostingController.view.frame.size = contentSize
+//        if contentSize.height < viewController.scrollView.frame.height {
+//            contentSize.height = viewController.scrollView.frame.height
+//            viewController.scrollView.alwaysBounceVertical = true
+//        }
+//        viewController.scrollView.contentSize = contentSize
+//        
+//        viewController.scrollView.contentInsetAdjustmentBehavior = .never
+//        
+//        NSLayoutConstraint.activate([
+//            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
+//            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
+//            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor)
+//        ])
+//        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
+//        bottomAnchor.priority = .defaultLow
+//        bottomAnchor.isActive = true
+//        
+//        viewController.view.setNeedsUpdateConstraints()
+//        viewController.view.updateConstraintsIfNeeded()
+//        viewController.view.layoutIfNeeded()
+//        // MARK: -
         
         // isScrollEnabled
         if viewController.scrollView.isScrollEnabled != self.isScrollEnabled {
@@ -271,21 +271,39 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         self.view.addSubview(self.scrollView)
         
         // Layout the UIScrollView
+        self.scrollView.autoresizingMask = [
+            .flexibleWidth,
+            .flexibleHeight
+        ]
+        
         NSLayoutConstraint.activate([
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+//            self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+//            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+            self.scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor)
         ])
         self.view.setNeedsUpdateConstraints()
         self.view.updateConstraintsIfNeeded()
         self.view.layoutIfNeeded()
+        
+        // Add the content view
+        self.scrollView.addSubview(self.hostingController.view)
+        
+        // Layout the content view
+        NSLayoutConstraint.activate([
+            self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            self.scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+        ])
     }
     
     fileprivate init(rootView: Content) {
         // Create the UIScrollView
         let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
+//        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .clear
         self.scrollView = scrollView
         
@@ -298,6 +316,10 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
             nibName: nil,
             bundle: nil
         )
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.scrollView.contentSize = self.hostingController.view.frame.size
     }
     
     required init?(coder: NSCoder) {
