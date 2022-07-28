@@ -37,12 +37,13 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.view.frame.size = contentSize
         if contentSize.height < viewController.scrollView.frame.height {
             contentSize.height = viewController.scrollView.frame.height
+            viewController.scrollView.alwaysBounceVertical = true
         }
         viewController.scrollView.contentSize = contentSize
         
         viewController.scrollView.contentInsetAdjustmentBehavior = .never
         
-        print(viewController.scrollView.contentInset, viewController.hostingController.view.safeAreaInsets)
+        print(viewController.hostingController.view.safeAreaInsets.top, viewController.hostingController.view.safeAreaInsets.bottom)
         // Align content view
         NSLayoutConstraint.activate([
             viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
@@ -284,7 +285,6 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .clear
-//        scrollView.alwaysBounceVertical = true
         self.scrollView = scrollView
         
         // Create the UIHostingController
