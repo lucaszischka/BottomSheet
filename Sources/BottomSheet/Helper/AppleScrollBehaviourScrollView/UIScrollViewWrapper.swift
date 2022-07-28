@@ -302,7 +302,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         self.hostingController.view.updateConstraintsIfNeeded()
         self.hostingController.view.layoutIfNeeded()
         
-        self.scrollView.contentSize = self.hostingController.view.frame.size
+        self.scrollView.contentSize = self.hostingController.view..intrinsicContentSize
     }
     
     fileprivate init(rootView: Content) {
@@ -325,7 +325,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        self.scrollView.contentSize = self.hostingController.view.frame.size
+        self.scrollView.contentSize = self.hostingController.view.intrinsicContentSize
     }
     
     required init?(coder: NSCoder) {
