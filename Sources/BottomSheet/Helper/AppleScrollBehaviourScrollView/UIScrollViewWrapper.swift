@@ -36,7 +36,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
             viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
             viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
-            viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
+            viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor),
+            viewController.hostingController.view.heightAnchor.constraint(equalTo: viewController.scrollView.heightAnchor),
+            viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
         ])
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
@@ -294,7 +296,9 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+            self.scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor)
         ])
         self.view.setNeedsUpdateConstraints()
         self.view.updateConstraintsIfNeeded()
