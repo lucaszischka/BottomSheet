@@ -34,6 +34,11 @@ internal extension BottomSheetView {
         }
     }
     
+    // Whether the header is a title
+    var isTitleAsHeaderContent: Bool {
+        return self.headerContent is ModifiedContent<Text, _EnvironmentKeyWritingModifier<Int?>>
+    }
+    
     // The height of the spacer when position is bottom
     var bottomPositionSpacerHeight: CGFloat? {
         // Only limit height when dynamic

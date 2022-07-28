@@ -68,7 +68,6 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
                         .font(.title)
                         .bold()
                         .lineLimit(1)
-                        .padding(.bottom)
                     as? HContent
                 } else {
                     return nil
@@ -119,8 +118,7 @@ public extension View {
     /// - Parameter title: A text that is displayed as title.
     /// You can use a view that is used as header content for the BottomSheet instead.
     /// - Parameter content: A view that is used as main content for the BottomSheet.
-    typealias TitleContent = ModifiedContent<ModifiedContent<Text,
-                                                             _EnvironmentKeyWritingModifier<Int?>>, _PaddingLayout>
+    typealias TitleContent = ModifiedContent<Text, _EnvironmentKeyWritingModifier<Int?>>
     
     func bottomSheet<MContent: View>(
         bottomSheetPosition: Binding<BottomSheetPosition>,
