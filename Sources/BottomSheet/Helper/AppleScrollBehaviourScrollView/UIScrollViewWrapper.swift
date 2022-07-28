@@ -57,6 +57,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
 //        bottomAnchor.priority = .defaultLow
 //        bottomAnchor.isActive = true
         
+        viewController.scrollView.contentSize.height = viewController.hostingController.view.intrinsicContentSize.height
+        
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
         viewController.scrollView.layoutIfNeeded()
