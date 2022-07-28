@@ -31,24 +31,12 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
-        // Align content view
-        NSLayoutConstraint.activate([
-            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
-            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
-            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
-        ])
-        
-        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
-        bottomAnchor.priority = .defaultLow
-        bottomAnchor.isActive = true
-        
         // Make the content view and UIScrollView have same height and width
         var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
         contentSize.width = viewController.scrollView.frame.width
         viewController.hostingController.view.frame.size = contentSize
+        contentSize.height = viewController.scrollView.frame.height
         viewController.scrollView.contentSize = contentSize
-        
-        
         
         viewController.view.updateConstraintsIfNeeded()
         viewController.view.layoutIfNeeded()
