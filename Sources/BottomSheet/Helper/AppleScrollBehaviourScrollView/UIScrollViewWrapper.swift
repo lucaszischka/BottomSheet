@@ -302,7 +302,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         self.hostingController.view.updateConstraintsIfNeeded()
         self.hostingController.view.layoutIfNeeded()
         
-        self.scrollView.contentSize = self.hostingController.view..intrinsicContentSize
+        self.scrollView.contentSize = self.hostingController.view.intrinsicContentSize
     }
     
     fileprivate init(rootView: Content) {
