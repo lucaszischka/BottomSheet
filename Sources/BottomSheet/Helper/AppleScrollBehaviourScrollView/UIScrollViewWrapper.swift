@@ -42,7 +42,6 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         
         viewController.scrollView.contentInsetAdjustmentBehavior = .never
         viewController.scrollView.contentInset = .zero
-        viewController.hostingController.view.safeAreaInsets = .zero
         
         // Layout the UIHostingController
         NSLayoutConstraint.activate([
