@@ -283,7 +283,6 @@ internal extension BottomSheetView {
                 self.closeButton
                 // Add padding to close button
                     .padding([
-                        .top,
                         .trailing,
                         .bottom
                     ])
