@@ -41,13 +41,13 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.contentSize = contentSize
         
         // Align content view
-        NSLayoutConstraint.activate([
-            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
-            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
-            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
-            viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
-        ])
-        viewController.view.setNeedsUpdateConstraints()
+//        NSLayoutConstraint.activate([
+//            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
+//            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
+//            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
+//            viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
+//        ])
+//        viewController.view.setNeedsUpdateConstraints()
         viewController.view.updateConstraintsIfNeeded()
         viewController.view.layoutIfNeeded()
         
