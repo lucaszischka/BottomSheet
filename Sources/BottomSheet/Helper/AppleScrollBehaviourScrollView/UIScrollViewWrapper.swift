@@ -301,6 +301,8 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         self.hostingController.view.setNeedsUpdateConstraints()
         self.hostingController.view.updateConstraintsIfNeeded()
         self.hostingController.view.layoutIfNeeded()
+        
+        self.scrollView.contentSize = self.hostingController.view.frame.size
     }
     
     fileprivate init(rootView: Content) {
@@ -312,6 +314,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         
         // Create the UIHostingController
         let hostingController = UIHostingController(rootView: rootView)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         hostingController.view.backgroundColor = .clear
         self.hostingController = hostingController
         
