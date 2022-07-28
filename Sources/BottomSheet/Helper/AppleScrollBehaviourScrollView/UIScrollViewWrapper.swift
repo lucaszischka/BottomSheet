@@ -27,9 +27,11 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         _ viewController: UIScrollViewViewController<Content>,
         context: UIViewControllerRepresentableContext<Self>
     ) {
+        // Update the content view
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
+        // Update width for scroll indicator
         var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
         contentSize.width = viewController.scrollView.frame.width
         viewController.hostingController.view.frame.size = contentSize
@@ -252,7 +254,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+//            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         self.view.setNeedsUpdateConstraints()
         self.view.updateConstraintsIfNeeded()
