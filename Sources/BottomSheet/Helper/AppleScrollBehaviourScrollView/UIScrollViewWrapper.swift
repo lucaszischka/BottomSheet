@@ -47,47 +47,13 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
             viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
             viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor),
-//            viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor),
-//            viewController.hostingController.view.heightAnchor.constraint(equalTo: viewController.scrollView.heightAnchor),
+            viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor),
+            viewController.hostingController.view.heightAnchor.constraint(equalTo: viewController.scrollView.heightAnchor),
             viewController.hostingController.view.widthAnchor.constraint(equalTo: viewController.scrollView.widthAnchor)
         ])
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
         viewController.scrollView.layoutIfNeeded()
-        
-//        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-//        contentSize.width = viewController.scrollView.frame.width
-//        viewController.hostingController.view.frame.size = contentSize
-//        viewController.scrollView.contentSize = contentSize
-//
-//        viewController.view.updateConstraintsIfNeeded()
-//        viewController.view.layoutIfNeeded()
-        
-//        // MARK: Find someone who knows why this works
-//        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-//        contentSize.width = viewController.scrollView.frame.width
-//        viewController.hostingController.view.frame.size = contentSize
-//        if contentSize.height < viewController.scrollView.frame.height {
-//            contentSize.height = viewController.scrollView.frame.height
-//            viewController.scrollView.alwaysBounceVertical = true
-//        }
-//        viewController.scrollView.contentSize = contentSize
-//
-//        viewController.scrollView.contentInsetAdjustmentBehavior = .never
-//
-//        NSLayoutConstraint.activate([
-//            viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
-//            viewController.hostingController.view.trailingAnchor.constraint(equalTo: viewController.scrollView.trailingAnchor),
-//            viewController.hostingController.view.topAnchor.constraint(equalTo: viewController.scrollView.topAnchor)
-//        ])
-//        let bottomAnchor = viewController.hostingController.view.bottomAnchor.constraint(equalTo: viewController.scrollView.bottomAnchor)
-//        bottomAnchor.priority = .defaultLow
-//        bottomAnchor.isActive = true
-//
-//        viewController.view.setNeedsUpdateConstraints()
-//        viewController.view.updateConstraintsIfNeeded()
-//        viewController.view.layoutIfNeeded()
-//        // MARK: -
         
         // isScrollEnabled
         if viewController.scrollView.isScrollEnabled != self.isScrollEnabled {
