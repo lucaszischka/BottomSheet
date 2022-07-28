@@ -31,6 +31,12 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
+        if viewController.hostingController.view.intrinsicContentSize.height < viewController.scrollView.frame.height {
+            viewController.hostingController.view.frame.height = viewController.scrollView.frame.height
+        } else {
+            viewController.scrollView.frame.height = viewController.hostingController.view.intrinsicContentSize.height
+        }
+        
         // Layout the UIHostingController
         NSLayoutConstraint.activate([
             viewController.hostingController.view.leadingAnchor.constraint(equalTo: viewController.scrollView.leadingAnchor),
@@ -43,6 +49,8 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.setNeedsUpdateConstraints()
         viewController.scrollView.updateConstraintsIfNeeded()
         viewController.scrollView.layoutIfNeeded()
+        
+        
         
 //        var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
 //        contentSize.width = viewController.scrollView.frame.width
