@@ -272,7 +272,7 @@ internal extension BottomSheetView {
                     )
                 // Only add top padding if no drag indicator and header is a title
                     .padding(
-                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) && self.isTitleAsHeaderContent ? : .top : []
+                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) && self.isTitleAsHeaderContent ? .top : []
                     )
             }
             
@@ -289,7 +289,7 @@ internal extension BottomSheetView {
                     ])
                 // Only add top padding if no drag indicator
                     .padding(
-                        !self.configuration.isDragIndicatorShown || !self.configuration.isResizable ? : .top : []
+                        !self.configuration.isDragIndicatorShown || !self.configuration.isResizable ? .top : []
                     )
             }
         }
