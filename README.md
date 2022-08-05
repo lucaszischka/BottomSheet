@@ -9,6 +9,9 @@
 
 A sliding sheet from the bottom of the screen with custom states build with SwiftUI.
 
+# Version 3 is out now!
+Please look [here](#79) and read the README for more information on the changes.
+
 ## Why
 
 There have been many different attempts to recreate the BottomSheet from Apple Maps, Shortcuts and Apple Music, because Apple unfortunately does not provide it in their SDK.
