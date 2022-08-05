@@ -10,7 +10,7 @@
 A sliding sheet from the bottom of the screen with custom states build with SwiftUI.
 
 # Version 3 is out now!
-Please look [here](#79) and read the README for more information on the changes.
+Please look [here](https://github.com/lucaszischka/BottomSheet/pull/79) and read the README for more information on the changes.
 
 ## Why
 
