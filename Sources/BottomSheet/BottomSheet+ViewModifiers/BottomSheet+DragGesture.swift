@@ -35,7 +35,7 @@ public extension BottomSheet {
     
     /// Replaces the action that will be performed when the user drags the sheet down.
     ///
-    /// The `GeometryProxy`and `DragGesture.Value` parameter can be used for calculations.
+    /// The `GeometryProxy` and `DragGesture.Value` parameter can be used for calculations.
     /// You need to switch the positions, account for the reversed drag direction on iPad and Mac
     /// and dismiss the keyboard yourself.
     /// The `GeometryProxy`'s height contains the bottom safe area inserts on iPhone.

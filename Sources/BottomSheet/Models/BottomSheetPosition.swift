@@ -13,8 +13,8 @@ import SwiftUI
 /// - `.relative...`, where the height of the BottomSheet is a percentage of the screen height
 /// - `.absolute...`, where the height of the BottomSheet is a pixel value
 ///
-/// You can combine those types  as much as you want.
-/// You can use multiple instances of one cases (for example `.relative(0.4)` and `.relative(0.6)`)
+/// You can combine those types as much as you want.
+/// You can also use multiple instances of one case (for example `.relative(0.4)` and `.relative(0.6)`).
 public enum BottomSheetPosition: Equatable {
     /// The state where the BottomSheet is hidden.
     case hidden

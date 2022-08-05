@@ -13,7 +13,7 @@ public extension BottomSheet {
     ///
     /// On iPhone it is centered above the headerContent.
     /// On Mac and iPad it is centered above the mainContent,
-    /// To change the color of the drag indicator please use the `dragIndicatorColor()` modifier.
+    /// To change the color of the drag indicator please use the `.dragIndicatorColor()` modifier.
     ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.
@@ -27,7 +27,7 @@ public extension BottomSheet {
     /// Changes the color of the drag indicator.
     ///
     /// Changing the color does not affect whether the drag indicator is shown.
-    /// To toggle the drag indicator please use the `.showDragIndicator()` modifier,
+    /// To toggle the drag indicator please use the `.showDragIndicator()` modifier.
     ///
     /// - Parameters:
     ///   - color: The new color.

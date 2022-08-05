@@ -11,8 +11,8 @@ public extension BottomSheet {
     
     /// Adds a close button to the headerContent on the trailing side.
     ///
-    /// To perform a custom action when the BottomSheet (not only via the close button) is closed,
-    /// please use the `.onDismiss(action:)` option.
+    /// To perform a custom action when the BottomSheet is closed (not only via the close button),
+    /// please use the `.onDismiss()` option.
     ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.
