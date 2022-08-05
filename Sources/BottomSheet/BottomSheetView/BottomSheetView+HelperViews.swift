@@ -151,7 +151,7 @@ internal extension BottomSheetView {
                         // It is dynamic position
                         self.mainContentHeight = bottomPositionSpacerHeight
                     } else {
-                        // It is other position, so mainContentHeight is not needed
+                        // It is other position, so mainContentHeight is 0
                         self.mainContentHeight = 0
                     }
                 }
@@ -367,13 +367,31 @@ internal extension BottomSheetView {
             GeometryReader { mainGeometry in
                 Color.clear
                     .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
-                        self.mainContentHeight = mainGeometry.size.height
+                        if !self.bottomSheetPosition.isDynamic {
+                            // Reset contentHeight when not dynamic
+                            self.mainContentHeight = 0
+                        } else if self.translation == 0 {
+                            // Update content height when dynamic and not dragging
+                            self.mainContentHeight = mainGeometry.size.height
+                        }
                     }
                     .onReceive(Just(self.configuration.isResizable)) { _ in
-                        self.mainContentHeight = mainGeometry.size.height
+                        if !self.bottomSheetPosition.isDynamic {
+                            // Reset contentHeight when not dynamic
+                            self.mainContentHeight = 0
+                        } else if self.translation == 0 {
+                            // Update content height when dynamic and not dragging
+                            self.mainContentHeight = mainGeometry.size.height
+                        }
                     }
                     .onReceive(Just(self.mainContent)) { _ in
-                        self.mainContentHeight = mainGeometry.size.height
+                        if !self.bottomSheetPosition.isDynamic {
+                            // Reset contentHeight when not dynamic
+                            self.mainContentHeight = 0
+                        } else if self.translation == 0 {
+                            // Update content height when dynamic and not dragging
+                            self.mainContentHeight = mainGeometry.size.height
+                        }
                     }
             }
         )
