@@ -176,9 +176,11 @@ internal extension BottomSheetView {
         // Set the height and width to its calculated values
         // The content should be aligned to the top on iPhone,
         // on iPad and Mac to the bottom for transition to work correctly
+        // TODO: Fix dynamic leaving screen on iPad and Mac?
+        // Use nil if `.dynamic...` and currently not dragging
         .frame(
             width: self.width(with: geometry),
-            height: self.height(with: geometry),
+            height: self.bottomSheetPosition.isDynamic && self.translation == 0 ? nil : self.height(with: geometry),
             alignment: self.isIPadOrMac ? .bottom : .top
         )
         // BottomSheet background
