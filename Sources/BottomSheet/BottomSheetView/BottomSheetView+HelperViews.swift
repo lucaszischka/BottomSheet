@@ -183,7 +183,7 @@ internal extension BottomSheetView {
             alignment: self.isIPadOrMac ? .bottom : .top
         )
         .frame(
-            minHeight: self.bottomSheetPosition.isDynamic && self.translation == 0 ? self.minBottomSheetHeight : nil
+            minHeight: self.bottomSheetPosition.isDynamic && self.translation == 0 ? self.minBottomSheetHeight : nil,
             maxHeight: self.bottomSheetPosition.isDynamic && self.translation == 0 ? self.maxBottomSheetHeight(with: geometry) : nil
         )
         // BottomSheet background
