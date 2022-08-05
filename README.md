@@ -12,7 +12,7 @@ A sliding sheet from the bottom of the screen with custom states build with Swif
 ## Why
 
 There have been many different attempts to recreate the BottomSheet from Apple Maps, Shortcuts and Apple Music, because Apple unfortunately does not provide it in their SDK.
-*Edit: It was more or less added in iOS 16*
+(*Update: It was more or less added in iOS 16*)
 
 However, most previous attempts share a common problem: The **height does not change** in the different states. Thus, the BottomSheet is always the same size (e.g. 800px) and thus remains 800px, even if you only see e.g. 400px - the rest is **inaccessible** unless you pull the BottomSheet up to the very top.
 
@@ -20,8 +20,8 @@ There are also many implementations out there that **only have 2 states** - **no
 
 ### Features
 - Very **easy to use**
-- Build in **header/title** (see [Parameters](#parameters))
-- Many view modifiers for **customisation** (see [Modifiers](#modifiers))
+- Build in **header/title** (see [Parameters](#Parameters))
+- Many view modifiers for **customisation** (see [Modifiers](#Modifiers))
 - Fully customisable States (**any number of states at any height**) (see [BottomSheetPosition](#BottomSheetPosition))
 - States can have the height of their content, absolute pixel values or percentages of the screen height (see [BottomSheetPosition](#BottomSheetPosition))
 - Support for **SearchBar** in the header
@@ -63,7 +63,7 @@ Now run `pod install` in the Terminal to install this dependency.
 ## Usage
 
 **WARNING:**
-This is Sample Code for visualisation where and how to use, without a working initializer. Please see [Examples](#examples) for working code.
+This is Sample Code for visualisation where and how to use, without a working initializer. Please see [Examples](#Examples) for working code.
 
 BottomSheet is similar to the built-in Sheet:
 
@@ -104,11 +104,11 @@ struct ContentView: View {
 
 `bottomSheetPosition`: A binding that holds the current position/state of the BottomSheet.
 - If you don't want the BottomSheet to be drag-able and the state to be switchable, you can use the `.isResizable(false)` modifier.
-- For more information about the possible positions see [BottomSheetPosition](#bottomSheetPosition).
+- For more information about the possible positions see [BottomSheetPosition](#BottomSheetPosition).
 
 `switchablePositions`: An array that contains the positions/states of the BottomSheet.
 - Only the positions/states contained in the array can be switched into (via tapping the drag indicator or swiping the BottomSheet).
-- For more information about the possible positions see [BottomSheetPosition](#bottomSheetPosition).
+- For more information about the possible positions see [BottomSheetPosition](#BottomSheetPosition).
 
 `title`: A `String` that is displayed as title.
 - You can use a view that is used as header content instead.
@@ -218,6 +218,7 @@ There are 3 mayor types:
 You can combine those types as much as you want.
 You can also use multiple instances of one case (for example `.relative(0.4)` and `.relative(0.6)`).
 
+The positions/states in detail:
 ```swift
 /// The state where the BottomSheet is hidden.
 case hidden
@@ -281,7 +282,7 @@ You can close it by swiping it away, by tapping on the background or the close b
 The drag indicator is hidden.
 The content can be used for resizing the sheet.
 
-<img src="https://user-images.githubusercontent.com/63545066/132514316-c0d723c6-37fc-4104-b04c-6cf7bbcb0899.gif" height="600" width="277.296">
+<img src="https://user-images.githubusercontent.com/63545066/132514316-c0d723c6-37fc-4104-b04c-6cf7bbcb0899.gif" height="600" width="278">
 
 <details>
 <summary>Source Code</summary>
@@ -374,7 +375,7 @@ This BottomSheet shows nouns which can be filtered by searching.
 It adapts the scrolling behaviour of apple, so that you can only scroll the `ScrollView` in the `.top` position (else the BottomSheet gets dragged); on iPad and Mac this behaviour is not present and a normal ScrollView is used.
 The higher the BottomSheet is dragged, the more blurry the background becomes (with the BlurEffect .systemDark) to move the focus to the BottomSheet.
 
-<img src="https://user-images.githubusercontent.com/63545066/132514347-57c5397b-ec03-4716-8e01-4e693082e844.gif" height="600" width="277.296">
+<img src="https://user-images.githubusercontent.com/63545066/132514347-57c5397b-ec03-4716-8e01-4e693082e844.gif" height="600" width="278">
 
 <details>
 <summary>Source Code</summary>
@@ -446,7 +447,7 @@ struct WordSearchView: View {
 This BottomSheet shows the most popular songs by an artist.
 It has a custom animation and color for the drag indicator and the background, as well as it deactivates the bottom position behaviour and uses a custom corner radius and shadow.
 
-<img src="https://user-images.githubusercontent.com/63545066/132514283-b14b2977-c5d1-4b49-96b1-19995cd5a41f.gif" height="600" width="277.296">
+<img src="https://user-images.githubusercontent.com/63545066/132514283-b14b2977-c5d1-4b49-96b1-19995cd5a41f.gif" height="600" width="278">
 
 <details>
 <summary>Source Code</summary>
