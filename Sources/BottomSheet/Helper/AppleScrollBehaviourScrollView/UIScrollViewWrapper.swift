@@ -30,6 +30,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         // Add/Update the content view
         viewController.hostingController.rootView = self.content
         viewController.scrollView.addSubview(viewController.hostingController.view)
+        viewController.layout()
         
         // TODO: Fix weird negative padding at the top of the view (onAppear or when contentView > scrollView) (on iPhone)
         // TODO: Fix resizing mainContent not updating layout (on iPhone)
