@@ -172,6 +172,9 @@ internal extension BottomSheetView {
                     self.headerContentHeight = 0
                 }
             }
+            .onReceive(Just(self.dynamicMainContentHeight)) { dynamicMainContentHeight in
+                print(dynamicMainContentHeight)
+            }
             
             // Drag indicator on the bottom (iPad and Mac)
             if self.configuration.isResizable && self.configuration.isDragIndicatorShown && self.isIPadOrMac {
@@ -417,9 +420,6 @@ internal extension BottomSheetView {
                     }
             }
         )
-        .onReceive(Just(self.dynamicMainContentHeight)) { dynamicMainContentHeight in
-            print(dynamicMainContentHeight)
-        }
         // Align content correctly and make it use all available space to fix transition
         .frame(
             maxHeight: self.maxMainContentHeight(with: geometry),
