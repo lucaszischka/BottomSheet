@@ -38,6 +38,8 @@ public extension BottomSheet {
     /// The `GeometryProxy` and `DragGesture.Value` parameter can be used for calculations.
     /// You need to switch the positions, account for the reversed drag direction on iPad and Mac
     /// and dismiss the keyboard yourself.
+    /// Also the `swipeToDismiss` and `flickThrough` features are triggered via this method.
+    /// By replacing it, you will need to handle both yourself.
     /// The `GeometryProxy`'s height contains the bottom safe area inserts on iPhone.
     /// The `GeometryProxy`'s height contains the top safe area inserts on iPad and Mac.
     ///

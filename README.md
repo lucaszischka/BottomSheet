@@ -152,6 +152,7 @@ The ViewModifiers are used to customise the look and feel of the BottomSheet.
   - If the offset of the ScrollView becomes less than or equal to 0, the BottomSheet is pulled down instead of scrolling.
   - In every other position the BottomSheet will be dragged instead
 - This behaviour is not active on Mac and iPad, because it would not make sense there.
+- Please note, that this feature has sometimes weird flickering, when the content of the ScrollView is smaller than itself. If you have experience with UIKit and UIScrollViews, you are welcome to open a pull request to fix this.
 
 `.enableBackgroundBlur(Bool)`: Adds a fullscreen blur layer below the BottomSheet.
 - The opacity of the layer is proportional to the height of the BottomSheet.
@@ -179,6 +180,7 @@ The ViewModifiers are used to customise the look and feel of the BottomSheet.
 `.dragPositionSwitchAction((GeometryProxy, DragGesture.Value) -> Void)`: Replaces the action that will be performed when the user drags the sheet down.
 - The `GeometryProxy` and `DragGesture.Value` parameter can be used for calculations.
 - You need to switch the positions, account for the reversed drag direction on iPad and Mac and dismiss the keyboard yourself.
+- Also the `swipeToDismiss` and `flickThrough` features are triggered via this method. By replacing it, you will need to handle both yourself.
 - The `GeometryProxy`'s height contains the bottom safe area inserts on iPhone.
 - The `GeometryProxy`'s height contains the top safe area inserts on iPad and Mac.
 

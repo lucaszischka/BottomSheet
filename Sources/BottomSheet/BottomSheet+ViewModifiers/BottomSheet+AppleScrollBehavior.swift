@@ -19,6 +19,9 @@ public extension BottomSheet {
     ///
     /// This behaviour is not active on Mac and iPad, because it would not make sense there.
     ///
+    /// Please note, that this feature has sometimes weird flickering, when the content of the ScrollView is smaller than itself.
+    /// If you have experience with UIKit and UIScrollViews, you are welcome to open a pull request to fix this.
+    ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.
     ///
