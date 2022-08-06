@@ -332,8 +332,7 @@ internal extension BottomSheetView {
     
     func main(with geometry: GeometryProxy) -> some View {
         // VStack to make frame workaround work
-//        VStack(alignment: .center, spacing: 0) {
-        Group {
+        VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizable {
                 // Content for `appleScrollBehaviour`
                 if self.isIPadOrMac {
