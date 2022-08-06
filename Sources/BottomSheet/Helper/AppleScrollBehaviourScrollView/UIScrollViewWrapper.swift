@@ -257,9 +257,6 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         contentSize.width = self.scrollView.frame.width
         self.hostingController.view.frame.size = contentSize
         self.scrollView.contentSize = contentSize
-        
-        self.hostingController.view.topAnchor.constraint(equalTo: self.scrollView.topAnchor).isActive = true
-        
         self.view.updateConstraintsIfNeeded()
         self.view.layoutIfNeeded()
     }
@@ -278,7 +275,6 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         // Create the UIScrollView
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.alwaysBounceVertical = true
         scrollView.backgroundColor = .clear
         self.scrollView = scrollView
         
