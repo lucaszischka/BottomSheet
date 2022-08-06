@@ -123,7 +123,7 @@ internal extension BottomSheetView {
             } else if self.switchablePositions.contains(.dynamic) {
                 // 3. dynamic
                 self.bottomSheetPosition = .dynamic
-            } else if if self.switchablePositions.contains(.dynamicBottom) {
+            } else if self.switchablePositions.contains(.dynamicBottom) {
                 // 4. dynamicBottom
                 self.bottomSheetPosition = .dynamicBottom
             }
@@ -169,7 +169,7 @@ internal extension BottomSheetView {
             } else if self.switchablePositions.contains(.dynamic) {
                 // 3. dynamic
                 self.bottomSheetPosition = .dynamic
-            } else if if self.switchablePositions.contains(.dynamicTop) {
+            } else if self.switchablePositions.contains(.dynamicTop) {
                 // 4. dynamicTop
                 self.bottomSheetPosition = .dynamicTop
             }
