@@ -7,24 +7,20 @@
 
 import SwiftUI
 
-// TODO: Test switching, Documentation, cleanup
 internal extension BottomSheetView {
     
     // For `dragIndicator`
     
-    func dragIndicatorAction(
-        with geometry: GeometryProxy
-    ) {
+    func dragIndicatorAction(with geometry: GeometryProxy) {
         if let dragIndicatorAction = self.configuration.dragIndicatorAction {
             dragIndicatorAction(geometry)
         } else {
             // An array with all switchablePositions sorted by height (low to high),
             // excluding .dynamic..., .hidden and the current position
-            let switchablePositions = self.getSwitchablePositions(
-                with: geometry
-            )
+            let switchablePositions = self.getSwitchablePositions(with: geometry)
             
-            // The height of the currentBottomSheetPosition; if nil use content height
+            // The height of the currentBottomSheetPosition; if nil main content height is used
+            // TODO: This value could be way to heigh when using dynamic and content is too large
             let currentHeight = self.currentBottomSheetHeight(with: geometry)
             
             switch self.bottomSheetPosition {
