@@ -146,6 +146,7 @@ internal extension BottomSheetView {
             }
             // Reset main content height if it is hidden
             .onReceive(Just(self.bottomSheetPosition.isBottom)) { isBottom in
+                print("received", isBottom, self.bottomPositionSpacerHeight)
                 if isBottom, let bottomPositionSpacerHeight = self.bottomPositionSpacerHeight {
                     // It is `.dynamicBottom` position
                     self.mainContentHeight = bottomPositionSpacerHeight
@@ -381,8 +382,8 @@ internal extension BottomSheetView {
                     }
             }
         )
-        .onReceive(Just(self.mainContentHeight)) { _ in
-            print(self.mainContentHeight)
+        .onReceive(Just(self.mainContentHeight)) { mainContentHeight in
+            print(mainContentHeight)
         }
         // Align content correctly and make it use all available space to fix transition
         .frame(
