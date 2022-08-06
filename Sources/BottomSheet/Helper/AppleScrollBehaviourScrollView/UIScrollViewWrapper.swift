@@ -32,6 +32,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         viewController.scrollView.addSubview(viewController.hostingController.view)
         
         // TODO: Fix weird negative padding at the top of the view (onAppear or when contentView > scrollView)
+        // TODO: Fix resizing mainContent not updating layout
         
         // Disable UIScrollView safe area
         viewController.scrollView.contentInsetAdjustmentBehavior = .never

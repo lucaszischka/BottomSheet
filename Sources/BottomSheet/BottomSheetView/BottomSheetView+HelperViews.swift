@@ -171,8 +171,7 @@ internal extension BottomSheetView {
         // Set the height and width to its calculated values
         // The content should be aligned to the top on iPhone,
         // on iPad and Mac to the bottom for transition to work correctly
-        // TODO: Fix dynamic leaving screen on iPad and Mac?
-        // Use nil if `.dynamic...` and currently not dragging
+        // Don't set height if `.dynamic...` and currently not dragging
         .frame(
             width: self.width(with: geometry),
             height: self.bottomSheetPosition.isDynamic && self.translation == 0 ? nil : self.height(with: geometry),
@@ -335,7 +334,6 @@ internal extension BottomSheetView {
         // VStack to make frame workaround work
         VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizable {
-                // TODO: Fix appleScrollBehaviour breaking dynamic height - even crashes
                 // Content for `appleScrollBehaviour`
                 if self.isIPadOrMac {
                     // On iPad an Mac use a normal ScrollView
@@ -396,6 +394,9 @@ internal extension BottomSheetView {
                     }
             }
         )
+        .onReceive(Just(self.mainContentHeight)){ _ in
+            print(self.mainContentHeight)
+        }
         // Align content correctly and make it use all available space to fix transition
         .frame(
             maxHeight: self.maxMainContentHeight(with: geometry),
