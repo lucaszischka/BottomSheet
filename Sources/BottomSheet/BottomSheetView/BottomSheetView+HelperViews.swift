@@ -146,14 +146,9 @@ internal extension BottomSheetView {
             }
             // Reset main content height if it is hidden
             .onReceive(Just(self.bottomSheetPosition.isBottom)) { isBottom in
-                if isBottom {
-                    if let bottomPositionSpacerHeight = self.bottomPositionSpacerHeight {
-                        // It is dynamic position
-                        self.mainContentHeight = bottomPositionSpacerHeight
-                    } else {
-                        // It is other position, so mainContentHeight is 0
-                        self.mainContentHeight = 0
-                    }
+                if isBottom, let bottomPositionSpacerHeight = self.bottomPositionSpacerHeight {
+                    // It is `.dynamicBottom` position
+                    self.mainContentHeight = bottomPositionSpacerHeight
                 }
             }
             // Reset header content height if it is hidden
@@ -367,28 +362,19 @@ internal extension BottomSheetView {
             GeometryReader { mainGeometry in
                 Color.clear
                     .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
-                        if !self.bottomSheetPosition.isDynamic {
-                            // Reset contentHeight when not dynamic
-                            self.mainContentHeight = 0
-                        } else if self.translation == 0 {
+                        if self.bottomSheetPosition.isDynamic && self.translation == 0 {
                             // Update content height when dynamic and not dragging
                             self.mainContentHeight = mainGeometry.size.height
                         }
                     }
                     .onReceive(Just(self.configuration.isResizable)) { _ in
-                        if !self.bottomSheetPosition.isDynamic {
-                            // Reset contentHeight when not dynamic
-                            self.mainContentHeight = 0
-                        } else if self.translation == 0 {
+                        if self.bottomSheetPosition.isDynamic && self.translation == 0 {
                             // Update content height when dynamic and not dragging
                             self.mainContentHeight = mainGeometry.size.height
                         }
                     }
                     .onReceive(Just(self.mainContent)) { _ in
-                        if !self.bottomSheetPosition.isDynamic {
-                            // Reset contentHeight when not dynamic
-                            self.mainContentHeight = 0
-                        } else if self.translation == 0 {
+                        if self.bottomSheetPosition.isDynamic && self.translation == 0 {
                             // Update content height when dynamic and not dragging
                             self.mainContentHeight = mainGeometry.size.height
                         }
