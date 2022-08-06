@@ -39,7 +39,6 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         
         // Get size of the content view
         var contentSize: CGSize = viewController.hostingController.view.intrinsicContentSize
-        print(contentSize)
         // Update the width to the width of the UIScrollView
         contentSize.width = viewController.scrollView.frame.width
         // Set the size of the content to the calculated value
