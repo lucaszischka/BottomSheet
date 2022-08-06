@@ -82,7 +82,7 @@ internal extension BottomSheetView {
             return 0
         case .dynamic, .dynamicTop, .dynamicBottom:
             // Main content, header content and drag indicator height
-            return self.mainContentHeight + self.headerContentHeight + (
+            return self.dynamicMainContentHeight + self.headerContentHeight + (
                 self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0
             )
         case .relative(let value), .relativeBottom(let value), .relativeTop(let value):
@@ -95,7 +95,7 @@ internal extension BottomSheetView {
     
     // For iPad and Mac
     func maxMainContentHeight(with geometry: GeometryProxy) -> CGFloat? {
-        if self.bottomSheetPosition.isDynamic && self.mainContentHeight < max(
+        if self.bottomSheetPosition.isDynamic && self.dynamicMainContentHeight < max(
             self.maxBottomSheetHeight(with: geometry) - self.translation - self.headerContentHeight - (
                 self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0
             ),

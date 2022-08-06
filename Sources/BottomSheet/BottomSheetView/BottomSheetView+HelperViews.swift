@@ -144,22 +144,31 @@ internal extension BottomSheetView {
                     self.header(with: geometry)
                 }
             }
-            // Reset main content height if it is hidden
+            // Reset dynamic main content height if it is hidden
             .onReceive(Just(self.bottomSheetPosition.isBottom)) { isBottom in
-                print("received", isBottom, self.bottomPositionSpacerHeight)
-                if isBottom, let bottomPositionSpacerHeight = self.bottomPositionSpacerHeight {
-                    // It is `.dynamicBottom` position
-                    self.mainContentHeight = bottomPositionSpacerHeight
+                if isBottom {
+                    // Main content is hidden, so the geometry reader can't update its height
+                    if let bottomPositionSpacerHeight = self.bottomPositionSpacerHeight {
+                        // It is `.dynamicBottom` so the height of the main content is the bottomPositionSpacerHeight
+                        self.dynamicMainContentHeight = bottomPositionSpacerHeight
+                    } else {
+                        // Reset main content height when not dynamic but bottom
+                        self.dynamicMainContentHeight = 0
+                    }
                 }
             }
             // Reset header content height if it is hidden
             .onReceive(Just(self.configuration.isCloseButtonShown)) { isCloseButtonShown in
                 if self.headerContent == nil && !isCloseButtonShown {
+                    // Header content is hidden, so the geometry reader can't update its height
+                    // But we can, because when it is hidden its height is 0
                     self.headerContentHeight = 0
                 }
             }
             .onReceive(Just(self.headerContent)) { headerContent in
                 if headerContent == nil && !self.configuration.isCloseButtonShown {
+                    // Header content is hidden, so the geometry reader can't update its height
+                    // But we can, because when it is hidden its height is 0
                     self.headerContentHeight = 0
                 }
             }
@@ -358,32 +367,58 @@ internal extension BottomSheetView {
                     )
             }
         }
-        // Get main content size
+        // Get dynamic main content size
         .background(
             GeometryReader { mainGeometry in
                 Color.clear
+                    .onReceive(Just(self.bottomSheetPosition.isDynamic)) { isDynamic in
+                        if isDynamic {
+                            if self.translation == 0 {
+                                // Update main content height when dynamic and not dragging
+                                self.dynamicMainContentHeight = mainGeometry.size.height
+                            }
+                        } else {
+                            // Reset main content height when not dynamic
+                            self.dynamicMainContentHeight = 0
+                        }
+                    }
                     .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
-                        if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            // Update main content height when dynamic and not dragging
-                            self.mainContentHeight = mainGeometry.size.height
+                        if self.bottomSheetPosition.isDynamic {
+                            if self.translation == 0 {
+                                // Update main content height when dynamic and not dragging
+                                self.dynamicMainContentHeight = mainGeometry.size.height
+                            }
+                        } else {
+                            // Reset main content height when not dynamic
+                            self.dynamicMainContentHeight = 0
                         }
                     }
                     .onReceive(Just(self.configuration.isResizable)) { _ in
-                        if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            // Update main content height when dynamic and not dragging
-                            self.mainContentHeight = mainGeometry.size.height
+                        if self.bottomSheetPosition.isDynamic {
+                            if self.translation == 0 {
+                                // Update main content height when dynamic and not dragging
+                                self.dynamicMainContentHeight = mainGeometry.size.height
+                            }
+                        } else {
+                            // Reset main content height when not dynamic
+                            self.dynamicMainContentHeight = 0
                         }
                     }
                     .onReceive(Just(self.mainContent)) { _ in
-                        if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            // Update main content height when dynamic and not dragging
-                            self.mainContentHeight = mainGeometry.size.height
+                        if self.bottomSheetPosition.isDynamic {
+                            if self.translation == 0 {
+                                // Update main content height when dynamic and not dragging
+                                self.dynamicMainContentHeight = mainGeometry.size.height
+                            }
+                        } else {
+                            // Reset main content height when not dynamic
+                            self.dynamicMainContentHeight = 0
                         }
                     }
             }
         )
-        .onReceive(Just(self.mainContentHeight)) { mainContentHeight in
-            print(mainContentHeight)
+        .onReceive(Just(self.dynamicMainContentHeight)) { dynamicMainContentHeight in
+            print(dynamicMainContentHeight)
         }
         // Align content correctly and make it use all available space to fix transition
         .frame(
