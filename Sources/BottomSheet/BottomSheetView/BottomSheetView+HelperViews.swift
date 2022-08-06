@@ -361,35 +361,35 @@ internal extension BottomSheetView {
                 Color.clear
                     .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { isAppleScrollBehaviorEnabled in
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            if isAppleScrollBehaviorEnabled {
-                                // Set content height to maxBottomSheetHeight when dynamic, not dragging and appleScrollBehavior
-                                self.mainContentHeight = self.maxBottomSheetHeight(with: geometry)
-                            } else {
+//                            if isAppleScrollBehaviorEnabled {
+//                                // Set content height to maxBottomSheetHeight when dynamic, not dragging and appleScrollBehavior
+//                                self.mainContentHeight = self.maxBottomSheetHeight(with: geometry)
+//                            } else {
                                 // Update content height when dynamic and not dragging
                                 self.mainContentHeight = mainGeometry.size.height
-                            }
+//                            }
                         }
                     }
                     .onReceive(Just(self.configuration.isResizable)) { _ in
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            if self.configuration.isAppleScrollBehaviorEnabled {
-                                // Set content height to maxBottomSheetHeight when dynamic, not dragging and appleScrollBehavior
-                                self.mainContentHeight = self.maxBottomSheetHeight(with: geometry)
-                            } else {
+//                            if self.configuration.isAppleScrollBehaviorEnabled {
+//                                // Set content height to maxBottomSheetHeight when dynamic, not dragging and appleScrollBehavior
+//                                self.mainContentHeight = self.maxBottomSheetHeight(with: geometry)
+//                            } else {
                                 // Update content height when dynamic and not dragging
                                 self.mainContentHeight = mainGeometry.size.height
-                            }
+//                            }
                         }
                     }
                     .onReceive(Just(self.mainContent)) { _ in
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            if self.configuration.isAppleScrollBehaviorEnabled {
-                                // Set content height to maxBottomSheetHeight when dynamic, not dragging and appleScrollBehavior
-                                self.mainContentHeight = self.maxBottomSheetHeight(with: geometry)
-                            } else {
+//                            if self.configuration.isAppleScrollBehaviorEnabled {
+//                                // Set content height to maxBottomSheetHeight when dynamic, not dragging and appleScrollBehavior
+//                                self.mainContentHeight = self.maxBottomSheetHeight(with: geometry)
+//                            } else {
                                 // Update content height when dynamic and not dragging
                                 self.mainContentHeight = mainGeometry.size.height
-                            }
+//                            }
                         }
                     }
             }
