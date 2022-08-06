@@ -268,7 +268,8 @@ internal extension BottomSheetView {
                     )
                 // Only add top padding if no drag indicator and header is a title
                     .padding(
-                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) && self.isTitleAsHeaderContent ? .top : []
+                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) &&
+                        self.isTitleAsHeaderContent ? .top : []
                     )
             }
             
@@ -284,7 +285,8 @@ internal extension BottomSheetView {
                     ])
                 // Only add top padding if no drag indicator
                     .padding(
-                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) || self.isIPadOrMac ? .top : []
+                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) ||
+                        self.isIPadOrMac ? .top : []
                     )
             }
         }
@@ -359,7 +361,7 @@ internal extension BottomSheetView {
         .background(
             GeometryReader { mainGeometry in
                 Color.clear
-                    .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { isAppleScrollBehaviorEnabled in
+                    .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
                             // Update content height when dynamic and not dragging
                             self.mainContentHeight = mainGeometry.size.height
