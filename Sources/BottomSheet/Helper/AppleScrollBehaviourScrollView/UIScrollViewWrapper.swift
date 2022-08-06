@@ -47,12 +47,15 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             
             let dims = viewController.scrollView.bounds.size.height
             print("dims: ",  dims)
-            let clampedY: CGFloat = min(
-                max(
-                    -value.translation.height,
-                     0
+            let clampedY: CGFloat = max(
+                min(
+                    max(
+                        -value.translation.height,
+                         0
+                    ),
+                    viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
                 ),
-                viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
+                0
             )
             print("clampedY: ",  clampedY)
             let sign: CGFloat = clampedY > -value.translation.height ? -1 : 1
