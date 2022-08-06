@@ -363,24 +363,27 @@ internal extension BottomSheetView {
                 Color.clear
                     .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            // Update content height when dynamic and not dragging
+                            // Update main content height when dynamic and not dragging
                             self.mainContentHeight = mainGeometry.size.height
                         }
                     }
                     .onReceive(Just(self.configuration.isResizable)) { _ in
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            // Update content height when dynamic and not dragging
+                            // Update main content height when dynamic and not dragging
                             self.mainContentHeight = mainGeometry.size.height
                         }
                     }
                     .onReceive(Just(self.mainContent)) { _ in
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            // Update content height when dynamic and not dragging
+                            // Update main content height when dynamic and not dragging
                             self.mainContentHeight = mainGeometry.size.height
                         }
                     }
             }
         )
+        .onReceive(Just(self.mainContentHeight)) { _ in
+            print(self.mainContentHeight)
+        }
         // Align content correctly and make it use all available space to fix transition
         .frame(
             maxHeight: self.maxMainContentHeight(with: geometry),
