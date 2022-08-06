@@ -268,7 +268,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
 
 internal class UIScrollViewViewController<Content: View>: UIViewController {
     
-    fileprivate var scrollView: UIScrollView
+    fileprivate let scrollView: UIScrollView
     fileprivate let hostingController: UIHostingController<Content>
     
     override func viewDidLoad() {
