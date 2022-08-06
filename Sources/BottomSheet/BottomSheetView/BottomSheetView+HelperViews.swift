@@ -361,10 +361,15 @@ internal extension BottomSheetView {
         .background(
             GeometryReader { mainGeometry in
                 Color.clear
-                    .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
+                    .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { isAppleScrollBehaviorEnabled in
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
-                            // Update content height when dynamic and not dragging
-                            self.mainContentHeight = mainGeometry.size.height
+                            if isAppleScrollBehaviorEnabled {
+                                // Set content height to infinity when dynamic, not dragging and appleScrollBehavior
+                                self.mainContentHeight = .infinity
+                            } else {
+                                // Update content height when dynamic and not dragging
+                                self.mainContentHeight = .infinity
+                            }
                         }
                     }
                     .onReceive(Just(self.configuration.isResizable)) { _ in
