@@ -46,12 +46,15 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             }
             
             let dims = viewController.scrollView.bounds.size.height
-            let clampedY: CGFloat = min(
-                max(
-                    -value.translation.height,
-                     0
+            let clampedY: CGFloat = max(
+                min(
+                    max(
+                        -value.translation.height,
+                         0
+                    ),
+                    viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
                 ),
-                abs(viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height)
+                0
             )
             let sign: CGFloat = clampedY > -value.translation.height ? -1 : 1
             let result: CGFloat = clampedY + sign * (
@@ -89,8 +92,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
     ) {
         if !(
             viewController.scrollView.contentOffset.y < 0 ||
-            viewController.scrollView.contentOffset.y > abs(
-                viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
+            viewController.scrollView.contentOffset.y > max(
+                viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height,
+                0
             )
         ) {
             self.startDeceleration(
@@ -143,12 +147,15 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         with velocityY: CGFloat,
         in viewController: UIScrollViewViewController<Content>
     ) {
-        let restOffsetY = min(
-            max(
-                viewController.scrollView.contentOffset.y,
-                0
+        let restOffsetY = max(
+            min(
+                max(
+                    viewController.scrollView.contentOffset.y,
+                    0
+                ),
+                viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
             ),
-            abs(viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height)
+            0
         )
         let displacementY = viewController.scrollView.contentOffset.y - restOffsetY
         let threshold = 0.5 / UIScreen.main.scale
