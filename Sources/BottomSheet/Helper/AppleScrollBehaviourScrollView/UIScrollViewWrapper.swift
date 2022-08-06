@@ -277,7 +277,11 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         // Add the UIScrollView
         self.view.addSubview(self.scrollView)
         
-        // Layout the UIScrollView
+        self.layout()
+    }
+    
+    // Layout the UIScrollView
+    fileprivate func layout() {
         NSLayoutConstraint.activate([
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
