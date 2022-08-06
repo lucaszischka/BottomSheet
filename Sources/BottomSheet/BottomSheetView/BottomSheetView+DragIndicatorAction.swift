@@ -20,7 +20,6 @@ internal extension BottomSheetView {
             let switchablePositions = self.getSwitchablePositions(with: geometry)
             
             // The height of the currentBottomSheetPosition; if nil main content height is used
-            // TODO: This value could be way to heigh when using dynamic and content is too large
             let currentHeight = self.currentBottomSheetHeight(with: geometry)
             
             switch self.bottomSheetPosition {

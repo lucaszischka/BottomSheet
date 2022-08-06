@@ -148,9 +148,9 @@ internal extension BottomSheetView {
             .onReceive(Just(self.bottomSheetPosition.isBottom)) { isBottom in
                 if isBottom {
                     // Main content is hidden, so the geometry reader can't update its height
-                    if let bottomPositionSpacerHeight = self.bottomPositionSpacerHeight {
-                        // It is `.dynamicBottom` so the height of the main content is the bottomPositionSpacerHeight
-                        self.dynamicMainContentHeight = bottomPositionSpacerHeight
+                    if self.bottomSheetPosition.isDynamic {
+                        // It is `.dynamicBottom` so the height of the main content is the bottomPositionSafeAreaHeight
+                        self.dynamicMainContentHeight = self.bottomPositionSafeAreaHeight
                     } else {
                         // Reset main content height when not dynamic but bottom
                         self.dynamicMainContentHeight = 0
@@ -171,9 +171,6 @@ internal extension BottomSheetView {
                     // But we can, because when it is hidden its height is 0
                     self.headerContentHeight = 0
                 }
-            }
-            .onReceive(Just(self.dynamicMainContentHeight)) { dynamicMainContentHeight in
-                print(dynamicMainContentHeight)
             }
             
             // Drag indicator on the bottom (iPad and Mac)
