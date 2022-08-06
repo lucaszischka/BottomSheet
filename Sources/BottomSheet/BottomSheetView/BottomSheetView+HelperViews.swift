@@ -368,7 +368,7 @@ internal extension BottomSheetView {
                                 self.mainContentHeight = .infinity
                             } else {
                                 // Update content height when dynamic and not dragging
-                                self.mainContentHeight = .infinity
+                                self.mainContentHeight = mainGeometry.size.height
                             }
                         }
                     }
