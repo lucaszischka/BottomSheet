@@ -95,20 +95,23 @@ internal extension BottomSheetView {
     
     // For iPad and Mac
     func maxMainContentHeight(with geometry: GeometryProxy) -> CGFloat? {
-        // The max height of the main content is the height of the BottomSheet
-        // without the header and drag indicator
-        let maxHeight = max(
-            self.height(with: geometry) - self.headerContentHeight - (
+        if self.bottomSheetPosition.isDynamic && self.mainContentHeight < max(
+            self.maxBottomSheetHeight(with: geometry) - self.translation - self.headerContentHeight - (
                 self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0
             ),
             0
-        )
-        
-        if self.bottomSheetPosition.isDynamic && self.mainContentHeight < maxHeight {
+        ) {
             // Let dynamic content take all space it wants, as long as it is smaller than the allowed height
             return nil
         } else {
-            return maxHeight
+            // The max height of the main content is the height of the BottomSheet
+            // without the header and drag indicator
+            return max(
+                self.height(with: geometry) - self.headerContentHeight - (
+                    self.configuration.isResizable && self.configuration.isDragIndicatorShown ? 20 : 0
+                ),
+                0
+            )
         }
     }
     
