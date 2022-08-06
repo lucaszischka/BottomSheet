@@ -394,12 +394,9 @@ internal extension BottomSheetView {
                     }
             }
         )
-        .onReceive(Just(self.mainContentHeight)){ _ in
-            print(self.mainContentHeight)
-        }
         // Align content correctly and make it use all available space to fix transition
         .frame(
-            maxHeight: self.maxMainContentHeight(with: geometry),
+            maxHeight: self.bottomSheetPosition.isDynamic ? nil : self.maxMainContentHeight(with: geometry),
             alignment: self.isIPadOrMac ? .bottom : .top
         )
         // Clip main content so that it doesn't go beneath the header content
