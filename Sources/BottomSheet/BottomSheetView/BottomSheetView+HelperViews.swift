@@ -364,8 +364,8 @@ internal extension BottomSheetView {
                     .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { isAppleScrollBehaviorEnabled in
                         if self.bottomSheetPosition.isDynamic && self.translation == 0 {
                             if isAppleScrollBehaviorEnabled {
-                                // Set content height to infinity when dynamic, not dragging and appleScrollBehavior
-                                self.mainContentHeight = .infinity
+                                // Set content height to maxBottomSheetHeight when dynamic, not dragging and appleScrollBehavior
+                                self.mainContentHeight = self.maxBottomSheetHeight(with: geometry)
                             } else {
                                 // Update content height when dynamic and not dragging
                                 self.mainContentHeight = mainGeometry.size.height
