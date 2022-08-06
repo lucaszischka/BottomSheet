@@ -46,6 +46,7 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             }
             
             let dims = viewController.scrollView.bounds.size.height
+            print("dims: ",  dims)
             let clampedY: CGFloat = min(
                 max(
                     -value.translation.height,
@@ -53,12 +54,16 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                 ),
                 viewController.scrollView.contentSize.height - viewController.scrollView.bounds.height
             )
+            print("clampedY: ",  clampedY)
             let sign: CGFloat = clampedY > -value.translation.height ? -1 : 1
+            print("sign: ",  sign)
             let result: CGFloat = clampedY + sign * (
                 (1.0 - (1.0 / (abs(-value.translation.height - clampedY) * 0.55 / dims + 1.0))) * dims
             )
+            print("result: ", result)
             
             viewController.scrollView.contentOffset.y = result
+            print("\n\n")
         case .ended(value: let value):
             DispatchQueue.main.async {
                 self.dragState = .none
@@ -69,10 +74,12 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
                     1000.0 * (1.0 - UIScrollView.DecelerationRate.normal.rawValue)
                 )
             )
+            print("velocity: Y", velocityY)
             self.completeGesture(
                 with: velocityY,
                 in: viewController
             )
+            print("\n\n")
         }
     }
     
@@ -275,6 +282,7 @@ internal class UIScrollViewViewController<Content: View>: UIViewController {
         // Create the UIScrollView
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.alwaysBounceVertical = true
         scrollView.backgroundColor = .clear
         self.scrollView = scrollView
         
