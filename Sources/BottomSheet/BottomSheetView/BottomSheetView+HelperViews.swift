@@ -348,6 +348,29 @@ internal extension BottomSheetView {
             } else {
                 // Main content
                 self.mainContent
+                    .background(
+                        GeometryReader { mainGeometry in
+                            Color.clear
+                                .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
+                                    if self.bottomSheetPosition.isDynamic && self.translation == 0 {
+                                        // Update content height when dynamic and not dragging
+                                        print(mainGeometry.size.height)
+                                    }
+                                }
+                                .onReceive(Just(self.configuration.isResizable)) { _ in
+                                    if self.bottomSheetPosition.isDynamic && self.translation == 0 {
+                                        // Update content height when dynamic and not dragging
+                                        print(mainGeometry.size.height)
+                                    }
+                                }
+                                .onReceive(Just(self.mainContent)) { _ in
+                                    if self.bottomSheetPosition.isDynamic && self.translation == 0 {
+                                        // Update content height when dynamic and not dragging
+                                        print(mainGeometry.size.height)
+                                    }
+                                }
+                        }
+                    )
                 // Make the main content drag-able if content drag is enabled
                     .gesture(
                         self.configuration.isContentDragEnabled && self.configuration.isResizable ?
