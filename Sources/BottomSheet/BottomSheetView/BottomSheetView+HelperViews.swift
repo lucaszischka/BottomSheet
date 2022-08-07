@@ -9,92 +9,6 @@ import SwiftUI
 import Combine
 
 internal extension BottomSheetView {
-    
-    // Gestures
-    
-    func dragGesture(with geometry: GeometryProxy) -> some Gesture {
-        DragGesture()
-            .onChanged { value in
-                // Perform custom onChanged action
-                self.configuration.onDragChanged(value)
-                
-                // Update translation; on iPad and Mac the drag direction is reversed
-                self.translation = self.isIPadOrMac ? -value.translation.height : value.translation.height
-                // Dismiss the keyboard on drag
-                self.endEditing()
-            }
-            .onEnded { value in
-                // Perform custom onEnded action
-                self.configuration.onDragEnded(value)
-                
-                // Switch the position based on the translation and screen height
-                self.dragPositionSwitch(
-                    with: geometry,
-                    value: value
-                )
-                
-                // Reset translation, because the dragging ended
-                self.translation = 0
-                // Dismiss the keyboard after drag
-                self.endEditing()
-            }
-    }
-    
-#if !os(macOS)
-    func appleScrollViewDragGesture(with geometry: GeometryProxy) -> some Gesture {
-        DragGesture()
-            .onChanged { value in
-                if self.bottomSheetPosition.isTop && value.translation.height < 0 {
-                    // Notify the ScrollView that the user is scrolling
-                    self.dragState = .changed(value: value)
-                    // Reset translation, because the user is scrolling
-                    self.translation = 0
-                } else {
-                    // Perform custom action from the user
-                    self.configuration.onDragChanged(value)
-                    
-                    // Notify the ScrollView that the user is dragging
-                    self.dragState = .none
-                    // Update translation; on iPad and Mac the drag direction is reversed
-                    self.translation = self.isIPadOrMac ? -value.translation.height : value.translation.height
-                }
-                
-                // Dismiss the keyboard on dragging/scrolling
-                self.endEditing()
-            }
-            .onEnded { value in
-                if value.translation.height < 0 && self.bottomSheetPosition.isTop {
-                    // Notify the ScrollView that the user ended scrolling via dragging
-                    self.dragState = .ended(value: value)
-                    
-                    // Reset translation, because the user ended scrolling via dragging
-                    self.translation = 0
-                    // Enable further interaction via the ScrollView directly
-                    self.isScrollEnabled = true
-                } else {
-                    // Perform custom action from the user
-                    self.configuration.onDragEnded(value)
-                    
-                    // Notify the ScrollView that the user is dragging
-                    self.dragState = .none
-                    // Switch the position based on the translation and screen height
-                    self.dragPositionSwitch(
-                        with: geometry,
-                        value: value
-                    )
-                    
-                    // Reset translation, because the dragging ended
-                    self.translation = 0
-                }
-                
-                // Dismiss the keyboard after dragging/scrolling
-                self.endEditing()
-            }
-    }
-#endif
-    
-    // Views
-    
     func fullScreenBackground(with geometry: GeometryProxy) -> some View {
         VisualEffectView(visualEffect: self.configuration.backgroundBlurMaterial)
             .opacity(
@@ -189,29 +103,7 @@ internal extension BottomSheetView {
         )
         // BottomSheet background
         .background(
-            Group {
-                // Use custom BottomSheet background
-                if let backgroundView = self.configuration.backgroundView {
-                    backgroundView
-                } else {
-                    // Default BottomSheet background
-                    VisualEffectView(visualEffect: .system)
-                    // Add corner radius to BottomSheet background
-                    // On iPhone only to the top corners,
-                    // on iPad and Mac to all corners
-                        .cornerRadius(
-                            10,
-                            corners: self.isIPadOrMac ? .allCorners : [
-                                .topRight,
-                                .topLeft
-                            ]
-                        )
-                }
-            }
-            // Make the background drag-able
-                .gesture(
-                    self.configuration.isResizable ? self.dragGesture(with: geometry) : nil
-                )
+            self.bottomSheetBackground(with: geometry)
         )
         // Clip BottomSheet for transition to work correctly for iPad and Mac
         .clipped()
@@ -228,6 +120,32 @@ internal extension BottomSheetView {
         .transition(.move(
             edge: self.isIPadOrMac ? .top : .bottom
         ))
+    }
+    
+    func bottomSheetBackground(with geometry: GeometryProxy) -> some View {
+        Group {
+            // Use custom BottomSheet background
+            if let backgroundView = self.configuration.backgroundView {
+                backgroundView
+            } else {
+                // Default BottomSheet background
+                VisualEffectView(visualEffect: .system)
+                // Add corner radius to BottomSheet background
+                // On iPhone only to the top corners,
+                // on iPad and Mac to all corners
+                    .cornerRadius(
+                        10,
+                        corners: self.isIPadOrMac ? .allCorners : [
+                            .topRight,
+                            .topLeft
+                        ]
+                    )
+            }
+        }
+        // Make the background drag-able
+        .gesture(
+            self.configuration.isResizable ? self.dragGesture(with: geometry) : nil
+        )
     }
     
     func dragIndicator(with geometry: GeometryProxy) -> some View {
@@ -301,27 +219,29 @@ internal extension BottomSheetView {
             }
         }
         // Get header content size
-        .background(
-            GeometryReader { headerGeometry in
-                Color.clear
-                    .onReceive(Just(self.headerContent)) { _ in
-                        self.headerContentHeight = headerGeometry.size.height
-                    }
-                    .onReceive(Just(self.configuration.isCloseButtonShown)) { _ in
-                        self.headerContentHeight = headerGeometry.size.height
-                    }
-                    .onReceive(Just(self.configuration.isDragIndicatorShown)) { _ in
-                        self.headerContentHeight = headerGeometry.size.height
-                    }
-                    .onReceive(Just(self.configuration.isResizable)) { _ in
-                        self.headerContentHeight = headerGeometry.size.height
-                    }
-            }
-        )
+        .background(self.headerGeometryReader)
         // Make the header drag-able
         .gesture(
             self.configuration.isResizable ? self.dragGesture(with: geometry) : nil
         )
+    }
+    
+    var headerGeometryReader: some View {
+        GeometryReader { headerGeometry in
+            Color.clear
+                .onReceive(Just(self.headerContent)) { _ in
+                    self.headerContentHeight = headerGeometry.size.height
+                }
+                .onReceive(Just(self.configuration.isCloseButtonShown)) { _ in
+                    self.headerContentHeight = headerGeometry.size.height
+                }
+                .onReceive(Just(self.configuration.isDragIndicatorShown)) { _ in
+                    self.headerContentHeight = headerGeometry.size.height
+                }
+                .onReceive(Just(self.configuration.isResizable)) { _ in
+                    self.headerContentHeight = headerGeometry.size.height
+                }
+        }
     }
     
     var closeButton: some View {
@@ -368,55 +288,7 @@ internal extension BottomSheetView {
             }
         }
         // Get dynamic main content size
-        .background(
-            GeometryReader { mainGeometry in
-                Color.clear
-                    .onReceive(Just(self.bottomSheetPosition.isDynamic)) { isDynamic in
-                        if isDynamic {
-                            if self.translation == 0 {
-                                // Update main content height when dynamic and not dragging
-                                self.dynamicMainContentHeight = mainGeometry.size.height
-                            }
-                        } else {
-                            // Reset main content height when not dynamic
-                            self.dynamicMainContentHeight = 0
-                        }
-                    }
-                    .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
-                        if self.bottomSheetPosition.isDynamic {
-                            if self.translation == 0 {
-                                // Update main content height when dynamic and not dragging
-                                self.dynamicMainContentHeight = mainGeometry.size.height
-                            }
-                        } else {
-                            // Reset main content height when not dynamic
-                            self.dynamicMainContentHeight = 0
-                        }
-                    }
-                    .onReceive(Just(self.configuration.isResizable)) { _ in
-                        if self.bottomSheetPosition.isDynamic {
-                            if self.translation == 0 {
-                                // Update main content height when dynamic and not dragging
-                                self.dynamicMainContentHeight = mainGeometry.size.height
-                            }
-                        } else {
-                            // Reset main content height when not dynamic
-                            self.dynamicMainContentHeight = 0
-                        }
-                    }
-                    .onReceive(Just(self.mainContent)) { _ in
-                        if self.bottomSheetPosition.isDynamic {
-                            if self.translation == 0 {
-                                // Update main content height when dynamic and not dragging
-                                self.dynamicMainContentHeight = mainGeometry.size.height
-                            }
-                        } else {
-                            // Reset main content height when not dynamic
-                            self.dynamicMainContentHeight = 0
-                        }
-                    }
-            }
-        )
+        .background(self.mainGeometryReader)
         // Align content correctly and make it use all available space to fix transition
         .frame(
             maxHeight: self.maxMainContentHeight(with: geometry),
@@ -433,6 +305,56 @@ internal extension BottomSheetView {
         .transition(.move(
             edge: self.isIPadOrMac ? .top : .bottom
         ))
+    }
+    
+    var mainGeometryReader: some View {
+        GeometryReader { mainGeometry in
+            Color.clear
+                .onReceive(Just(self.bottomSheetPosition.isDynamic)) { isDynamic in
+                    if isDynamic {
+                        if self.translation == 0 {
+                            // Update main content height when dynamic and not dragging
+                            self.dynamicMainContentHeight = mainGeometry.size.height
+                        }
+                    } else {
+                        // Reset main content height when not dynamic
+                        self.dynamicMainContentHeight = 0
+                    }
+                }
+                .onReceive(Just(self.configuration.isAppleScrollBehaviorEnabled)) { _ in
+                    if self.bottomSheetPosition.isDynamic {
+                        if self.translation == 0 {
+                            // Update main content height when dynamic and not dragging
+                            self.dynamicMainContentHeight = mainGeometry.size.height
+                        }
+                    } else {
+                        // Reset main content height when not dynamic
+                        self.dynamicMainContentHeight = 0
+                    }
+                }
+                .onReceive(Just(self.configuration.isResizable)) { _ in
+                    if self.bottomSheetPosition.isDynamic {
+                        if self.translation == 0 {
+                            // Update main content height when dynamic and not dragging
+                            self.dynamicMainContentHeight = mainGeometry.size.height
+                        }
+                    } else {
+                        // Reset main content height when not dynamic
+                        self.dynamicMainContentHeight = 0
+                    }
+                }
+                .onReceive(Just(self.mainContent)) { _ in
+                    if self.bottomSheetPosition.isDynamic {
+                        if self.translation == 0 {
+                            // Update main content height when dynamic and not dragging
+                            self.dynamicMainContentHeight = mainGeometry.size.height
+                        }
+                    } else {
+                        // Reset main content height when not dynamic
+                        self.dynamicMainContentHeight = 0
+                    }
+                }
+        }
     }
     
 #if !os(macOS)

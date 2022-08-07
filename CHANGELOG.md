@@ -7,9 +7,9 @@ BottomSheet Changelog
 - Added iPad support
 - Added MacOS support
 - Changed from options to view modifiers
-- Cleaned up the code (swiftLint and spliting it up)
+- Cleaned up the code (swiftLint and splitting it up)
 - Added dynamic size support
-- Added onDissmis modifier
+- Added onDismiss modifier
 - Added dragIndicatorAction modifier
 - Added dragPositionSwitchAction modifier
 - Added dragGesture listener
@@ -28,7 +28,7 @@ BottomSheet Changelog
 
 #### v2.6.0
 - Fix critical bug with `.appleScrollBehavior` #40
-- Update codestyle
+- Update code-style
 - Remove not used file
 - Update Readme
 - Renamed tapToDissmiss option tapToDismiss #43

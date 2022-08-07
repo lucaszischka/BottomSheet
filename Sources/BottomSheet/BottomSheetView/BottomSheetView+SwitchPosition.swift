@@ -83,6 +83,7 @@ internal extension BottomSheetView {
         }
     }
     
+    // swiftlint:disable cyclomatic_complexity
     private func switchToHighestPosition(
         switchablePositions: [(
             height: CGFloat,
@@ -174,6 +175,7 @@ internal extension BottomSheetView {
             }
         }
     }
+    // swiftlint:enable cyclomatic_complexity
     
     private func switchPositionWithoutFlickThrough(
         with height: CGFloat,

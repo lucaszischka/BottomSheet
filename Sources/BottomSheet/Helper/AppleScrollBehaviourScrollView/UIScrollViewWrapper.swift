@@ -116,7 +116,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
         let initialValueY: CGFloat = viewController.scrollView.contentOffset.y
         let decelerationRate: CGFloat = UIScrollView.DecelerationRate.normal.rawValue
         let dCoeff = 1000 * log(decelerationRate)
-        let duration: TimeInterval = velocityY == 0 ? 0 : TimeInterval(log(-dCoeff * 0.5 / abs(velocityY)) / dCoeff) / 10
+        let duration: TimeInterval = velocityY == 0 ? 0 : TimeInterval(
+            log(-dCoeff * 0.5 / abs(velocityY)) / dCoeff
+        ) / 10
         
         DispatchQueue.main.async {
             self.contentOffsetAnimation = TimerAnimation(
@@ -180,7 +182,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             self.contentOffsetAnimation = TimerAnimation(
                 duration: duration,
                 animations: { _, time in
-                    viewController.scrollView.contentOffset.y = restOffsetY + (exp(-10 * time) * (displacementY + (velocityY + 10 * displacementY) * time))
+                    viewController.scrollView.contentOffset.y = restOffsetY + (
+                        exp(-10 * time) * (displacementY + (velocityY + 10 * displacementY) * time)
+                    )
                 }
             )
         }

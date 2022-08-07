@@ -30,6 +30,7 @@ private struct RoundedCorner: Shape {
     var radius: CGFloat = .zero
     var corners: UIRectCorner = .allCorners
     
+    // swiftlint:disable function_body_length
     func path(in rect: CGRect) -> Path {
         var path = Path()
         
@@ -106,6 +107,7 @@ private struct RoundedCorner: Shape {
         
         return path
     }
+    // swiftlint:enable function_body_length
 }
 #else
 private struct RoundedCorner: Shape {
