@@ -41,51 +41,8 @@ internal extension BottomSheetView {
                 self.dragIndicator( with: geometry)
             }
             
-            // Add ZStack to pin header content and make main content transition correctly for iPad and Mac
-            ZStack(alignment: .top) {
-                // BottomSheet main content
-                if self.bottomSheetPosition.isBottom {
-                    // In a bottom position the main content is hidden - add a Spacer to fill the height
-                    Spacer(minLength: 0)
-                        .frame(height: self.bottomPositionSpacerHeight)
-                } else {
-                    // BottomSheet main content
-                    self.main(with: geometry)
-                }
-                
-                // BottomSheet header content
-                if self.headerContent != nil || self.configuration.isCloseButtonShown {
-                    self.header(with: geometry)
-                }
-            }
-            // Reset dynamic main content height if it is hidden
-            .onReceive(Just(self.bottomSheetPosition.isBottom)) { isBottom in
-                if isBottom {
-                    // Main content is hidden, so the geometry reader can't update its height
-                    if self.bottomSheetPosition.isDynamic {
-                        // It is `.dynamicBottom` so the height of the main content is the bottomPositionSafeAreaHeight
-                        self.dynamicMainContentHeight = self.bottomPositionSafeAreaHeight
-                    } else {
-                        // Reset main content height when not dynamic but bottom
-                        self.dynamicMainContentHeight = 0
-                    }
-                }
-            }
-            // Reset header content height if it is hidden
-            .onReceive(Just(self.configuration.isCloseButtonShown)) { isCloseButtonShown in
-                if self.headerContent == nil && !isCloseButtonShown {
-                    // Header content is hidden, so the geometry reader can't update its height
-                    // But we can, because when it is hidden its height is 0
-                    self.headerContentHeight = 0
-                }
-            }
-            .onReceive(Just(self.headerContent)) { headerContent in
-                if headerContent == nil && !self.configuration.isCloseButtonShown {
-                    // Header content is hidden, so the geometry reader can't update its height
-                    // But we can, because when it is hidden its height is 0
-                    self.headerContentHeight = 0
-                }
-            }
+            // The header an main content
+            self.bottomSheetContent(with: geometry)
             
             // Drag indicator on the bottom (iPad and Mac)
             if self.configuration.isResizable && self.configuration.isDragIndicatorShown && self.isIPadOrMac {
@@ -122,32 +79,6 @@ internal extension BottomSheetView {
         ))
     }
     
-    func bottomSheetBackground(with geometry: GeometryProxy) -> some View {
-        Group {
-            // Use custom BottomSheet background
-            if let backgroundView = self.configuration.backgroundView {
-                backgroundView
-            } else {
-                // Default BottomSheet background
-                VisualEffectView(visualEffect: .system)
-                // Add corner radius to BottomSheet background
-                // On iPhone only to the top corners,
-                // on iPad and Mac to all corners
-                    .cornerRadius(
-                        10,
-                        corners: self.isIPadOrMac ? .allCorners : [
-                            .topRight,
-                            .topLeft
-                        ]
-                    )
-            }
-        }
-        // Make the background drag-able
-        .gesture(
-            self.configuration.isResizable ? self.dragGesture(with: geometry) : nil
-        )
-    }
-    
     func dragIndicator(with geometry: GeometryProxy) -> some View {
         Button(
             action: {
@@ -178,88 +109,52 @@ internal extension BottomSheetView {
             .buttonStyle(.borderless)
     }
     
-    func header(with geometry: GeometryProxy) -> some View {
-        HStack(
-            alignment: .top,
-            spacing: 0
-        ) {
-            // Header content
-            if let headerContent = self.headerContent {
-                headerContent
-                // Add Padding when header is a title
-                    .padding(
-                        self.isTitleAsHeaderContent ? [
-                            .leading,
-                            .trailing,
-                            .bottom
-                        ] : []
-                    )
-                // Only add top padding if no drag indicator and header is a title
-                    .padding(
-                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) &&
-                        self.isTitleAsHeaderContent ? .top : []
-                    )
+    func bottomSheetContent(with geometry: GeometryProxy) -> some View {
+        // Add ZStack to pin header content and make main content transition correctly for iPad and Mac
+        ZStack(alignment: .top) {
+            // BottomSheet main content
+            if self.bottomSheetPosition.isBottom {
+                // In a bottom position the main content is hidden - add a Spacer to fill the height
+                Spacer(minLength: 0)
+                    .frame(height: self.bottomPositionSpacerHeight)
+            } else {
+                // BottomSheet main content
+                self.main(with: geometry)
             }
             
-            Spacer(minLength: 0)
-            
-            // Close button
-            if self.configuration.isCloseButtonShown {
-                self.closeButton
-                // Add padding to close button
-                    .padding([
-                        .trailing,
-                        .bottom
-                    ])
-                // Only add top padding if no drag indicator
-                    .padding(
-                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) ||
-                        self.isIPadOrMac ? .top : []
-                    )
+            // BottomSheet header content
+            if self.headerContent != nil || self.configuration.isCloseButtonShown {
+                self.header(with: geometry)
             }
         }
-        // Get header content size
-        .background(self.headerGeometryReader)
-        // Make the header drag-able
-        .gesture(
-            self.configuration.isResizable ? self.dragGesture(with: geometry) : nil
-        )
-    }
-    
-    var headerGeometryReader: some View {
-        GeometryReader { headerGeometry in
-            Color.clear
-                .onReceive(Just(self.headerContent)) { _ in
-                    self.headerContentHeight = headerGeometry.size.height
+        // Reset dynamic main content height if it is hidden
+        .onReceive(Just(self.bottomSheetPosition.isBottom)) { isBottom in
+            if isBottom {
+                // Main content is hidden, so the geometry reader can't update its height
+                if self.bottomSheetPosition.isDynamic {
+                    // It is `.dynamicBottom` so the height of the main content is the bottomPositionSafeAreaHeight
+                    self.dynamicMainContentHeight = self.bottomPositionSafeAreaHeight
+                } else {
+                    // Reset main content height when not dynamic but bottom
+                    self.dynamicMainContentHeight = 0
                 }
-                .onReceive(Just(self.configuration.isCloseButtonShown)) { _ in
-                    self.headerContentHeight = headerGeometry.size.height
-                }
-                .onReceive(Just(self.configuration.isDragIndicatorShown)) { _ in
-                    self.headerContentHeight = headerGeometry.size.height
-                }
-                .onReceive(Just(self.configuration.isResizable)) { _ in
-                    self.headerContentHeight = headerGeometry.size.height
-                }
+            }
         }
-    }
-    
-    var closeButton: some View {
-        Button(action: self.closeSheet) {
-            Image(
-                "xmark.circle.fill",
-                bundle: Bundle.module
-            )
-            // Design of the close button
-                .resizable()
-                .scaledToFit()
-                .frame(
-                    width: 30,
-                    height: 30
-                )
+        // Reset header content height if it is hidden
+        .onReceive(Just(self.configuration.isCloseButtonShown)) { isCloseButtonShown in
+            if self.headerContent == nil && !isCloseButtonShown {
+                // Header content is hidden, so the geometry reader can't update its height
+                // But we can, because when it is hidden its height is 0
+                self.headerContentHeight = 0
+            }
         }
-        // Make it borderless for Mac
-        .buttonStyle(.borderless)
+        .onReceive(Just(self.headerContent)) { headerContent in
+            if headerContent == nil && !self.configuration.isCloseButtonShown {
+                // Header content is hidden, so the geometry reader can't update its height
+                // But we can, because when it is hidden its height is 0
+                self.headerContentHeight = 0
+            }
+        }
     }
     
     func main(with geometry: GeometryProxy) -> some View {
@@ -371,4 +266,114 @@ internal extension BottomSheetView {
         )
     }
 #endif
+    
+    func header(with geometry: GeometryProxy) -> some View {
+        HStack(
+            alignment: .top,
+            spacing: 0
+        ) {
+            // Header content
+            if let headerContent = self.headerContent {
+                headerContent
+                // Add Padding when header is a title
+                    .padding(
+                        self.isTitleAsHeaderContent ? [
+                            .leading,
+                            .trailing,
+                            .bottom
+                        ] : []
+                    )
+                // Only add top padding if no drag indicator and header is a title
+                    .padding(
+                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) &&
+                        self.isTitleAsHeaderContent ? .top : []
+                    )
+            }
+            
+            Spacer(minLength: 0)
+            
+            // Close button
+            if self.configuration.isCloseButtonShown {
+                self.closeButton
+                // Add padding to close button
+                    .padding([
+                        .trailing,
+                        .bottom
+                    ])
+                // Only add top padding if no drag indicator
+                    .padding(
+                        (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) ||
+                        self.isIPadOrMac ? .top : []
+                    )
+            }
+        }
+        // Get header content size
+        .background(self.headerGeometryReader)
+        // Make the header drag-able
+        .gesture(
+            self.configuration.isResizable ? self.dragGesture(with: geometry) : nil
+        )
+    }
+    
+    var closeButton: some View {
+        Button(action: self.closeSheet) {
+            Image(
+                "xmark.circle.fill",
+                bundle: Bundle.module
+            )
+            // Design of the close button
+                .resizable()
+                .scaledToFit()
+                .frame(
+                    width: 30,
+                    height: 30
+                )
+        }
+        // Make it borderless for Mac
+        .buttonStyle(.borderless)
+    }
+    
+    var headerGeometryReader: some View {
+        GeometryReader { headerGeometry in
+            Color.clear
+                .onReceive(Just(self.headerContent)) { _ in
+                    self.headerContentHeight = headerGeometry.size.height
+                }
+                .onReceive(Just(self.configuration.isCloseButtonShown)) { _ in
+                    self.headerContentHeight = headerGeometry.size.height
+                }
+                .onReceive(Just(self.configuration.isDragIndicatorShown)) { _ in
+                    self.headerContentHeight = headerGeometry.size.height
+                }
+                .onReceive(Just(self.configuration.isResizable)) { _ in
+                    self.headerContentHeight = headerGeometry.size.height
+                }
+        }
+    }
+    
+    func bottomSheetBackground(with geometry: GeometryProxy) -> some View {
+        Group {
+            // Use custom BottomSheet background
+            if let backgroundView = self.configuration.backgroundView {
+                backgroundView
+            } else {
+                // Default BottomSheet background
+                VisualEffectView(visualEffect: .system)
+                // Add corner radius to BottomSheet background
+                // On iPhone only to the top corners,
+                // on iPad and Mac to all corners
+                    .cornerRadius(
+                        10,
+                        corners: self.isIPadOrMac ? .allCorners : [
+                            .topRight,
+                            .topLeft
+                        ]
+                    )
+            }
+        }
+        // Make the background drag-able
+        .gesture(
+            self.configuration.isResizable ? self.dragGesture(with: geometry) : nil
+        )
+    }
 }

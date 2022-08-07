@@ -5,7 +5,7 @@
 //  Copyright © 2022 Lucas Zischka. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
 internal extension BottomSheetView {
     func dragGesture(with geometry: GeometryProxy) -> some Gesture {
