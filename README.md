@@ -36,7 +36,7 @@ There are also many implementations out there that **only have 2 states** - **no
 
 ## Requirements 
 
-- iOS 13
+- iOS 13, macCatalyst 13, macOS 10.15
 - Swift 5.5
 - Xcode 12
 
@@ -499,6 +499,10 @@ struct ArtistSongsView: View {
 }
 ```
 </details>
+
+## Test project
+A project to test the BottomSheet can be found [here](https://github.com/lucaszischka/BottomSheetTests).
+This project is used by me to test new features and to reproduce bugs, but can also be used very well as a demo project.
 
 ## Contributing
 
