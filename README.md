@@ -9,28 +9,35 @@
 
 A sliding sheet from the bottom of the screen with custom states build with SwiftUI.
 
+# Version 3 is out now!
+Please look [here](https://github.com/lucaszischka/BottomSheet/pull/79) and read the README for more information on the changes.
+
 ## Why
 
 There have been many different attempts to recreate the BottomSheet from Apple Maps, Shortcuts and Apple Music, because Apple unfortunately does not provide it in their SDK.
+(*Update: It was more or less added in iOS 16*)
 
-However, all previous attempts share a common problem: The **height does not change** in the different states. Thus, the BottomSheet is always the same size (e.g. 800px) and thus remains 800px, even if you only see e.g. 400px - the rest is **inaccessible** unless you pull the BottomSheet up to the very top.
+However, most previous attempts share a common problem: The **height does not change** in the different states. Thus, the BottomSheet is always the same size (e.g. 800px) and thus remains 800px, even if you only see e.g. 400px - the rest is **inaccessible** unless you pull the BottomSheet up to the very top.
 
 There are also many implementations out there that **only have 2 states** - **not 3** like e.g. Apple Maps.
 
 ### Features
-- Dynamic height (works with `ScrollView` and **every** other view)
-- Fully customizable States (**any number of states at any height**)
-- Many options for **customization** (backgroundBlur, tapToDismiss, swipeToDismiss, etc.)
 - Very **easy to use**
+- Build in **header/title** (see [Parameters](#Parameters))
+- Many view modifiers for **customisation** (see [Modifiers](#Modifiers))
+- Fully customisable States (**any number of states at any height**) (see [BottomSheetPosition](#BottomSheetPosition))
+- States can have the height of their content, absolute pixel values or percentages of the screen height (see [BottomSheetPosition](#BottomSheetPosition))
 - Support for **SearchBar** in the header
-- Flick through feature
-- Same behavior as Apple for the `.bottom` position
-- Beatuiful customizable **animations**
+- It works with `ScrollView`, `List` and **every** other view
+- Can hide the content when in `...Bottom` position like Apple does
+- Imbedded `.appleScrollBehaviour()` modifier, to replicate Apple's ScrollView behaviour
+- Completely animated
+- And much more...
 
 ## Requirements 
 
-- iOS 13
-- Swift 5.1
+- iOS 13, macCatalyst 13, macOS 10.15
+- Swift 5.5
 - Xcode 12
 
 ## Installation
@@ -41,10 +48,10 @@ The preferred way of installing BottomSheet is via the [Swift Package Manager](h
 
 >Xcode 11 integrates with libSwiftPM to provide support for iOS, watchOS, and tvOS platforms.
 
-1. In Xcode, open your project and navigate to **File** → **Swift Packages** → **Add Package Dependency...**
+1. In Xcode, open your project and navigate to **File** → **Add Packages**
 2. Paste the repository URL (`https://github.com/lucaszischka/BottomSheet`) and click **Next**.
-3. For **Rules**, select **Branch** (with branch set to `main`).
-4. Click **Finish**.
+3. For **Rules**, select **Up to Next Major Version**.
+4. Click **Add Package**.
 
 ### CocoaPods
 
@@ -54,10 +61,12 @@ BottomSheet is available through [CocoaPods](https://cocoapods.org). To install 
 pod 'BottomSheetSwiftUI'
 ```
 
+Now run `pod install` in the Terminal to install this dependency. 
+
 ## Usage
 
 **WARNING:**
-This is Sample Code for visualisation where and how to use, without a working initializer. Please see [Examples](#examples) for working code.
+This is Sample Code for visualisation where and how to use, without a working initializer. Please see [Examples](#Examples) for working code.
 
 BottomSheet is similar to the built-in Sheet:
 
@@ -75,11 +84,11 @@ struct ContentView: View {
 ```
 
 `//1` The current State of the BottomSheet.
-- This is any `enum` that conforms to `CGFloat`, `CaseIterable` and `Equatable`. For more information about custom enums see [Custom States](#custom-states).
-- The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
-- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
+- For more information about the possible positions see [BottomSheetPosition](#BottomSheetPosition).
+- If you don't want the BottomSheet to be drag-able and the state to be switchable, you can use the `.isResizable(false)` modifier.
 
 `//2` The view which the BottomSheet overlays.
+- **Important:** If you want to overlay a `TabBar` or a `NavigationView`, you need to add the BottomSheet on a higher level.
 
 `//3` This is how you add the BottomSheet - easy right?
 
@@ -90,22 +99,22 @@ struct ContentView: View {
 ```swift
 .bottomSheet(
     bottomSheetPosition: Binding<BottomSheetPosition>,
-    options: [BottomSheet.Options] = [],
-    title: String? = nil,
-    @ViewBuilder content: () -> mContent
+    switchablePositions: [BottomSheetPosition],
+    title: String?,
+    content: () -> MContent
 )
 ```
 
-`bottomSheetPosition`: A binding that saves the current state of the BottomSheet.
-- This can be any `enum` that conforms to `CGFloat`, `CaseIterable` and `Equatable`. For more information about custom enums see [Custom States](#custom-states).
-- The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
-- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
+`bottomSheetPosition`: A binding that holds the current position/state of the BottomSheet.
+- If you don't want the BottomSheet to be drag-able and the state to be switchable, you can use the `.isResizable(false)` modifier.
+- For more information about the possible positions see [BottomSheetPosition](#BottomSheetPosition).
 
-`options`: An array that contains the settings / options for the BottomSheet. For more information about the possible options see [Options](#options).
+`switchablePositions`: An array that contains the positions/states of the BottomSheet.
+- Only the positions/states contained in the array can be switched into (via tapping the drag indicator or swiping the BottomSheet).
+- For more information about the possible positions see [BottomSheetPosition](#BottomSheetPosition).
 
-`title`: A string that is used as the title for the BottomSheet.
-- Can be `nil`.
-- You can use a view that is used as header content for the BottomSheet instead.
+`title`: A `String` that is displayed as title.
+- You can use a view that is used as header content instead.
 
 `content`: A view that is used as main content for the BottomSheet.
 
@@ -114,98 +123,157 @@ struct ContentView: View {
 ```swift
 .bottomSheet(
     bottomSheetPosition: Binding<BottomSheetPosition>,
-    options: [BottomSheet.Options] = [],
-    @ViewBuilder headerContent: () -> hContent?,
-    @ViewBuilder mainContent: () -> mContent
+    switchablePositions: [BottomSheetPosition],
+    headerContent: () -> HContent?,
+    mainContent: () -> MContent
 )
 ```
 
-`bottomSheetPosition`: A binding that saves the current state of the BottomSheet.
-- This can be any `enum` that conforms to `CGFloat`, `CaseIterable` and `Equatable`. For more information about custom enums see [Custom States](#custom-states).
-- The following states are posible when using the predefinded `BottomSheetPosition`: `.hidden`, `.bottom`, `.middle` and `.top`.
-- If you don't want the state to be changed, you can use `.constant(.middle)` for example (should be used with the `.notResizeable` or `.noDragIndicator` option).
+`bottomSheetPosition`: A binding that holds the current position/state of the BottomSheet.
+- If you don't want the BottomSheet to be drag-able and the state to be switchable, you can use the `.isResizable(false)` modifier.
+- For more information about the possible positions see [BottomSheetPosition](#BottomSheetPosition).
 
-`options`: An array that contains the settings / options for the BottomSheet. For more information about the possible options see [Options](#options).
+`switchablePositions`: An array that contains the positions/states of the BottomSheet.
+- Only the positions/states contained in the array can be switched into (via tapping the drag indicator or swiping the BottomSheet).
+- For more information about the possible positions see [BottomSheetPosition](#BottomSheetPosition).
 
 `headerContent`: A view that is used as header content for the BottomSheet.
-- Can be `nil`.
-- You can use a string that is used as the title for the BottomSheet instead.
-- Any view is possible - this can lead to problems if the view is too large. A label, a small picture or text is recommended
+- You can use a `String` that is displayed as title instead.
 
 `mainContent`: A view that is used as main content for the BottomSheet.
 
-### Options
+## Modifiers
 
-`.absolutePositionValue` Allows absolute values in pixels to be used as BottomSheetPosition values.
+The ViewModifiers are used to customise the look and feel of the BottomSheet.
 
-`.allowContentDrag` Allows the BottomSheet to move when dragging the mainContent.
+`.enableAppleScrollBehavior(Bool)`: Packs the mainContent into a ScrollView.
+- Behaviour on the iPhone:
+  - The ScrollView is only enabled (scrollable) when the BottomSheet is in a `...Top` position.
+  - If the offset of the ScrollView becomes less than or equal to 0, the BottomSheet is pulled down instead of scrolling.
+  - In every other position the BottomSheet will be dragged instead
+- This behaviour is not active on Mac and iPad, because it would not make sense there.
+- Please note, that this feature has sometimes weird flickering, when the content of the ScrollView is smaller than itself. If you have experience with UIKit and UIScrollViews, you are welcome to open a pull request to fix this.
 
-- Do not use if the mainContent is packed into a ScrollView.
+`.enableBackgroundBlur(Bool)`: Adds a fullscreen blur layer below the BottomSheet.
+- The opacity of the layer is proportional to the height of the BottomSheet.
+- The material can be changed using the `.backgroundBlurMaterial()` modifier.
+    
+`.backgroundBlurMaterial(VisualEffect)`: Changes the material of the blur layer.
+- Changing the material does not affect whether the blur layer is shown.
+- To toggle the blur layer please use the `.enableBackgroundBlur()` modifier.
 
-`.animation(Animation)` Sets the animation for the BottomSheet.
+`.showCloseButton(Bool)`: Adds a close button to the headerContent on the trailing side.
+- To perform a custom action when the BottomSheet is closed (not only via the close button), please use the `.onDismiss()` option.
 
-`.appleScrollBehavior` The mainView is packed into a ScrollView, which can only scrolled at the .top position.
+`.enableContentDrag(Bool)`: Makes it possible to resize the BottomSheet by dragging the mainContent.
+- Due to imitations in the SwiftUI framework, this option has no effect or even makes the BottomSheet glitch if the mainContent is packed into a ScrollView or a List.
 
-`.background(() -> AnyView)` Changes the background of the BottomSheet.
-- Must be erased to AnyView.
+`.customAnimation(Animation?)`: Applies the given animation to the BottomSheet when any value changes.
 
-`.backgroundBlur(UIBlurEffect.Style = .systemThinMaterial)` Enables and sets the blur effect of the background when pulling up the BottomSheet.
+`.customBackground(...)`: Changes the background of the BottomSheet.
+- This works exactly like the native SwiftUI `.background(...)` modifier.
 
-`.cornerRadius(Double)` Changes the corener radius of the BottomSheet.
+`.onDragChanged((DragGesture.Value) -> Void)`: Adds an action to perform when the gesture’s value changes.
 
-`.disableBottomSafeAreaInsets` Disables the bottom safeAreaInsets.
+`.onDragEnded((DragGesture.Value))`: Adds an action to perform when the gesture ends.
 
-`.disableFlickThrough` Disables the flick through feature.
+`.dragPositionSwitchAction((GeometryProxy, DragGesture.Value) -> Void)`: Replaces the action that will be performed when the user drags the sheet down.
+- The `GeometryProxy` and `DragGesture.Value` parameter can be used for calculations.
+- You need to switch the positions, account for the reversed drag direction on iPad and Mac and dismiss the keyboard yourself.
+- Also the `swipeToDismiss` and `flickThrough` features are triggered via this method. By replacing it, you will need to handle both yourself.
+- The `GeometryProxy`'s height contains the bottom safe area inserts on iPhone.
+- The `GeometryProxy`'s height contains the top safe area inserts on iPad and Mac.
 
-`.dragIndicatorColor(Color)` Changes the color of the drag indicator.
+`.showDragIndicator(Bool)`: Adds a drag indicator to the BottomSheet.
+- On iPhone it is centered above the headerContent.
+- On Mac and iPad it is centered above the mainContent,
+- To change the color of the drag indicator please use the `.dragIndicatorColor()` modifier.
+    
+`.dragIndicatorColor(Color)`: Changes the color of the drag indicator.
+- Changing the color does not affect whether the drag indicator is shown.
+- To toggle the drag indicator please use the `.showDragIndicator()` modifier.
 
- `.noBottomPosition` Prevents the lowest value (above 0) from being the bottom position and hiding the mainContent.
- 
- `.noDragIndicator` Hides the drag indicator.
- 
- `.notResizeable` Hides the drag indicator and prevents the BottomSheet from being dragged.
- 
- `.shadow(color: Color = Color(.sRGBLinear, white: 0, opacity: 0.33), radius: CGFloat = 10, x: CGFloat = 0, y: CGFloat = 0)` Adds a shadow to the background of the BottomSheet.
- 
- `.showCloseButton(action: () -> Void = {})` Shows a close button and declares an action to be performed when tapped.
- 
- - If you tap on it, the BottomSheet and the keyboard always get dismissed.
- 
- - If you want to do something extra, you have to declare it here.
- 
- `.swipeToDismiss` Dismisses the BottomSheet when swiped down.
- 
- `.tapToDismiss` Dismisses the BottomSheet when the background is tapped.
+`.dragIndicatorAction((GeometryProxy) -> Void)`: Replaces the action that will be performed when the drag indicator is tapped.
+- The `GeometryProxy` parameter can be used for calculations.
+- You need to switch the positions and dismiss the keyboard yourself.
+- The `GeometryProxy`'s height contains the bottom safe area inserts on iPhone.
+- The `GeometryProxy`'s height contains the top safe area inserts on iPad and Mac.
 
-## Custom States
+`.enableFlickThrough(Bool)`: Makes it possible to switch directly to the top or bottom position by long swiping.
 
-You can create your own custom BottomSheetPosition enum:
-   - The enum must be conforming to `CGFloat`, `CaseIterable` and `Equatable`
-   - The enum and case names doesnt matter
-   - The case/state with `rawValue == 0` is hiding the BottomSheet
-   - The value can be anythig between `0` and `1` (`x <= 1`, `x >= 0`) or anything above `0` (`x >= 0`) when using the`.absolutePositionValue` option
-   - The value is the height of the BottomSheet propotional to the screen height (`1 == 100% == full screen`) or the height of the BottomSheet in pixel (`1 == 1px`) when using the`.absolutePositionValue` option
-   - The lowest value (greater than 0) automaticly gets the `.bottom` behavior. To prevent this please use the option `.noBottomPosition`
+`.onDismiss(() -> Void)`: A action that will be performed when the BottomSheet is dismissed.
+-  Please note that when you dismiss the BottomSheet yourself, by setting the bottomSheetPosition to .hidden, the action will not be called.
 
-This BottomSheetPosition is provided and uses relative values:
+`.isResizable(Bool)`: Makes it possible to resize the BottomSheet.
+- When disabled the drag indicator disappears.
+
+`.enableSwipeToDismiss(Bool)`: Makes it possible to dismiss the BottomSheet by long swiping.
+
+`.enableTapToDismiss(Bool)`: Makes it possible to dismiss the BottomSheet by tapping somewhere else.
+
+
+## BottomSheetPosition
+
+The `BottomSheetPosition` enum holds all states you can switch into.
+There are 3 mayor types:
+- `.dynamic...`, where the height of the BottomSheet is equal to its content height
+- `.relative...`, where the height of the BottomSheet is a percentage of the screen height
+- `.absolute...`, where the height of the BottomSheet is a pixel value
+
+You can combine those types as much as you want.
+You can also use multiple instances of one case (for example `.relative(0.4)` and `.relative(0.6)`).
+
+The positions/states in detail:
 ```swift
-public enum BottomSheetPosition: CGFloat, CaseIterable {
-    case top = 0.975, middle = 0.4, bottom = 0.125, hidden = 0
-}
-```
+/// The state where the BottomSheet is hidden.
+case hidden
 
-This BottomSheetPositionAbsolute is provided and uses absolute values and requires the the`.absolutePositionValue` option:
-```swift
-public enum BottomSheetPositionAbsolute: CGFloat, CaseIterable {
-    case top = 750, middle = 300, bottom = 100, hidden = 0
-}
-```
+/// The state where only the headerContent is visible.
+case dynamicBottom
 
-This CustomBottomSheetPosition is an example for a custom BottomSheetPosition with relative values:
-```swift
-public enum CustomBottomSheetPosition: CGFloat, CaseIterable {
-    case middle = 0.5, hidden = 0
-}
+/// The state where the height of the BottomSheet is equal to its content size.
+/// Only makes sense for views that don't take all available space (like ScrollVIew, Color, ...).
+case dynamic
+
+/// The state where the height of the BottomSheet is equal to its content size.
+/// It functions as top position for appleScrollBehaviour,
+/// although it doesn't make much sense to use it with dynamic.
+/// Only makes sense for views that don't take all available space (like ScrollVIew, Color, ...).
+case dynamicTop
+
+/// The state where only the headerContent is visible.
+/// The height of the BottomSheet is x%.
+/// Only values between 0 and 1 make sense.
+/// Instead of 0 please use `.hidden`.
+case relativeBottom(CGFloat)
+
+/// The state where the height of the BottomSheet is equal to x%.
+/// Only values between 0 and 1 make sense.
+/// Instead of 0 please use `.hidden`.
+case relative(CGFloat)
+
+/// The state where the height of the BottomSheet is equal to x%.
+/// It functions as top position for appleScrollBehaviour.
+/// Only values between 0 and 1 make sense.
+/// Instead of 0 please use `.hidden`.
+case relativeTop(CGFloat)
+
+/// The state where only the headerContent is visible
+/// The height of the BottomSheet is x.
+/// Only values above 0 make sense.
+/// Instead of 0 please use `.hidden`.
+case absoluteBottom(CGFloat)
+
+/// The state where the height of the BottomSheet is equal to x.
+/// Only values above 0 make sense.
+/// Instead of 0 please use `.hidden`.
+case absolute(CGFloat)
+
+/// The state where the height of the BottomSheet is equal to x.
+/// It functions as top position for appleScrollBehaviour.
+/// Only values above 0 make sense.
+/// Instead of 0 please use `.hidden`.
+case absoluteTop(CGFloat)
 ```
 
 ## Examples
@@ -217,9 +285,9 @@ public enum CustomBottomSheetPosition: CGFloat, CaseIterable {
 This BottomSheet shows additional information about a book.
 You can close it by swiping it away, by tapping on the background or the close button.
 The drag indicator is hidden.
-It uses a custom `enum` for the states with absolute values, since only the states `.middle`, `.bottom` and `.hidden` should exist with a predefined absolute height.
+The content can be used for resizing the sheet.
 
-<img src="https://user-images.githubusercontent.com/63545066/132514316-c0d723c6-37fc-4104-b04c-6cf7bbcb0899.gif" height="600">
+<img src="https://user-images.githubusercontent.com/63545066/132514316-c0d723c6-37fc-4104-b04c-6cf7bbcb0899.gif" height="600" width="278">
 
 <details>
 <summary>Source Code</summary>
@@ -228,14 +296,8 @@ It uses a custom `enum` for the states with absolute values, since only the stat
 import SwiftUI
 import BottomSheet
 
-//The custom BottomSheetPosition enum with absolute values.
-enum BookBottomSheetPosition: CGFloat, CaseIterable {
-    case middle = 325, bottom = 125, hidden = 0
-}
-
 struct BookDetailView: View {
-    
-    @State var bottomSheetPosition: BookBottomSheetPosition = .middle
+    @State var bottomSheetPosition: BottomSheetPosition = .absolute(325)
     
     let backgroundColors: [Color] = [Color(red: 0.2, green: 0.85, blue: 0.7), Color(red: 0.13, green: 0.55, blue: 0.45)]
     let readMoreColors: [Color] = [Color(red: 0.70, green: 0.22, blue: 0.22), Color(red: 1, green: 0.32, blue: 0.32)]
@@ -245,8 +307,11 @@ struct BookDetailView: View {
         //A green gradient as a background that ignores the safe area.
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
-            
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.noDragIndicator, .allowContentDrag, .showCloseButton(), .swipeToDismiss, .tapToDismiss, .absolutePositionValue], headerContent: {
+        
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, switchablePositions: [
+                .dynamicBottom,
+                .absolute(325)
+            ], headerContent: {
                 //The name of the book as the heading and the author as the subtitle with a divider.
                 VStack(alignment: .leading) {
                     Text("Wuthering Heights")
@@ -258,6 +323,7 @@ struct BookDetailView: View {
                     Divider()
                         .padding(.trailing, -30)
                 }
+                .padding([.top, .leading])
             }) {
                 //A short introduction to the book, with a "Read More" button and a "Bookmark" button.
                 VStack(spacing: 0) {
@@ -269,14 +335,14 @@ struct BookDetailView: View {
                             Text("Read More")
                                 .padding(.horizontal)
                         })
-                        .buttonStyle(BookButton(colors: self.readMoreColors)).clipShape(Capsule())
+                            .buttonStyle(BookButton(colors: self.readMoreColors)).clipShape(Capsule())
                         
                         Spacer()
                         
                         Button(action: {}, label: {
                             Image(systemName: "bookmark")
                         })
-                        .buttonStyle(BookButton(colors: self.bookmarkColors)).clipShape(Circle())
+                            .buttonStyle(BookButton(colors: self.bookmarkColors)).clipShape(Circle())
                     }
                     .padding(.top)
                     
@@ -284,6 +350,11 @@ struct BookDetailView: View {
                 }
                 .padding([.horizontal, .top])
             }
+            .showDragIndicator(false)
+            .enableContentDrag()
+            .showCloseButton()
+            .enableSwipeToDismiss()
+            .enableTapToDismiss()
     }
 }
 
@@ -306,10 +377,10 @@ struct BookButton: ButtonStyle {
 ### Word Search View
 
 This BottomSheet shows nouns which can be filtered by searching.
-It adopts the scrolling behavior of apple, so that you can only scroll the `ScrollView` in the `.top` position.
-The higher the BottomSheet is dragged, the more blurry the background becomes (with the BlurEffect .dark) to move the focus to the BottomSheet.
+It adapts the scrolling behaviour of apple, so that you can only scroll the `ScrollView` in the `.top` position (else the BottomSheet gets dragged); on iPad and Mac this behaviour is not present and a normal ScrollView is used.
+The higher the BottomSheet is dragged, the more blurry the background becomes (with the BlurEffect .systemDark) to move the focus to the BottomSheet.
 
-<img src="https://user-images.githubusercontent.com/63545066/132514347-57c5397b-ec03-4716-8e01-4e693082e844.gif" height="600">
+<img src="https://user-images.githubusercontent.com/63545066/132514347-57c5397b-ec03-4716-8e01-4e693082e844.gif" height="600" width="278">
 
 <details>
 <summary>Source Code</summary>
@@ -320,7 +391,7 @@ import BottomSheet
 
 struct WordSearchView: View {
     
-    @State var bottomSheetPosition: BottomSheetPosition = .middle
+    @State var bottomSheetPosition: BottomSheetPosition = .relative(0.4)
     @State var searchText: String = ""
     
     let backgroundColors: [Color] = [Color(red: 0.28, green: 0.28, blue: 0.53), Color(red: 1, green: 0.69, blue: 0.26)]
@@ -335,8 +406,12 @@ struct WordSearchView: View {
         //A green gradient as a background that ignores the safe area.
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
-            
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.appleScrollBehavior, .backgroundBlur(effect: .dark)], headerContent: {
+        
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, switchablePositions: [
+                .relativeBottom(0.125),
+                .relative(0.4),
+                .relativeTop(0.975)
+            ], headerContent: {
                 //A SearchBar as headerContent.
                 HStack {
                     Image(systemName: "magnifyingglass")
@@ -346,13 +421,13 @@ struct WordSearchView: View {
                 .padding(.vertical, 8)
                 .padding(.horizontal, 5)
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.quaternaryLabel)))
-                .padding(.bottom)
+                .padding([.horizontal, .bottom])
                 //When you tap the SearchBar, the BottomSheet moves to the .top position to make room for the keyboard.
                 .onTapGesture {
-                    self.bottomSheetPosition = .top
+                    self.bottomSheetPosition = .relativeTop(0.975)
                 }
             }) {
-            //The list of nouns that will be filtered by the searchText.
+                //The list of nouns that will be filtered by the searchText.
                 ForEach(self.filteredWords, id: \.self) { word in
                     Text(word)
                         .font(.title)
@@ -364,6 +439,9 @@ struct WordSearchView: View {
                 .animation(.easeInOut, value: self.filteredWords)
                 .padding(.top)
             }
+            .enableAppleScrollBehavior()
+            .enableBackgroundBlur()
+            .backgroundBlurMaterial(.systemDark)
     }
 }
 ```
@@ -372,9 +450,9 @@ struct WordSearchView: View {
 ### Artist Songs View
 
 This BottomSheet shows the most popular songs by an artist.
-It has a custom animation and color for the drag indicator and the background, as well as it deactivates the bottom position behavior and uses an custom corner radius and shadow.
+It has a custom animation and color for the drag indicator and the background, as well as it deactivates the bottom position behaviour and uses a custom corner radius and shadow.
 
-<img src="https://user-images.githubusercontent.com/63545066/132514283-b14b2977-c5d1-4b49-96b1-19995cd5a41f.gif" height="600">
+<img src="https://user-images.githubusercontent.com/63545066/132514283-b14b2977-c5d1-4b49-96b1-19995cd5a41f.gif" height="600" width="278">
 
 <details>
 <summary>Source Code</summary>
@@ -385,7 +463,7 @@ import BottomSheet
 
 struct ArtistSongsView: View {
     
-    @State var bottomSheetPosition: BottomSheetPosition = .middle
+    @State var bottomSheetPosition: BottomSheetPosition = .relative(0.4)
     
     let backgroundColors: [Color] = [Color(red: 0.17, green: 0.17, blue: 0.33), Color(red: 0.80, green: 0.38, blue: 0.2)]
     let songs: [String] = ["One Dance (feat. Wizkid & Kyla)", "God's Plan", "SICKO MODE", "In My Feelings", "Work (feat. Drake)", "Nice For What", "Hotline Bling", "Too Good (feat. Rihanna)", "Life Is Good (feat. Drake)"]
@@ -394,8 +472,12 @@ struct ArtistSongsView: View {
         //A green gradient as a background that ignores the safe area.
         LinearGradient(gradient: Gradient(colors: self.backgroundColors), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
-            
-            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, options: [.animation(.linear.speed(0.4)), .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33)), .background({ AnyView(Color.black) }), .noBottomPosition, .cornerRadius(30), .shadow(color: .white)], title: "Drake") {
+        
+            .bottomSheet(bottomSheetPosition: self.$bottomSheetPosition, switchablePositions: [
+                .relative(0.125),
+                .relative(0.4),
+                .relativeTop(0.975)
+            ], title: "Drake") {
                 //The list of the most popular songs of the artist.
                 ScrollView {
                     ForEach(self.songs, id: \.self) { song in
@@ -405,15 +487,27 @@ struct ArtistSongsView: View {
                     }
                 }
             }
+            .customAnimation(.linear.speed(0.4))
+            .dragIndicatorColor(Color(red: 0.17, green: 0.17, blue: 0.33))
+            .customBackground(
+                Color.black
+                    .cornerRadius(30)
+            )
             .foregroundColor(.white)
+            .shadow(color: .white, radius: 10, x: 0, y: 0)
     }
 }
 ```
 </details>
 
+## Test project
+A project to test the BottomSheet can be found [here](https://github.com/lucaszischka/BottomSheetTests).
+This project is used by me to test new features and to reproduce bugs, but can also be used very well as a demo project.
+
 ## Contributing
 
 BottomSheet welcomes contributions in the form of GitHub issues and pull-requests.
+Please check [the Discussions](https://github.com/lucaszischka/BottomSheet/discussions) before opening an issue or pull request.
 
 ## License
 

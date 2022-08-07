@@ -1,6 +1,21 @@
 BottomSheet Changelog
 ==================
 
+#### v3.0.0
+- Recoded the project
+- Added iPhone landscape support
+- Added iPad support
+- Added MacOS support
+- Changed from options to view modifiers
+- Cleaned up the code (swiftLint and splitting it up)
+- Added dynamic size support
+- Added onDismiss modifier
+- Added dragIndicatorAction modifier
+- Added dragPositionSwitchAction modifier
+- Added dragGesture listener
+- Changed customBackground to not rely on AnyView
+- Fixed onAppear only called once #65
+
 #### v2.8.0
 - Add `disableBottomSafeAreaInsets` option #63
 - Add `disableFlickThrough` option #61
@@ -13,7 +28,7 @@ BottomSheet Changelog
 
 #### v2.6.0
 - Fix critical bug with `.appleScrollBehavior` #40
-- Update codestyle
+- Update code-style
 - Remove not used file
 - Update Readme
 - Renamed tapToDissmiss option tapToDismiss #43

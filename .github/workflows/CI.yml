@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - '.github/workflows/swiftlint.yml'
+      - '.swiftlint.yml'
+      - '**/*.swift'
+  pull_request:
+    paths:
+      - '.github/workflows/swiftlint.yml'
+      - '.swiftlint.yml'
+      - '**/*.swift'
+
+jobs:
+  SwiftLint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: GitHub Action for SwiftLint
+      uses: norio-nomura/action-swiftlint@3.2.1
+
+  Build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build  iOS
+      run: xcodebuild -scheme BottomSheet -destination 'generic/platform=iOS'
+      
+    - name: Build  macOS
+      run: xcodebuild -scheme BottomSheet -destination 'generic/platform=macOS'
+
+    - name: Build  mac Catalyst
+      run: xcodebuild -scheme BottomSheet -destination 'generic/platform=macOS,variant=Mac Catalyst'
