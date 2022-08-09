@@ -323,6 +323,8 @@ internal extension BottomSheetView {
             )
             // Design of the close button
                 .resizable()
+                .renderingMode(.template)
+                .foregroundColor(.tertiaryLabel)
                 .scaledToFit()
                 .frame(
                     width: 30,

@@ -1,6 +1,10 @@
 BottomSheet Changelog
 ==================
 
+#### v3.0.1
+- Fix CocoaPods build #85
+- Fix close button not shown in dark mode #86
+
 #### v3.0.0
 - Recoded the project
 - Added iPhone landscape support
