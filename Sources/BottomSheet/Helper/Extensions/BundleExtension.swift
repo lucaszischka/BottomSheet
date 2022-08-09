@@ -24,7 +24,6 @@ internal extension Bundle {
             Bundle.main.bundleURL
         ]
         
-        
         let bundleName = "BottomSheet_BottomSheet"
 
         for candidate in candidates {
