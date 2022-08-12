@@ -172,6 +172,7 @@ The ViewModifiers are used to customise the look and feel of the BottomSheet.
 
 `.customBackground(...)`: Changes the background of the BottomSheet.
 - This works exactly like the native SwiftUI `.background(...)` modifier.
+- Using offset or shadow may break the hiding transition.
 
 `.onDragChanged((DragGesture.Value) -> Void)`: Adds an action to perform when the gesture’s value changes.
 
@@ -210,6 +211,11 @@ The ViewModifiers are used to customise the look and feel of the BottomSheet.
 `.enableSwipeToDismiss(Bool)`: Makes it possible to dismiss the BottomSheet by long swiping.
 
 `.enableTapToDismiss(Bool)`: Makes it possible to dismiss the BottomSheet by tapping somewhere else.
+
+`.customThreshold(Double)`: Sets a custom threshold which determines, when to trigger swipe to dismiss or flick through.
+- The threshold must be positive and higher than 10% (0.1).
+- Changing the threshold does not affect whether either option is enabled.
+- The default threshold is 30% (0.3).
 
 
 ## BottomSheetPosition
@@ -492,9 +498,11 @@ struct ArtistSongsView: View {
             .customBackground(
                 Color.black
                     .cornerRadius(30)
+                    .shadow(color: .white, radius: 10, x: 0, y: 0)
             )
             .foregroundColor(.white)
-            .shadow(color: .white, radius: 10, x: 0, y: 0)
+            // Adding the shadow here does not break the hiding transition, but the shadow may gets added to your other views too
+            // .shadow(color: .white, radius: 10, x: 0, y: 0)
     }
 }
 ```

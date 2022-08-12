@@ -53,10 +53,10 @@ internal extension BottomSheetView {
     
     // The height of the safe area when position is bottom
     var bottomPositionSafeAreaHeight: CGFloat {
-        // Only limit height when dynamic
+        // Only add safe area when `dynamicBottom` and not on iPad or Mac
         if self.bottomSheetPosition == .dynamicBottom && !self.isIPadOrMac {
 #if !os(macOS)
-            // When dynamic return safe area as height (iPhone)
+            // Safe area as height (iPhone)
             return UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20
 #else
             // Should never be called

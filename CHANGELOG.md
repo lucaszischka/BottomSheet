@@ -1,6 +1,9 @@
 BottomSheet Changelog
 ==================
 
+#### v3.0.2
+- Added `.customThreshold(Double)` modifier #8, #88
+
 #### v3.0.1
 - Fix CocoaPods build #85
 - Fix close button not shown in dark mode #86

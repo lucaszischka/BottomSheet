@@ -54,27 +54,27 @@ internal extension BottomSheetView {
         )],
         currentHeight: CGFloat
     ) {
-        if height <= -0.1 && height > -0.3 {
+        if height <= -0.1 && height > -self.configuration.threshold {
             // Go up one position
             self.onePositionSwitchUp(
                 switchablePositions: switchablePositions,
                 currentHeight: currentHeight
             )
-        } else if height <= -0.3 {
+        } else if height <= -self.configuration.threshold {
             // Go up to highest position
             self.switchToHighestPosition(
                 switchablePositions: switchablePositions,
                 currentHeight: currentHeight
             )
-        } else if height >= 0.1 && height < 0.3 {
+        } else if height >= 0.1 && height < self.configuration.threshold {
             // Go down one position
             self.onePositionSwitchDown(
                 switchablePositions: switchablePositions,
                 currentHeight: currentHeight
             )
-        } else if height >= 0.3 && self.configuration.isSwipeToDismissEnabled {
+        } else if height >= self.configuration.threshold && self.configuration.isSwipeToDismissEnabled {
             self.closeSheet()
-        } else if height >= 0.3 {
+        } else if height >= self.configuration.threshold {
             // Go down to lowest position
             self.switchToLowestPosition(
                 switchablePositions: switchablePositions,
@@ -191,7 +191,7 @@ internal extension BottomSheetView {
                 switchablePositions: switchablePositions,
                 currentHeight: currentHeight
             )
-        } else if height >= 0.3 && self.configuration.isSwipeToDismissEnabled {
+        } else if height >= self.configuration.threshold && self.configuration.isSwipeToDismissEnabled {
             self.closeSheet()
         } else if height >= 0.1 {
             // Go down one position
