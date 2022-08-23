@@ -124,14 +124,31 @@ internal extension BottomSheetView {
     
     // For `bottomSheetPosition`
     func height(with geometry: GeometryProxy) -> CGFloat {
-        // Calculate BottomSheet height by subtracting translation
-        return min(
-            max(
-                self.currentBottomSheetHeight(with: geometry) - self.translation,
-                self.minBottomSheetHeight
-            ),
-            self.maxBottomSheetHeight(with: geometry)
-        )
+		// Calculate BottomSheet height by subtracting translation
+		let height = min(
+			max(
+				self.currentBottomSheetHeight(with: geometry) - self.translation,
+				self.minBottomSheetHeight
+			),
+			self.maxBottomSheetHeight(with: geometry)
+		)
+		switch self.bottomSheetPosition {
+		case .relative, .relativeBottom, .relativeTop:
+			let fractionHeight = height/geometry.size.height
+			if fractionHeight == bottomSheetHeight {
+				return height
+			}
+			bottomSheetHeight = fractionHeight
+			return height
+
+		default:
+			if height == bottomSheetHeight {
+				return height
+			}
+			bottomSheetHeight = height
+			return height
+
+		}
     }
     
     // For iPhone landscape, iPad and Mac support

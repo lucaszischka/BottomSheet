@@ -16,7 +16,8 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
 #endif
     
     @Binding var bottomSheetPosition: BottomSheetPosition
-    @State var translation: CGFloat = 0
+	@Binding var translation: CGFloat
+	@Binding var bottomSheetHeight: CGFloat
     
 #if !os(macOS)
     // For `appleScrollBehaviour`
@@ -74,6 +75,10 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
                 self.configuration.animation,
                 value: self.translation
             )
+			.animation(
+				self.configuration.animation,
+				value: self.bottomSheetHeight
+			)
 #if !os(macOS)
             .animation(
                 self.configuration.animation,

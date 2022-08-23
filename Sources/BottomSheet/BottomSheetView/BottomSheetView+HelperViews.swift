@@ -58,8 +58,6 @@ internal extension BottomSheetView {
             height: self.bottomSheetPosition.isDynamic && self.translation == 0 ? nil : self.height(with: geometry),
             alignment: self.isIPadOrMac ? .bottom : .top
         )
-        // Clip BottomSheet for transition to work correctly for iPad and Mac
-        .clipped()
         // BottomSheet background
         .background(
             self.bottomSheetBackground(with: geometry)
@@ -124,7 +122,7 @@ internal extension BottomSheetView {
             
             // BottomSheet header content
             if self.headerContent != nil || self.configuration.isCloseButtonShown {
-                self.header(with: geometry)
+				self.headerContent?.zIndex(100)
             }
         }
         // Reset dynamic main content height if it is hidden
@@ -191,11 +189,6 @@ internal extension BottomSheetView {
         )
         // Clip main content so that it doesn't go beneath the header content
         .clipped()
-        // Align content below header content
-        .padding(
-            .top,
-            self.headerContentHeight
-        )
         // Make the main content transition via move
         .transition(.move(
             edge: self.isIPadOrMac ? .top : .bottom

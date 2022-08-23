@@ -10,6 +10,8 @@ import SwiftUI
 public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
     
     @Binding private var bottomSheetPosition: BottomSheetPosition
+	@Binding private var translation: CGFloat
+	@Binding private var bottomSheetHeight: CGFloat
     
     // Views
     private let view: V
@@ -29,6 +31,8 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
             
             BottomSheetView(
                 bottomSheetPosition: self.$bottomSheetPosition,
+				translation: self.$translation,
+				bottomSheetHeight: self.$bottomSheetHeight,
                 headerContent: self.headerContent,
                 mainContent: self.mainContent,
                 switchablePositions: self.switchablePositions,
@@ -40,12 +44,16 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
     // Initializers
     internal init(
         bottomSheetPosition: Binding<BottomSheetPosition>,
+		bottomSheetHeight: Binding<CGFloat> = .constant(0),
+		translation: Binding<CGFloat> = .constant(0),
         switchablePositions: [BottomSheetPosition],
         headerContent: HContent?,
         mainContent: MContent,
         view: V
     ) {
         self._bottomSheetPosition = bottomSheetPosition
+		self._bottomSheetHeight = bottomSheetHeight
+		self._translation = translation
         self.switchablePositions = switchablePositions
         self.headerContent = headerContent
         self.mainContent = mainContent
@@ -54,6 +62,8 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
     
     internal init(
         bottomSheetPosition: Binding<BottomSheetPosition>,
+		bottomSheetHeight: Binding<CGFloat> = .constant(0),
+		translation: Binding<CGFloat> = .constant(0),
         switchablePositions: [BottomSheetPosition],
         title: String?,
         content: MContent,
@@ -61,6 +71,8 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
     ) {
         self.init(
             bottomSheetPosition: bottomSheetPosition,
+			bottomSheetHeight: bottomSheetHeight,
+			translation: translation,
             switchablePositions: switchablePositions,
             headerContent: {
                 if let title = title {
@@ -93,6 +105,8 @@ public extension View {
     /// - Parameter mainContent: A view that is used as main content for the BottomSheet.
     func bottomSheet<HContent: View, MContent: View>(
         bottomSheetPosition: Binding<BottomSheetPosition>,
+		bottomSheetHeight: Binding<CGFloat> = .constant(0),
+		translation: Binding<CGFloat> = .constant(0),
         switchablePositions: [BottomSheetPosition],
         @ViewBuilder headerContent: () -> HContent? = {
             return nil
@@ -101,6 +115,8 @@ public extension View {
     ) -> BottomSheet<HContent, MContent, Self> {
         BottomSheet(
             bottomSheetPosition: bottomSheetPosition,
+			bottomSheetHeight: bottomSheetHeight,
+			translation: translation,
             switchablePositions: switchablePositions,
             headerContent: headerContent(),
             mainContent: mainContent(),
@@ -122,12 +138,16 @@ public extension View {
     
     func bottomSheet<MContent: View>(
         bottomSheetPosition: Binding<BottomSheetPosition>,
+		bottomSheetHeight: Binding<CGFloat> = .constant(0),
+		translation: Binding<CGFloat> = .constant(0),
         switchablePositions: [BottomSheetPosition],
         title: String? = nil,
         @ViewBuilder content: () -> MContent
     ) -> BottomSheet<TitleContent, MContent, Self> {
         BottomSheet(
             bottomSheetPosition: bottomSheetPosition,
+			bottomSheetHeight: bottomSheetHeight,
+			translation: translation,
             switchablePositions: switchablePositions,
             title: title,
             content: content(),
