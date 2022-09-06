@@ -27,7 +27,8 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.isSwipeToDismissEnabled && rhs.isSwipeToDismissEnabled &&
         lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled &&
         lhs.iPadFloatingSheet == rhs.iPadFloatingSheet &&
-        lhs.relativeSheetWidth == rhs.relativeSheetWidth
+        lhs.relativeSheetWidth == rhs.relativeSheetWidth &&
+        lhs.accountForKeyboardHeight == rhs.accountForKeyboardHeight
     }
     
     var animation: Animation? = .spring(
@@ -59,4 +60,5 @@ internal class BottomSheetConfiguration: Equatable {
     var threshold: Double = 0.3
     var iPadFloatingSheet: Bool = true
     var relativeSheetWidth: Double? = nil
+    var accountForKeyboardHeight: Bool = false
 }

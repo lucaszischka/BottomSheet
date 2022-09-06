@@ -28,6 +28,8 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
     @State var headerContentHeight: CGFloat = 0
     @State var dynamicMainContentHeight: CGFloat = 0
     
+    @ObservedObject var keyboardHeight: KeyboardHeight = .init()
+    
     // Views
     let headerContent: HContent?
     let mainContent: MContent

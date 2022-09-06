@@ -197,6 +197,11 @@ internal extension BottomSheetView {
             .top,
             self.headerContentHeight
         )
+        // Add padding to the bottom to compensate for the keyboard (if desired)
+        .padding(
+            .bottom,
+            !self.isIPadFloatingOrMac && self.configuration.accountForKeyboardHeight ? keyboardHeight.value : 0
+        )
         // Make the main content transition via move
         .transition(.move(
             edge: self.isIPadFloatingOrMac ? .top : .bottom
