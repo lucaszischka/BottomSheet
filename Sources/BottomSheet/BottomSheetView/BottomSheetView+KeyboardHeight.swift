@@ -5,6 +5,7 @@
 //  Created by Robin Pel on 06/09/2022.
 //
 
+#if !os(macOS)
 import UIKit
 import SwiftUI
 
@@ -39,3 +40,4 @@ internal class KeyboardHeight: ObservableObject {
         value = 0
     }
 }
+#endif

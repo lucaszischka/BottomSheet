@@ -160,10 +160,13 @@ internal extension BottomSheetView {
             // When the width is overriden, use it
             // But don't allow it to be smaller than zero, or larger than one
             return geometry.size.width * max(0, min(1, widthOverride))
-        } else if self.isMac {
-            // On Mac use 30% of the width
-            return geometry.size.width * 0.3
-        } else if self.isIPad {
+        }
+        
+#if os(macOS)
+        // On Mac use 30% of the width
+        return geometry.size.width * 0.3
+#else
+        if self.isIPad {
             // On iPad use 30% of the width
             return geometry.size.width * 0.3
         } else if UIDevice.current.orientation.isLandscape {
@@ -173,6 +176,7 @@ internal extension BottomSheetView {
             // On iPhone portrait use 100% of the width
             return geometry.size.width
         }
+#endif
     }
     
     // For `backgroundBlur`
