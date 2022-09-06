@@ -42,8 +42,9 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
         GeometryReader { geometry in
             // ZStack for aligning content
             ZStack(
-                // On iPad and Mac the BottomSheet is aligned to the top left
-                // On iPhone it is aligned to the bottom center, in horizontal mode to the bottom left
+                // On iPad floating and Mac the BottomSheet is aligned to the top left
+                // On iPhone and iPad not floating it is aligned to the bottom center,
+                // in horizontal mode to the bottom left
                 alignment: self.isIPadFloatingOrMac ? .topLeading : .bottomLeading
             ) {
                 // Hide everything when the BottomSheet is hidden
@@ -98,8 +99,8 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
             )
         }
         // Make the GeometryReader ignore specific safe area (for transition to work)
-        // On iPhone ignore bottom safe area, because the BottomSheet moves to the bottom edge
-        // On iPad and Mac ignore top safe area, because the BottomSheet moves to the top edge
+        // On iPhone and iPad not floating ignore bottom safe area, because the BottomSheet moves to the bottom edge
+        // On iPad floating and Mac ignore top safe area, because the BottomSheet moves to the top edge
         .edgesIgnoringSafeArea(
             self.isIPadFloatingOrMac ? .top : .bottom
         )
