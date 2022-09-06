@@ -36,27 +36,28 @@ internal extension BottomSheetView {
             alignment: .center,
             spacing: 0
         ) {
-            // Drag indicator on the top (iPhone)
-            if self.configuration.isResizable && self.configuration.isDragIndicatorShown && !self.isIPadOrMac {
+            // Drag indicator on the top (iPhone and iPad not floating)
+            if self.configuration.isResizable && self.configuration.isDragIndicatorShown && !self.isIPadFloatingOrMac {
                 self.dragIndicator( with: geometry)
             }
             
             // The header an main content
             self.bottomSheetContent(with: geometry)
             
-            // Drag indicator on the bottom (iPad and Mac)
-            if self.configuration.isResizable && self.configuration.isDragIndicatorShown && self.isIPadOrMac {
+            // Drag indicator on the bottom (iPad floating and Mac)
+            if self.configuration.isResizable && self.configuration.isDragIndicatorShown && self.isIPadFloatingOrMac {
                 self.dragIndicator(with: geometry)
             }
         }
         // Set the height and width to its calculated values
         // The content should be aligned to the top on iPhone,
-        // on iPad and Mac to the bottom for transition to work correctly
-        // Don't set height if `.dynamic...` and currently not dragging
+        // on iPad floating and Mac to the bottom for transition
+        // to work correctly. Don't set height if `.dynamic...`
+        // and currently not dragging
         .frame(
             width: self.width(with: geometry),
             height: self.bottomSheetPosition.isDynamic && self.translation == 0 ? nil : self.height(with: geometry),
-            alignment: self.isIPadOrMac ? .bottom : .top
+            alignment: self.isIPadFloatingOrMac ? .bottom : .top
         )
         // Clip BottomSheet for transition to work correctly for iPad and Mac
         .clipped()
@@ -64,18 +65,18 @@ internal extension BottomSheetView {
         .background(
             self.bottomSheetBackground(with: geometry)
         )
-        // On iPad and Mac the BottomSheet has a padding
+        // On iPad floating and Mac the BottomSheet has a padding
         .padding(
-            self.isIPadOrMac ? 10 : 0
+            self.isIPadFloatingOrMac ? 10 : 0
         )
         // Add safe area top padding on iPad and Mac
         .padding(
             .top,
-            self.iPadAndMacTopPadding
+            self.topPadding
         )
         // Make the BottomSheet transition via move
         .transition(.move(
-            edge: self.isIPadOrMac ? .top : .bottom
+            edge: self.isIPadFloatingOrMac ? .top : .bottom
         ))
     }
     
@@ -162,8 +163,8 @@ internal extension BottomSheetView {
         VStack(alignment: .center, spacing: 0) {
             if self.configuration.isAppleScrollBehaviorEnabled && self.configuration.isResizable {
                 // Content for `appleScrollBehaviour`
-                if self.isIPadOrMac {
-                    // On iPad an Mac use a normal ScrollView
+                if self.isIPadFloatingOrMac {
+                    // On iPad floating an Mac use a normal ScrollView
                     ScrollView {
                         self.mainContent
                     }
@@ -187,7 +188,7 @@ internal extension BottomSheetView {
         // Align content correctly and make it use all available space to fix transition
         .frame(
             maxHeight: self.maxMainContentHeight(with: geometry),
-            alignment: self.isIPadOrMac ? .bottom : .top
+            alignment: self.isIPadFloatingOrMac ? .bottom : .top
         )
         // Clip main content so that it doesn't go beneath the header content
         .clipped()
@@ -198,7 +199,7 @@ internal extension BottomSheetView {
         )
         // Make the main content transition via move
         .transition(.move(
-            edge: self.isIPadOrMac ? .top : .bottom
+            edge: self.isIPadFloatingOrMac ? .top : .bottom
         ))
     }
     
@@ -303,7 +304,7 @@ internal extension BottomSheetView {
                 // Only add top padding if no drag indicator
                     .padding(
                         (!self.configuration.isDragIndicatorShown || !self.configuration.isResizable) ||
-                        self.isIPadOrMac ? .top : []
+                        self.isIPadFloatingOrMac ? .top : []
                     )
             }
         }
@@ -362,11 +363,11 @@ internal extension BottomSheetView {
                 // Default BottomSheet background
                 VisualEffectView(visualEffect: .system)
                 // Add corner radius to BottomSheet background
-                // On iPhone only to the top corners,
-                // on iPad and Mac to all corners
+                // On iPhone and iPad not floating only to the top corners,
+                // on iPad floating and Mac to all corners
                     .cornerRadius(
                         10,
-                        corners: self.isIPadOrMac ? .allCorners : [
+                        corners: self.isIPadFloatingOrMac ? .allCorners : [
                             .topRight,
                             .topLeft
                         ]

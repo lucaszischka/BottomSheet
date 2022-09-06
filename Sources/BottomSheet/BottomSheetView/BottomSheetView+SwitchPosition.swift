@@ -19,7 +19,7 @@ internal extension BottomSheetView {
             dragPositionSwitchAction(geometry, value)
         } else {
             // On iPad and Mac the drag direction is reversed
-            let translationHeight: CGFloat = self.isIPadOrMac ? -value.translation.height : value.translation.height
+            let translationHeight: CGFloat = self.isIPadFloatingOrMac ? -value.translation.height : value.translation.height
             // The height in percent relative to the screen height the user has dragged
             let height: CGFloat = translationHeight / geometry.size.height
             

@@ -9,25 +9,44 @@ import SwiftUI
 
 internal extension BottomSheetView {
     
-    // For iPad and Mac support
-    var isIPadOrMac: Bool {
+    var isIPad: Bool {
 #if os(macOS)
-        return true
+        return false
 #else
-        if self.horizontalSizeClass == .regular && self.verticalSizeClass == .regular {
-            return true
-        } else {
-            return false
-        }
+        return self.horizontalSizeClass == .regular && self.verticalSizeClass == .regular
 #endif
     }
     
-    var iPadAndMacTopPadding: CGFloat {
-        if self.isIPadOrMac {
-#if !os(macOS)
-            return UIApplication.shared.windows.first?.safeAreaInsets.top ?? 10
+    var isMac: Bool {
+#if os(macOS)
+        return true
 #else
+        return false
+#endif
+    }
+    
+    var isIPadOrMac: Bool {
+        return self.isIPad || self.isMac
+    }
+    
+    var isIPadFloating: Bool {
+        return self.isIPad && self.configuration.iPadFloatingSheet
+    }
+    
+    var isIPadFloatingOrMac: Bool {
+        return self.isIPadFloating || self.isMac
+    }
+    
+    var isIPadBottom: Bool {
+        return self.isIPad && !self.configuration.iPadFloatingSheet
+    }
+    
+    var topPadding: CGFloat {
+        if self.isIPadFloatingOrMac {
+#if os(macOS)
             return NSApplication.shared.mainMenu?.menuBarHeight ?? 20
+#else
+            return UIApplication.shared.windows.first?.safeAreaInsets.top ?? 10
 #endif
         } else {
             return 0
@@ -53,8 +72,8 @@ internal extension BottomSheetView {
     
     // The height of the safe area when position is bottom
     var bottomPositionSafeAreaHeight: CGFloat {
-        // Only add safe area when `dynamicBottom` and not on iPad or Mac
-        if self.bottomSheetPosition == .dynamicBottom && !self.isIPadOrMac {
+        // Only add safe area when `dynamicBottom` and not on iPad floating or Mac
+        if self.bottomSheetPosition == .dynamicBottom && !self.isIPadFloatingOrMac {
 #if !os(macOS)
             // Safe area as height (iPhone)
             return UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20
@@ -63,7 +82,7 @@ internal extension BottomSheetView {
             return 0
 #endif
         } else {
-            // When not `.dynamicBottom` or when iPad or Mac don't add safe area
+            // When not `.dynamicBottom` or when iPad floating or Mac don't add safe area
             return 0
         }
     }
@@ -79,7 +98,7 @@ internal extension BottomSheetView {
     // The maximum height of the BottomSheet
     func maxBottomSheetHeight(with geometry: GeometryProxy) -> CGFloat {
         // Screen height without safe areas and padding
-        return geometry.size.height - (self.isIPadOrMac ? 20 : 0) - self.iPadAndMacTopPadding
+        return geometry.size.height - (self.isIPadFloatingOrMac ? 20 : 0) - self.topPadding
     }
     
     // The current height of the BottomSheet (without translation)
@@ -136,21 +155,24 @@ internal extension BottomSheetView {
     
     // For iPhone landscape, iPad and Mac support
     func width(with geometry: GeometryProxy) -> CGFloat {
-#if os(macOS)
-        // On Mac use 30% of the width
-        return geometry.size.width * 0.3
-#else
-        if self.isIPadOrMac {
+        
+        if let widthOverride = self.configuration.relativeSheetWidth {
+            // When the width is overriden, use it
+            // But don't allow it to be smaller than zero, or larger than one
+            return geometry.size.width * max(0, min(1, widthOverride))
+        } else if self.isMac {
+            // On Mac use 30% of the width
+            return geometry.size.width * 0.3
+        } else if self.isIPad {
             // On iPad use 30% of the width
             return geometry.size.width * 0.3
         } else if UIDevice.current.orientation.isLandscape {
-            // On iPhone landscape use of the 40% width
+            // On iPhone landscape use 40% of the width
             return geometry.size.width * 0.4
         } else {
-            // On iPhone portrait use of the 100% width
+            // On iPhone portrait use 100% of the width
             return geometry.size.width
         }
-#endif
     }
     
     // For `backgroundBlur`

@@ -44,7 +44,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
             ZStack(
                 // On iPad and Mac the BottomSheet is aligned to the top left
                 // On iPhone it is aligned to the bottom center, in horizontal mode to the bottom left
-                alignment: self.isIPadOrMac ? .topLeading : .bottomLeading
+                alignment: self.isIPadFloatingOrMac ? .topLeading : .bottomLeading
             ) {
                 // Hide everything when the BottomSheet is hidden
                 if !self.bottomSheetPosition.isHidden {
@@ -101,7 +101,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
         // On iPhone ignore bottom safe area, because the BottomSheet moves to the bottom edge
         // On iPad and Mac ignore top safe area, because the BottomSheet moves to the top edge
         .edgesIgnoringSafeArea(
-            self.isIPadOrMac ? .top : .bottom
+            self.isIPadFloatingOrMac ? .top : .bottom
         )
     }
 }
