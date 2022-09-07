@@ -1,5 +1,5 @@
 //
-//  BottomSheet+RelativeSheetWidth.swift
+//  BottomSheet+SheetWidth.swift
 //  
 //
 //  Created by Robin Pel on 05/09/2022.
@@ -12,11 +12,11 @@ public extension BottomSheet {
     /// Makes it possible to configure a custom sheet width.
     ///
     /// - Parameters:
-    ///   - width: The amount of width of the screen the sheet should occupy, 0.5 = 50%, 0.251 = 25.1%, etc.
+    ///   - width: The width to use for the bottom sheet.
     ///
     /// - Returns: A BottomSheet with the configured width.
-    func relativeSheetWidth(_ width: Double? = nil) -> BottomSheet {
-        self.configuration.relativeSheetWidth = width
+    func sheetWidth(_ width: BottomSheetWidth = .platformDefault) -> BottomSheet {
+        self.configuration.sheetWidth = width
         return self
     }
 }

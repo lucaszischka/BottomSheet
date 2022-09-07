@@ -155,13 +155,27 @@ internal extension BottomSheetView {
     
     // For iPhone landscape, iPad and Mac support
     func width(with geometry: GeometryProxy) -> CGFloat {
-        
-        if let widthOverride = self.configuration.relativeSheetWidth {
-            // When the width is overriden, use it
-            // But don't allow it to be smaller than zero, or larger than one
-            return geometry.size.width * max(0, min(1, widthOverride))
+        switch self.configuration.sheetWidth {
+            
+        case .platformDefault:
+            return self.platformDefaultWidth(with: geometry)
+            
+        case .relative(let width):
+            // Don't allow the width to be smaller than zero, or larger than one
+            return geometry.size.width * max(
+                0,
+                min(
+                    1,
+                    width
+                )
+            )
+            
+        case .absolute(let width):
+            return width
         }
-        
+    }
+    
+    func platformDefaultWidth(with geometry: GeometryProxy) -> CGFloat {
 #if os(macOS)
         // On Mac use 30% of the width
         return geometry.size.width * 0.3

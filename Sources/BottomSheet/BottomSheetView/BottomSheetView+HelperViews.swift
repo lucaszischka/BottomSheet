@@ -386,7 +386,6 @@ internal extension BottomSheetView {
     }
     
     var mainContentBottomPadding: CGFloat {
-        
         if !self.isIPadFloatingOrMac && self.configuration.accountForKeyboardHeight {
 #if !os(macOS)
             return keyboardHeight.value
