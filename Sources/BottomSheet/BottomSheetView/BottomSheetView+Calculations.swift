@@ -171,7 +171,10 @@ internal extension BottomSheetView {
             )
             
         case .absolute(let width):
-            return width
+            return max(
+                0,
+                width
+            )
         }
     }
     

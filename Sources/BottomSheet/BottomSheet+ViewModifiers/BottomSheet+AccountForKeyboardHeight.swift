@@ -13,6 +13,8 @@ public extension BottomSheet {
     ///
     /// - Note: If the height of the sheet is smaller than the height of the keyboard, this modifier will not make the content visible.
     ///
+    /// - Note: This behaviour is not active on Mac, because it would not make sense there.
+    ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.
     ///
