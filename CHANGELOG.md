@@ -1,6 +1,11 @@
 BottomSheet Changelog
 ==================
 
+#### v3.1.0
+- Added the `.iPadFloatingSheet(Bool)` modifier
+- Added the `.sheetWidth(BottomSheetWidth)` modifier
+- Added the `.accountForKeyboardHeight(Bool)` modifier #97
+
 #### v3.0.2
 - Added `.customThreshold(Double)` modifier #8, #88
 

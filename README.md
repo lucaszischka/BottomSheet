@@ -217,6 +217,16 @@ The ViewModifiers are used to customise the look and feel of the BottomSheet.
 - Changing the threshold does not affect whether either option is enabled.
 - The default threshold is 30% (0.3).
 
+`.iPadFloatingSheet(Bool)`: Makes it possible to make the sheet appear like on iPhone.
+
+`.sheetWidth(BottomSheetWidth)`: Makes it possible to configure a custom sheet width.
+- Can be relative through `BottomSheetWidth.relative(x)`.
+- Can be absolute through `BottomSheetWidth.absolute(x)`.
+- Set to `BottomSheetWidth.platformDefault` to let the library decide the width.
+
+`.accountForKeyboardHeight(Bool)`: Adds padding to the bottom of the main content when the keyboard appears so all of the main content is visible.
+- If the height of the sheet is smaller than the height of the keyboard, this modifier will not make the content visible.
+- This behaviour is not active on Mac, because it would not make sense there.
 
 ## BottomSheetPosition
 

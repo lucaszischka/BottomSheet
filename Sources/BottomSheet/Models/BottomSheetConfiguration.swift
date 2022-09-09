@@ -25,7 +25,10 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.isFlickThroughEnabled == rhs.isFlickThroughEnabled &&
         lhs.isResizable == rhs.isResizable &&
         lhs.isSwipeToDismissEnabled && rhs.isSwipeToDismissEnabled &&
-        lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled
+        lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled &&
+        lhs.iPadFloatingSheet == rhs.iPadFloatingSheet &&
+        lhs.sheetWidth == rhs.sheetWidth &&
+        lhs.accountForKeyboardHeight == rhs.accountForKeyboardHeight
     }
     
     var animation: Animation? = .spring(
@@ -55,4 +58,7 @@ internal class BottomSheetConfiguration: Equatable {
     var onDragEnded: (DragGesture.Value) -> Void = { _ in }
     var onDragChanged: (DragGesture.Value) -> Void = { _ in }
     var threshold: Double = 0.3
+    var iPadFloatingSheet: Bool = true
+    var sheetWidth: BottomSheetWidth = .platformDefault
+    var accountForKeyboardHeight: Bool = false
 }
