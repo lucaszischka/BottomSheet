@@ -1,5 +1,5 @@
 //
-//  BottomSheet+AccountForKeyboardHeight.swift
+//  BottomSheet+AccountingForKeyboardHeight.swift
 //
 //  Created by Robin Pel.
 //  Copyright © 2022 Lucas Zischka. All rights reserved.
@@ -20,7 +20,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet with its main content shifted up to account for the keyboard when it has appeared.
-    func accountForKeyboardHeight(_ bool: Bool = true) -> BottomSheet {
+    func enableAccountingForKeyboardHeight(_ bool: Bool = true) -> BottomSheet {
         self.configuration.accountForKeyboardHeight = bool
         return self
     }

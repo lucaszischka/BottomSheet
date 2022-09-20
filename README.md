@@ -146,7 +146,7 @@ struct ContentView: View {
 
 The ViewModifiers are used to customise the look and feel of the BottomSheet.
 
-`.accountForKeyboardHeight(Bool)`: Adds padding to the bottom of the main content when the keyboard appears so all of the main content is visible.
+`.enableAccountingForKeyboardHeight(Bool)`: Adds padding to the bottom of the main content when the keyboard appears so all of the main content is visible.
 - If the height of the sheet is smaller than the height of the keyboard, this modifier will not make the content visible.
 - This modifier is not available on Mac, because it would not make sense there.
 
@@ -206,7 +206,7 @@ The ViewModifiers are used to customise the look and feel of the BottomSheet.
 
 `.enableFlickThrough(Bool)`: Makes it possible to switch directly to the top or bottom position by long swiping.
 
-`.iPadFloatingSheet(Bool)`: Makes it possible to make the sheet appear like on iPhone.
+`.enableFloatingIPadSheet(Bool)`: Makes it possible to make the sheet appear like on iPhone.
 
 `.onDismiss(() -> Void)`: A action that will be performed when the BottomSheet is dismissed.
 -  Please note that when you dismiss the BottomSheet yourself, by setting the bottomSheetPosition to .hidden, the action will not be called.

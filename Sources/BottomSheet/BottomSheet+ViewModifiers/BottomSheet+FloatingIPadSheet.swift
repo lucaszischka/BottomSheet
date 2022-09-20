@@ -1,5 +1,5 @@
 //
-//  BottomSheet+IPadFloatingSheet.swift
+//  BottomSheet+FloatingIPadSheet.swift
 //
 //  Created by Robin Pel.
 //  Copyright © 2022 Lucas Zischka. All rights reserved.
@@ -15,7 +15,7 @@ public extension BottomSheet {
     ///   - bool: A boolean whether the option is enabled.
     ///
     /// - Returns: A BottomSheet that will actually appear at the bottom.
-    func iPadFloatingSheet(_ bool: Bool = true) -> BottomSheet {
+    func enableFloatingIPadSheet(_ bool: Bool = true) -> BottomSheet {
         self.configuration.iPadFloatingSheet = bool
         return self
     }
