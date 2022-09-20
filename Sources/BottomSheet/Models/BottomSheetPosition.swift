@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-/// The `BottomSheetPosition` enum holds all states you can switch into.
-/// There are 3 mayor types:
+/// `BottomSheetPosition` defines the possible BottomSheet states you can switch into.
+///
+/// Currently there are three major types:
 /// - `.dynamic...`, where the height of the BottomSheet is equal to its content height
 /// - `.relative...`, where the height of the BottomSheet is a percentage of the screen height
 /// - `.absolute...`, where the height of the BottomSheet is a pixel value
@@ -33,17 +34,17 @@ public enum BottomSheetPosition: Equatable {
     case dynamicTop
     
     /// The state where only the headerContent is visible.
-    /// The height of the BottomSheet is x%.
+    /// The height of the BottomSheet is equal to x% of the available width.
     /// Only values between 0 and 1 make sense.
     /// Instead of 0 please use `.hidden`.
     case relativeBottom(CGFloat)
     
-    /// The state where the height of the BottomSheet is equal to x%.
+    /// The height of the BottomSheet is equal to x% of the available width.
     /// Only values between 0 and 1 make sense.
     /// Instead of 0 please use `.hidden`.
     case relative(CGFloat)
     
-    /// The state where the height of the BottomSheet is equal to x%.
+    /// The height of the BottomSheet is equal to x% of the available width.
     /// It functions as top position for appleScrollBehaviour.
     /// Only values between 0 and 1 make sense.
     /// Instead of 0 please use `.hidden`.
@@ -55,12 +56,12 @@ public enum BottomSheetPosition: Equatable {
     /// Instead of 0 please use `.hidden`.
     case absoluteBottom(CGFloat)
     
-    /// The state where the height of the BottomSheet is equal to x.
+    /// The height of the BottomSheet is equal to x.
     /// Only values above 0 make sense.
     /// Instead of 0 please use `.hidden`.
     case absolute(CGFloat)
     
-    /// The state where the height of the BottomSheet is equal to x.
+    /// The height of the BottomSheet is equal to x.
     /// It functions as top position for appleScrollBehaviour.
     /// Only values above 0 make sense.
     /// Instead of 0 please use `.hidden`.

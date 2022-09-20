@@ -29,7 +29,7 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
     @State var dynamicMainContentHeight: CGFloat = 0
     
 #if !os(macOS)
-    @ObservedObject var keyboardHeight: KeyboardHeight = .init()
+    @ObservedObject var keyboardHeight: KeyboardHeight = KeyboardHeight()
 #endif
     
     // Views

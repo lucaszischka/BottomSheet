@@ -1,8 +1,8 @@
 //
 //  BottomSheet+IPadFloatingSheet.swift
-//  
 //
-//  Created by Robin Pel on 05/09/2022.
+//  Created by Robin Pel.
+//  Copyright © 2022 Lucas Zischka. All rights reserved.
 //
 
 import Foundation

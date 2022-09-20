@@ -1,19 +1,20 @@
 //
 //  BottomSheet+AccountForKeyboardHeight.swift
-//  
 //
-//  Created by Robin Pel on 06/09/2022.
+//  Created by Robin Pel.
+//  Copyright © 2022 Lucas Zischka. All rights reserved.
 //
 
+#if !os(macOS)
 import Foundation
 
 public extension BottomSheet {
     
     /// Adds padding to the bottom of the main content when the keyboard appears so all of the main content is visible.
     ///
-    /// - Note: If the height of the sheet is smaller than the height of the keyboard, this modifier will not make the content visible.
+    /// If the height of the sheet is smaller than the height of the keyboard, this modifier will not make the content visible.
     ///
-    /// - Note: This behaviour is not active on Mac, because it would not make sense there.
+    /// This modifier is not available on Mac, because it would not make sense there.
     ///
     /// - Parameters:
     ///   - bool: A boolean whether the option is enabled.
@@ -24,3 +25,4 @@ public extension BottomSheet {
         return self
     }
 }
+#endif
