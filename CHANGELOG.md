@@ -5,6 +5,7 @@ BottomSheet Changelog
 - Added the `.enableAccountingForKeyboardHeight(Bool)` modifier #97
 - Added the `.enableFloatingIPadSheet(Bool)` modifier
 - Added the `.sheetWidth(BottomSheetWidth)` modifier
+- Fix #94
 
 #### v3.0.2
 - Added `.customThreshold(Double)` modifier #8, #88
