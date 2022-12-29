@@ -24,7 +24,7 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.isDragIndicatorShown == rhs.isDragIndicatorShown &&
         lhs.isFlickThroughEnabled == rhs.isFlickThroughEnabled &&
         lhs.isResizable == rhs.isResizable &&
-        lhs.isSwipeToDismissEnabled && rhs.isSwipeToDismissEnabled &&
+        lhs.isSwipeToDismissEnabled == rhs.isSwipeToDismissEnabled &&
         lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled &&
         lhs.iPadFloatingSheet == rhs.iPadFloatingSheet &&
         lhs.sheetWidth == rhs.sheetWidth &&
