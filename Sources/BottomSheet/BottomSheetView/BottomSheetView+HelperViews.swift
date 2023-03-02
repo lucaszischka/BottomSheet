@@ -114,7 +114,7 @@ internal extension BottomSheetView {
         // Add ZStack to pin header content and make main content transition correctly for iPad and Mac
         ZStack(alignment: .top) {
             // BottomSheet main content
-            if self.bottomSheetPosition.isBottom {
+            if self.bottomSheetPosition.isBottom && self.translation == 0 {
                 // In a bottom position the main content is hidden - add a Spacer to fill the height
                 Spacer(minLength: 0)
                     .frame(height: self.bottomPositionSpacerHeight)
@@ -122,7 +122,7 @@ internal extension BottomSheetView {
                 // BottomSheet main content
                 self.main(with: geometry)
             }
-            
+
             // BottomSheet header content
             if self.headerContent != nil || self.configuration.isCloseButtonShown {
                 self.header(with: geometry)
