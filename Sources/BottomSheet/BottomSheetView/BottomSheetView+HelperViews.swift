@@ -89,7 +89,7 @@ internal extension BottomSheetView {
                 Capsule()
                 // Design of the drag indicator
                     .fill(self.configuration.dragIndicatorColor)
-                    .frame(
+                                        .frame(
                         width: 36,
                         height: 5
                     )
@@ -105,9 +105,19 @@ internal extension BottomSheetView {
                     .gesture(
                         self.dragGesture(with: geometry)
                     )
+                    
             })
-        // Make it borderless for Mac
+            // Make it borderless for Mac
             .buttonStyle(.borderless)
+        
+            // Disable animations
+            .if(!configuration.enableAnimationsOnDragIndicator) { view in
+                view
+                    .transaction { t in
+                        t.disablesAnimations = true
+
+                    }
+            }
     }
     
     func bottomSheetContent(with geometry: GeometryProxy) -> some View {

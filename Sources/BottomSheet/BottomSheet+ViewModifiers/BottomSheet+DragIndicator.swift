@@ -53,4 +53,15 @@ public extension BottomSheet {
         self.configuration.dragIndicatorAction = action
         return self
     }
+    
+    /// Enables the animations on drag indicator
+    ///
+    /// - Parameters:
+    ///   - bool: A boolean to decide whether or not animations should be discarded.
+    ///
+    /// - Returns: A BottomSheet with animations on drag indicator enabled
+    func enableAnimationsOnDragIndicator(_ bool: Bool = true) -> BottomSheet {
+        self.configuration.enableAnimationsOnDragIndicator = bool
+        return self
+    }
 }
