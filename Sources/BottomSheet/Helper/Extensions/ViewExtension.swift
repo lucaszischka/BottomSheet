@@ -12,7 +12,7 @@ enum SafeAreaRegionsCompatible {
     case container
     case keyboard
     
-    @available(iOS 14.0, macOS 11.0, *)
+    @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, *)
     var safeAreaRegions: SafeAreaRegions {
         switch self {
             case .all:
