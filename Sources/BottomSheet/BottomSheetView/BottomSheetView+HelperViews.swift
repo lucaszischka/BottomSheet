@@ -126,7 +126,7 @@ internal extension BottomSheetView {
                 // BottomSheet main content
                 self.main(with: geometry)
             }
-
+            
             // BottomSheet header content
             if self.headerContent != nil || self.configuration.isCloseButtonShown {
                 self.header(with: geometry)
