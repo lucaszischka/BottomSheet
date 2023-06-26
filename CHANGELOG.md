@@ -3,6 +3,7 @@ BottomSheet Changelog
 
 #### v3.1.1
 - Fix #101 (thx @grandsir)
+- Fix #97 (#130)
 
 #### v3.1.0
 - Added the `.enableAccountingForKeyboardHeight(Bool)` modifier #97

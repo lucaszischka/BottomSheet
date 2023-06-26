@@ -105,6 +105,9 @@ internal struct BottomSheetView<HContent: View, MContent: View>: View {
         // Make the GeometryReader ignore specific safe area (for transition to work)
         // On iPhone and iPad not floating ignore bottom safe area, because the BottomSheet moves to the bottom edge
         // On iPad floating and Mac ignore top safe area, because the BottomSheet moves to the top edge
-        .ignoresSafeAreaCompatible(.container, edges: self.isIPadFloatingOrMac ? .top : .bottom)
+        .ignoresSafeAreaCompatible(
+            .container,
+            edges: self.isIPadFloatingOrMac ? .top : .bottom
+        )
     }
 }
