@@ -109,8 +109,8 @@ internal extension BottomSheetView {
         // Make it borderless for Mac
         .buttonStyle(.borderless)
         // Disable animation
-        .transaction { t in
-            t.disablesAnimations = true
+        .transaction { transform in
+            transform.disablesAnimations = true
         }
     }
     
