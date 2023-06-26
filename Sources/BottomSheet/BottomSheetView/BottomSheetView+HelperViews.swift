@@ -107,7 +107,11 @@ internal extension BottomSheetView {
                     )
             })
         // Make it borderless for Mac
-            .buttonStyle(.borderless)
+        .buttonStyle(.borderless)
+        // Disable animation
+        .transaction { t in
+            t.disablesAnimations = true
+        }
     }
     
     func bottomSheetContent(with geometry: GeometryProxy) -> some View {
@@ -328,14 +332,14 @@ internal extension BottomSheetView {
                 bundle: Bundle.module
             )
             // Design of the close button
-                .resizable()
-                .renderingMode(.template)
-                .foregroundColor(.tertiaryLabel)
-                .scaledToFit()
-                .frame(
-                    width: 30,
-                    height: 30
-                )
+            .resizable()
+            .renderingMode(.template)
+            .foregroundColor(.tertiaryLabel)
+            .scaledToFit()
+            .frame(
+                width: 30,
+                height: 30
+            )
         }
         // Make it borderless for Mac
         .buttonStyle(.borderless)
