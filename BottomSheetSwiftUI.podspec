@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name                   = 'BottomSheetSwiftUI'
-  spec.version                = '3.1.0'
+  spec.version                = '3.1.1'
   spec.swift_version          = '5.5'
   spec.authors                = { 'Lucas Zischka' => 'lucas_zischka@outlook.com' }
   spec.license                = { :type => 'MIT', :file => 'LICENSE.txt' }
