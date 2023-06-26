@@ -17,14 +17,14 @@ internal class KeyboardHeight: ObservableObject {
         
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(keyboardWillShow),
+            selector: #selector(self.keyboardWillShow),
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
         
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(keyboardWillHide),
+            selector: #selector(self.keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
@@ -32,12 +32,16 @@ internal class KeyboardHeight: ObservableObject {
     
     @objc private func keyboardWillShow(_ notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            value = keyboardFrame.cgRectValue.height
+            DispatchQueue.main.async {
+                self.value = keyboardFrame.cgRectValue.height
+            }
         }
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        value = 0
+        DispatchQueue.main.async {
+            self.value = 0
+        }
     }
 }
 #endif

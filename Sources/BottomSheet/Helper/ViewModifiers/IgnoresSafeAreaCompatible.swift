@@ -1,5 +1,5 @@
 //
-//  ViewExtension.swift
+//  IgnoresSafeAreaCompatible.swift
 //  
 //
 //  Created by Chocoford on 2023/6/16.
