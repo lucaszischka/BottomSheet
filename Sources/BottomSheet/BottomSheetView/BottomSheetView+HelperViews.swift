@@ -327,10 +327,7 @@ internal extension BottomSheetView {
     
     var closeButton: some View {
         Button(action: self.closeSheet) {
-            Image(
-                "xmark.circle.fill",
-                bundle: Bundle.module
-            )
+            Image(systemName: "xmark")
             // Design of the close button
             .resizable()
             .renderingMode(.template)
