@@ -104,6 +104,7 @@ public extension View {
     func bottomSheet<HContent: View, MContent: View>(
         bottomSheetPosition: Binding<BottomSheetPosition>,
         switchablePositions: [BottomSheetPosition],
+        bottomOffset: CGFloat = 0,
         @ViewBuilder headerContent: () -> HContent? = {
             return nil
         },
@@ -112,6 +113,7 @@ public extension View {
         BottomSheet(
             bottomSheetPosition: bottomSheetPosition,
             switchablePositions: switchablePositions,
+            bottomOffset: bottomOffset,
             headerContent: headerContent(),
             mainContent: mainContent(),
             view: self
@@ -133,12 +135,14 @@ public extension View {
     func bottomSheet<MContent: View>(
         bottomSheetPosition: Binding<BottomSheetPosition>,
         switchablePositions: [BottomSheetPosition],
+        bottomOffset: CGFloat = 0,
         title: String? = nil,
         @ViewBuilder content: () -> MContent
     ) -> BottomSheet<TitleContent, MContent, Self> {
         BottomSheet(
             bottomSheetPosition: bottomSheetPosition,
             switchablePositions: switchablePositions,
+            bottomOffset: bottomOffset,
             title: title,
             content: content(),
             view: self
