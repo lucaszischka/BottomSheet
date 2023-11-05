@@ -61,10 +61,13 @@ internal extension BottomSheetView {
     // The height of the spacer when position is bottom
     var bottomPositionSpacerHeight: CGFloat? {
         // Only limit height when dynamic
-        if self.bottomSheetPosition.isDynamic {
+        if self.bottomSheetPosition.isDynamic && self.bottomSheetPosition == .dynamicBottom {
             // When dynamic return safe area and header height
             return self.bottomPositionSafeAreaHeight + self.headerContentHeight
-        } else {
+        } else if self.bottomSheetPosition.isDynamic && self.bottomSheetPosition == .dynamic {
+            return self.bottomPositionSafeAreaHeight + self.headerContentHeight + self.dynamicMainContentHeight
+        }
+        else {
             // When not dynamic let it take all available space
             return nil
         }
