@@ -65,6 +65,7 @@ internal extension BottomSheetView {
             // When dynamic return safe area and header height
             return self.bottomPositionSafeAreaHeight + self.headerContentHeight
         } else if self.bottomSheetPosition.isDynamic && self.bottomSheetPosition == .dynamic {
+            print("headerContentHeight: \(headerContentHeight), dynamicMainContentHeight: \(dynamicMainContentHeight)")
             return self.bottomPositionSafeAreaHeight + self.headerContentHeight + self.dynamicMainContentHeight
         }
         else {
