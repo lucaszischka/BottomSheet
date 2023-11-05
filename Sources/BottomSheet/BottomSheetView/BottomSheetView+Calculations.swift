@@ -75,6 +75,10 @@ internal extension BottomSheetView {
         // Only add safe area when `dynamicBottom` and not on iPad floating or Mac
         if self.bottomSheetPosition == .dynamicBottom && !self.isIPadFloatingOrMac {
 #if !os(macOS)
+            // use custom offset for `dynamic` modes
+            if let customOffset = self.configuration.customBottomOffset {
+                return customOffset
+            }
             // Safe area as height (iPhone)
             return UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20
 #else
