@@ -11,6 +11,8 @@ internal extension BottomSheetView {
     func dragGesture(with geometry: GeometryProxy) -> some Gesture {
         DragGesture()
             .onChanged { value in
+                self.lastDragValue = value
+
                 // Perform custom onChanged action
                 self.configuration.onDragChanged(value)
                 
@@ -19,20 +21,10 @@ internal extension BottomSheetView {
                 // Dismiss the keyboard on drag
                 self.endEditing()
             }
-            .onEnded { value in
-                // Perform custom onEnded action
-                self.configuration.onDragEnded(value)
-                
-                // Switch the position based on the translation and screen height
-                self.dragPositionSwitch(
-                    with: geometry,
-                    value: value
-                )
-                
-                // Reset translation, because the dragging ended
-                self.translation = 0
-                // Dismiss the keyboard after drag
-                self.endEditing()
+            // Set isDragging flag to true while user is dragging
+            // The value is reset to false when dragging is stopped or cancelled
+            .updating($isDragging) { (value, gestureState, transaction) in
+                gestureState = true
             }
     }
     
