@@ -160,7 +160,13 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             0
         )
         let displacementY = viewController.scrollView.contentOffset.y - restOffsetY
-        let threshold = 0.5 / UIScreen.main.scale
+        
+#if os(visionOS)
+        let scale = viewController.traitCollection.displayScale
+#else
+        let scale = UIScreen.main.scale
+#endif
+        let threshold = 0.5 / scale
         
         let duration: TimeInterval = {
             if abs(displacementY) == 0 && abs(velocityY) == 0 {
@@ -168,7 +174,9 @@ internal struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentabl
             }
             
             let timeInterval1 = 1 / 10 * log(2 * abs(displacementY) / threshold)
-            let timeInterval2 = 2 / 10 * log(4 * abs(velocityY + 10 * displacementY) / (CGFloat(M_E) * 10 * threshold))
+            
+            let interval2Threshold = (CGFloat(M_E) * 10 * threshold)
+            let timeInterval2 = 2 / 10 * log(4 * abs(velocityY + 10 * displacementY) / interval2Threshold)
             
             return TimeInterval(
                 max(
