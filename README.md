@@ -210,7 +210,7 @@ The ViewModifiers are used to customise the look and feel of the BottomSheet.
 
 `.iPadSheetAlignment(Alignment)`: Allows for different alignments of the sheet on iPad when enableFloatingIPadSheet is disabled.
 
-`.sheetPadding(CGFloat)`: Gives the bottom sheet padding on iPad when enableFloatingIPadSheet is disabled.
+`.sheetSidePadding(CGFloat)`: Gives the bottom sheet horizontal padding on iPad when enableFloatingIPadSheet is disabled.
 
 `.onDismiss(() -> Void)`: A action that will be performed when the BottomSheet is dismissed.
 -  Please note that when you dismiss the BottomSheet yourself, by setting the bottomSheetPosition to .hidden, the action will not be called.
