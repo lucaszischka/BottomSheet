@@ -74,7 +74,7 @@ internal extension BottomSheetView {
             .top,
             self.topPadding
         )
-        // Add safe area top padding on iPad and Mac
+        // Add side padding
         .padding(
             .horizontal,
             self.configuration.sheetSidePadding
