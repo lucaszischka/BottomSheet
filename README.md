@@ -208,6 +208,8 @@ The ViewModifiers are used to customise the look and feel of the BottomSheet.
 
 `.enableFloatingIPadSheet(Bool)`: Makes it possible to make the sheet appear like on iPhone.
 
+`.iPadSheetAlignment(Alignment)`: Allows for different alignments of the sheet when enableFloatingIPadSheet is disabled.
+
 `.onDismiss(() -> Void)`: A action that will be performed when the BottomSheet is dismissed.
 -  Please note that when you dismiss the BottomSheet yourself, by setting the bottomSheetPosition to .hidden, the action will not be called.
 
