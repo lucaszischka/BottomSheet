@@ -29,7 +29,8 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.iPadFloatingSheet == rhs.iPadFloatingSheet &&
         lhs.sheetWidth == rhs.sheetWidth &&
         lhs.accountForKeyboardHeight == rhs.accountForKeyboardHeight &&
-        lhs.iPadSheetAlignment == rhs.iPadSheetAlignment
+        lhs.iPadSheetAlignment == rhs.iPadSheetAlignment &&
+        lhs.sheetPadding == rhs.sheetPadding
     }
     
     var animation: Animation? = .spring(
@@ -63,4 +64,5 @@ internal class BottomSheetConfiguration: Equatable {
     var sheetWidth: BottomSheetWidth = .platformDefault
     var accountForKeyboardHeight: Bool = false
     var iPadSheetAlignment: Alignment = .bottomLeading
+    var sheetPadding: CGFloat = 0.0
 }

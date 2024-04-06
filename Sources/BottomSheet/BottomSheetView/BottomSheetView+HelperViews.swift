@@ -67,7 +67,7 @@ internal extension BottomSheetView {
         )
         // On iPad floating and Mac the BottomSheet has a padding
         .padding(
-            self.isIPadFloatingOrMac ? 10 : 0
+            self.isIPadFloatingOrMac ? 10 : self.configuration.sheetPadding
         )
         // Add safe area top padding on iPad and Mac
         .padding(
