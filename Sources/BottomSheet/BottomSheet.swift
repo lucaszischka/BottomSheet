@@ -55,7 +55,6 @@ public struct BottomSheet<HContent: View, MContent: View, V: View>: View {
         self.view = view
         self.configuration = BottomSheetConfiguration()
         if bottomOffset > 0 {
-            print("set custom bottom offset as \(bottomOffset)")
             self.configuration.customBottomOffset = bottomOffset
         }
     }
