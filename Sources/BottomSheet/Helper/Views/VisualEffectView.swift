@@ -103,7 +103,7 @@ public enum VisualEffect: Equatable, Hashable {
     case dark(Material)
 }
 
-#if os(iOS) || targetEnvironment(macCatalyst)
+#if os(iOS) || targetEnvironment(macCatalyst) || os(visionOS)
 fileprivate extension VisualEffect {
     var blurStyle: UIBlurEffect.Style {
         switch self {
