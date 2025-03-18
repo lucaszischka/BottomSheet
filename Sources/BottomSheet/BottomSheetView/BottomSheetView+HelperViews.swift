@@ -38,7 +38,7 @@ internal extension BottomSheetView {
         ) {
             // Drag indicator on the top (iPhone and iPad not floating)
             if self.configuration.isResizable && self.configuration.isDragIndicatorShown && !self.isIPadFloatingOrMac {
-                self.dragIndicator( with: geometry)
+                self.dragIndicator(with: geometry)
             }
             
             // The header an main content
