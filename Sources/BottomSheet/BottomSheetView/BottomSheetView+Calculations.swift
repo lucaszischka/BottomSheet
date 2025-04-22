@@ -224,10 +224,13 @@ internal extension BottomSheetView {
     
     // For closing the sheet
     func closeSheet() {
-        self.bottomSheetPosition = .hidden
-        self.endEditing()
-        
-        self.configuration.onDismiss()
+        // 只有在allowClose为true时才允许关闭
+        if self.configuration.allowClose {
+            self.bottomSheetPosition = .hidden
+            self.endEditing()
+            
+            self.configuration.onDismiss()
+        }
     }
     
     // For `endEditing`

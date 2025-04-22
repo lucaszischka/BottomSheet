@@ -28,7 +28,8 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled &&
         lhs.iPadFloatingSheet == rhs.iPadFloatingSheet &&
         lhs.sheetWidth == rhs.sheetWidth &&
-        lhs.accountForKeyboardHeight == rhs.accountForKeyboardHeight
+        lhs.accountForKeyboardHeight == rhs.accountForKeyboardHeight &&
+        lhs.allowClose == rhs.allowClose
     }
     
     var animation: Animation? = .spring(
@@ -61,4 +62,5 @@ internal class BottomSheetConfiguration: Equatable {
     var iPadFloatingSheet: Bool = true
     var sheetWidth: BottomSheetWidth = .platformDefault
     var accountForKeyboardHeight: Bool = false
+    var allowClose: Bool = true
 }
