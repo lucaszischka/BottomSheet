@@ -179,10 +179,10 @@ public extension BottomSheet {
     ///     The last view that you list appears at the front of the stack.
     ///
     /// - Returns: A view that uses the specified content as a background.
-    func customBackground<V>(
+    func customBackground<Content: View>(
         alignment: Alignment = .center,
-        @ViewBuilder content: () -> V
-    ) -> BottomSheet where V: View {
+        @ViewBuilder content: () -> Content
+    ) -> BottomSheet {
         self.configuration.backgroundView = AnyView(content())
         self.configuration.backgroundViewID = UUID()
         return self
