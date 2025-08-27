@@ -186,7 +186,7 @@ internal extension BottomSheetView {
         if self.isIPad {
             // On iPad use 30% of the width
             return geometry.size.width * 0.3
-        } else if UIDevice.current.userInterfaceIdiom == .phone && UIDevice.current.orientation.isLandscape {
+        } else if (UIDevice.current.userInterfaceIdiom == .phone && UIDevice.current.orientation.isLandscape) || bundleOrientationLock() == .unlocked || bundleOrientationLock() == .landscapeOnly {
             // On iPhone landscape use 40% of the width
             return geometry.size.width * 0.4
         } else {
