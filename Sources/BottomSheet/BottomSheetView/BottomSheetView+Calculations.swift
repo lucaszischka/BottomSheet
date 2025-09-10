@@ -37,6 +37,16 @@ internal extension BottomSheetView {
         return self.isIPadFloating || self.isMac
     }
     
+    /// Determines if the iPad sheet alignment is top-based (top, topLeading, topTrailing)
+    var isIPadSheetAlignmentTop: Bool {
+        switch self.configuration.iPadSheetAlignment {
+        case .top, .topLeading, .topTrailing:
+            return true
+        default:
+            return false
+        }
+    }
+    
     var isIPadBottom: Bool {
         return self.isIPad && !self.configuration.iPadFloatingSheet
     }
@@ -190,8 +200,8 @@ internal extension BottomSheetView {
             // On iPhone landscape use 40% of the width
             return geometry.size.width * 0.4
         } else {
-            // On iPhone portrait or iPad split screen use 100% of the width
-            return geometry.size.width
+            // On iPhone portrait or iPad split screen use 100% of the width minus side padding
+            return geometry.size.width - self.configuration.sheetSidePadding.leading - self.configuration.sheetSidePadding.trailing
         }
 #endif
     }
@@ -264,5 +274,17 @@ internal extension BottomSheetView {
             // Sort by height (low to high)
             $0.height < $1.height
         })
+    }
+
+    func getGestureTranslation(for value: DragGesture.Value) -> CGFloat {
+        // For iPad floating and Mac:
+        //   - For top alignments: Reverse translation direction
+        //   - For other alignments: Use normal translation direction
+        // For other devices: Use normal translation direction
+        if self.isIPadFloatingOrMac {
+            return self.isIPadSheetAlignmentTop ? -value.translation.height : value.translation.height
+        } else {
+            return value.translation.height
+        }
     }
 }

@@ -28,7 +28,9 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled &&
         lhs.iPadFloatingSheet == rhs.iPadFloatingSheet &&
         lhs.sheetWidth == rhs.sheetWidth &&
-        lhs.accountForKeyboardHeight == rhs.accountForKeyboardHeight
+        lhs.accountForKeyboardHeight == rhs.accountForKeyboardHeight &&
+        lhs.iPadSheetAlignment == rhs.iPadSheetAlignment &&
+        lhs.sheetSidePadding == rhs.sheetSidePadding
     }
     
     var animation: Animation? = .spring(
@@ -61,4 +63,6 @@ internal class BottomSheetConfiguration: Equatable {
     var iPadFloatingSheet: Bool = true
     var sheetWidth: BottomSheetWidth = .platformDefault
     var accountForKeyboardHeight: Bool = false
+    var iPadSheetAlignment: Alignment = .bottomLeading
+    var sheetSidePadding: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 }

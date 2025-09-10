@@ -16,8 +16,9 @@ internal extension BottomSheetView {
                 // Perform custom onChanged action
                 self.configuration.onDragChanged(value)
                 
-                // Update translation; on iPad floating and Mac the drag direction is reversed
-                self.translation = self.isIPadFloatingOrMac ? -value.translation.height : value.translation.height
+                // Update translation based on drag gesture
+                self.translation = self.getGestureTranslation(for: value)
+
                 // Dismiss the keyboard on drag
                 self.endEditing()
             }
@@ -43,8 +44,8 @@ internal extension BottomSheetView {
                     
                     // Notify the ScrollView that the user is dragging
                     self.dragState = .none
-                    // Update translation; on iPad floating and Mac the drag direction is reversed
-                    self.translation = self.isIPadFloatingOrMac ? -value.translation.height : value.translation.height
+                    // Update translation based on drag gesture
+                    self.translation = self.getGestureTranslation(for: value)
                 }
                 
                 // Dismiss the keyboard on dragging/scrolling
