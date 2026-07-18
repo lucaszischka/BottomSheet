@@ -26,6 +26,7 @@ internal class BottomSheetConfiguration: Equatable {
         lhs.isResizable == rhs.isResizable &&
         lhs.isSwipeToDismissEnabled == rhs.isSwipeToDismissEnabled &&
         lhs.isTapToDismissEnabled == rhs.isTapToDismissEnabled &&
+        lhs.isHitTestAllowed == rhs.isHitTestAllowed &&
         lhs.iPadFloatingSheet == rhs.iPadFloatingSheet &&
         lhs.sheetWidth == rhs.sheetWidth &&
         lhs.accountForKeyboardHeight == rhs.accountForKeyboardHeight
@@ -54,6 +55,7 @@ internal class BottomSheetConfiguration: Equatable {
     var isResizable: Bool = true
     var isSwipeToDismissEnabled: Bool = false
     var isTapToDismissEnabled: Bool = false
+    var isHitTestAllowed: Bool? = nil
     var onDismiss: () -> Void = {}
     var onDragEnded: (DragGesture.Value) -> Void = { _ in }
     var onDragChanged: (DragGesture.Value) -> Void = { _ in }
