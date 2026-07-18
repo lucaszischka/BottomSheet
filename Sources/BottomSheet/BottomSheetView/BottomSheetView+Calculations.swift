@@ -179,7 +179,7 @@ internal extension BottomSheetView {
     }
     
     func platformDefaultWidth(with geometry: GeometryProxy) -> CGFloat {
-#if os(macOS)
+#if os(macOS) || os(visionOS)
         // On Mac use 30% of the width
         return geometry.size.width * 0.3
 #else
